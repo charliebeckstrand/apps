@@ -1,0 +1,15 @@
+:root {
+	font-family: 'Nunito', sans-serif;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#__nuxt {
+	min-height: 100vh;
+	min-height: 100svh;
+	height: 100svh;
+	// overflow: hidden;
+}

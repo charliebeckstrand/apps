@@ -1,0 +1,19 @@
+{
+	"name": "mtgdraft",
+	"private": true,
+	"version": "1.0.0",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare"
+	},
+	"devDependencies": {
+		"@types/node": "^18",
+		"nuxt": "^3.4.3"
+	},
+	"dependencies": {
+		"vue-slicksort": "^2.0.5"
+	}
+}

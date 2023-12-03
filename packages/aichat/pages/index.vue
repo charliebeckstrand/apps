@@ -1,0 +1,56 @@
+<script setup lang="ts">
+import { Bars3Icon } from '@heroicons/vue/24/outline'
+
+import { useConversationStore } from '@/stores/conversation'
+import { useLayoutStore } from '@/stores/layout'
+
+const conversationStore = useConversationStore()
+const layoutStore = useLayoutStore()
+</script>
+<template>
+	<div class="flex h-full flex-col">
+		<template v-if="conversationStore.selectedConversation?.id">
+			<UIHeader class="h-[4.75rem] min-h-[4.75rem] px-2">
+				<template #prepend>
+					<ConversationsSidebarButton />
+				</template>
+
+				<!-- <UIPageHeader>
+					<template #title>
+						{{ conversationStore.selectedConversation?.name }}
+					</template>
+					<template #subtitle>
+						{{ conversationStore.selectedConversation?.id }}
+					</template>
+				</UIPageHeader> -->
+				<template #title>
+					{{ conversationStore.selectedConversation?.name }}
+				</template>
+				<template #subtitle>
+					{{ conversationStore.selectedConversation?.id }}
+				</template>
+			</UIHeader>
+
+			<div class="mx-5 flex flex-1 grow overflow-hidden rounded-lg border bg-gray-50 py-5">
+				<div class="flex-1 grow overflow-y-auto">
+					<Conversation />
+				</div>
+			</div>
+
+			<ConversationTextarea :disabled="conversationStore.loadingResponse" />
+		</template>
+		<template v-else>
+			<div class="px-2 py-4 lg:hidden">
+				<ConversationsSidebarButton />
+			</div>
+			<UIAlert
+				color="error"
+				variant="tonal"
+				class="mx-5 lg:my-5"
+			>
+				<template #title> No conversation selected </template>
+				Select a conversation from the sidebar to start chatting
+			</UIAlert>
+		</template>
+	</div>
+</template>
