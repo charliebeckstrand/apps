@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Bars3Icon } from '@heroicons/vue/24/outline'
+import { Bars2Icon } from '@heroicons/vue/24/solid'
 
 import { useLayoutStore } from '@/stores/layout'
 
@@ -8,11 +8,13 @@ const layoutStore = useLayoutStore()
 
 <template>
 	<UIButton
+		color="primary"
+		variant="text"
 		icon
 		class="lg:hidden"
 		@click="layoutStore.sidebarOpen = true"
 	>
 		<span class="sr-only">Open sidebar</span>
-		<UIIcon :icon="Bars3Icon" />
+		<UIIcon :icon="Bars2Icon" />
 	</UIButton>
 </template>

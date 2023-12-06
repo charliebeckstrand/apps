@@ -54,6 +54,7 @@ const cancelSearchIfNoValue = () => {
 				<template #append>
 					<template v-if="searching">
 						<UIButton
+							color="white"
 							variant="text"
 							icon
 							@click="cancelSearch()"
@@ -67,7 +68,7 @@ const cancelSearchIfNoValue = () => {
 					>
 						<UIButton
 							v-if="conversationStore.conversations.length"
-							color="accent"
+							color="white"
 							variant="text"
 							icon
 							@click="searchConversations()"
@@ -76,7 +77,7 @@ const cancelSearchIfNoValue = () => {
 						</UIButton>
 
 						<UIButton
-							color="accent"
+							color="white"
 							variant="text"
 							icon
 							@click="conversationStore.newConversation()"

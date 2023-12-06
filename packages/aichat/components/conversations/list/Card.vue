@@ -55,6 +55,8 @@ const removeConversation = (conversation: Conversation) => {
 			<div class="remove">
 				<UIButton
 					icon
+					color="white"
+					variant="text"
 					@click.stop="removeConversation(props.conversation)"
 				>
 					<UIIcon :icon="XMarkIcon" />
