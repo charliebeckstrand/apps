@@ -59,5 +59,3 @@ const value = computed<string>({
 		@input="emit('update:modelValue', value)"
 	/>
 </template>
-
-<style scoped lang="scss"></style>

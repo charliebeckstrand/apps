@@ -17,5 +17,3 @@ const props = withDefaults(defineProps<Props>(), {
 		<slot />
 	</label>
 </template>
-
-<style scoped lang="scss"></style>

@@ -69,5 +69,3 @@ const value = computed<string | number | undefined>({
 		</div>
 	</div>
 </template>
-
-<style scoped lang="scss"></style>

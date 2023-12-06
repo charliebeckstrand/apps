@@ -31,5 +31,3 @@ const sizeClasses = computed<string>(() => {
 		:class="[sizeClasses]"
 	/>
 </template>
-
-<style scoped lang="scss"></style>

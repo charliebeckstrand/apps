@@ -68,5 +68,3 @@ watch(
 		:class="[baseClasses, variantClasses, sizeClasses]"
 	/>
 </template>
-
-<style scoped lang="scss"></style>

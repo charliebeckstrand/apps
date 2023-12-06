@@ -26,5 +26,3 @@ const props = withDefaults(defineProps<Props>(), {
 		</span>
 	</li>
 </template>
-
-<style scoped lang="scss"></style>

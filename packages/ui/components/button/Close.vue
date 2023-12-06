@@ -7,5 +7,3 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 		<UIIcon :icon="XMarkIcon" />
 	</UIButton>
 </template>
-
-<style scoped lang="scss"></style>

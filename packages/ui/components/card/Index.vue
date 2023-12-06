@@ -9,6 +9,7 @@ interface Props {
 	color?: Color
 	rounded?: boolean
 	to?: string
+	href?: string
 	interactive?: boolean
 	active?: boolean
 }
@@ -18,9 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
 	color: undefined,
 	rounded: true,
 	to: undefined,
+	href: undefined,
 	interactive: false,
 	active: false
 })
+
+const interactive = props.to || props.href || props.interactive
 
 const baseClasses = computed<string>(() => {
 	const classes = `p-3 ${props.to ? 'block' : null}`
@@ -29,8 +33,6 @@ const baseClasses = computed<string>(() => {
 })
 
 const conditionalClasses = computed<string>(() => (props.rounded ? 'rounded-md' : 'rounded-none'))
-
-const interactive = props.to || props.interactive
 
 const variantClasses = computed<string | undefined>(() => {
 	const variants: Record<Variant, Record<Color, string>> = {
@@ -100,5 +102,3 @@ const elementType = computed(() => {
 		</div>
 	</component>
 </template>
-
-<style scoped lang="scss"></style>

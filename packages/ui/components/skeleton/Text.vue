@@ -59,5 +59,3 @@ const props = withDefaults(
 		<span class="sr-only">Loading...</span>
 	</div>
 </template>
-
-<style scoped lang="scss"></style>

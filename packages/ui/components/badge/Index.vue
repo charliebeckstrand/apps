@@ -88,5 +88,3 @@ const colorClasses = computed<string | undefined>(() => {
 		<slot />
 	</div>
 </template>
-
-<style scoped lang="scss"></style>

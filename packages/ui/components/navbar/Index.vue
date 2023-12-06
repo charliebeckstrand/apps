@@ -44,5 +44,3 @@ const variantClasses = computed<string | undefined>(() => {
 		</div>
 	</nav>
 </template>
-
-<style scoped lang="scss"></style>

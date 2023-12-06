@@ -15,5 +15,3 @@ import { TransitionChild } from '@headlessui/vue'
 		<div class="fixed inset-0 bg-gray-900/80" />
 	</TransitionChild>
 </template>
-
-<style scoped lang="scss"></style>

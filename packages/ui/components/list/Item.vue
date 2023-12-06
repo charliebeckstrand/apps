@@ -54,5 +54,3 @@ const elementType = computed(() => {
 		</div>
 	</component>
 </template>
-
-<style scoped lang="scss"></style>

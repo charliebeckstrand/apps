@@ -58,5 +58,3 @@ const props = defineProps<Props>()
 		</transition>
 	</Menu>
 </template>
-
-<style scoped lang="scss"></style>

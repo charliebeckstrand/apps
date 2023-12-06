@@ -119,5 +119,3 @@ const value = computed({
 		</div>
 	</Combobox>
 </template>
-
-<style scoped lang="scss"></style>

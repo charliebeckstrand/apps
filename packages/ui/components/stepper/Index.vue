@@ -48,5 +48,3 @@ const emit = defineEmits(['update:modelValue'])
 		</ol>
 	</nav>
 </template>
-
-<style scoped lang="scss"></style>
