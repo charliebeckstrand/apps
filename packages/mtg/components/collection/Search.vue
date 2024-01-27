@@ -75,17 +75,17 @@ const addCard = (card: any) => {
 
 		<div
 			v-if="show && searchTerm.length"
-			class="card-list absolute my-3 w-full overflow-y-auto rounded bg-white p-5"
+			class="card-list absolute my-3 w-full overflow-y-auto rounded bg-white p-4"
 		>
 			<div v-if="searching">Searching...</div>
 			<div
 				v-else
-				class="space-y-5"
+				class="space-y-4"
 			>
 				<div
 					v-for="card in cards"
 					:key="card.id"
-					class="flex cursor-pointer items-center space-x-5 rounded-lg p-5 hover:shadow-xl"
+					class="flex cursor-pointer items-center space-x-5 rounded-lg p-4 hover:shadow-xl"
 					@click="addCard(card)"
 				>
 					<img
@@ -96,7 +96,7 @@ const addCard = (card: any) => {
 
 					<div>
 						<div class="text-lg font-bold">{{ card.name }}</div>
-						<div class="mb-3">{{ card.type_line }}</div>
+						<div class="mb-2">{{ card.type_line }}</div>
 						<div
 							v-html="textToHtml(card.oracle_text)"
 							class="text-sm lg:max-w-[75%]"

@@ -4,13 +4,13 @@ const randomEmail = 'john.doe@email.com'
 
 const user = reactive({ name: randomName, email: randomEmail })
 
-function login() {
+const login = () => {
 	user.id = 1
 }
 </script>
 
 <template>
-	<div class="flex items-center justify-between p-5">
+	<div class="flex items-center justify-between p-4">
 		<!-- <Logo /> -->
 
 		<div class="ml-auto flex items-center">

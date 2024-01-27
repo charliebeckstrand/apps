@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-import { ICard } from '@/types/card'
 
-const props = defineProps({
-	card: {
-		type: Object as PropType<ICard>
-	},
-	selected: {
-		type: Boolean,
-		default: false
-	},
-	inactive: {
-		type: Boolean,
-		default: false
+import type { Card } from '@/types/card'
+
+const props = withDefaults(
+	defineProps<{
+		card: Card
+		inactive?: boolean
+		selected?: boolean
+	}>(),
+	{
+		inactive: false,
+		selected: false
 	}
-})
+)
 
 const emit = defineEmits(['esc'])
 
@@ -69,7 +68,7 @@ onMounted(() => {})
 					'right-5': card.frame_effects && card.frame_effects.includes('extendedart'),
 					'right-6': !card.frame_effects || !card.frame_effects.includes('extendedart')
 				}"
-				@click="toggleVisibleSide"
+				@click.stop="toggleVisibleSide"
 			>
 				<UIIcon :icon="ArrowPathIcon" />
 			</UIButton>

@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import { SlickList, SlickItem } from 'vue-slicksort'
 
-import { ICard } from '@/types/card'
+import type { Card } from '@/types/card'
 
-const pack = ref([] as ICard[])
-const deck = ref([] as ICard[])
+const pack = ref([] as Card[])
 
-const fetchCard = async (cardId) => {
-	const response = await fetch(`https://api.scryfall.com/cards/${cardId}?format=json`)
-
-	const data = await response.json()
-
-	return data
-}
-
-const fetchSetCards = async (setCode, page) => {
+const getCards = async (setCode: string | string[], page?: number) => {
 	const setCards = []
 
 	const response = await fetch(
@@ -28,7 +19,7 @@ const fetchSetCards = async (setCode, page) => {
 	}
 
 	if (data.has_more && setCards.length < data.total_cards) {
-		const nextPage = await fetchSetCards(setCode, data.next_page)
+		const nextPage = await getCards(setCode, data.next_page)
 
 		setCards.push(...nextPage)
 	}
@@ -36,7 +27,7 @@ const fetchSetCards = async (setCode, page) => {
 	return setCards
 }
 
-const createPackCards = (cards) => {
+const createPackCards = (cards: Card[]) => {
 	const { generateIndexes, groupByType } = cardHelpers()
 
 	const cardsByType = groupByType(cards)
@@ -117,8 +108,8 @@ const createPackCards = (cards) => {
 	return packCards
 }
 
-const getPackCards = async (setCode) => {
-	const cards = await fetchSetCards(setCode)
+const getPackCards = async (setCode: string | string[]) => {
+	const cards = await getCards(setCode)
 
 	if (cards.length === 0) {
 		throw new Error('No cards found for the specified set.')
@@ -129,7 +120,6 @@ const getPackCards = async (setCode) => {
 
 onMounted(async () => {
 	const route = useRoute()
-
 	const setCode = route.params.set_code
 
 	const packCards = await getPackCards(setCode)
@@ -141,8 +131,8 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="overflow-scroll p-5">
-		<div class="flex grow flex-col space-y-5">
+	<div class="overflow-scroll p-4">
+		<div class="flex grow flex-col space-y-4">
 			<SlickList
 				v-model:list="pack"
 				axis="xy"
