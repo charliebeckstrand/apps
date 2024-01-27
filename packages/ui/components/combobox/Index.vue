@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid'
 
 import {
 	Combobox,

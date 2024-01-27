@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps<{
+interface Props {
 	grow?: boolean
-}>()
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	grow: false
+})
 
 const baseClasses = computed<string>(() => 'flex flex-col items-center space-y-3 lg:flex-row lg:space-x-4 lg:space-y-0')
 </script>

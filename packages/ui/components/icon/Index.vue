@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Size = 'xs' | 'sm' | 'md' | 'lg'
+import type { Size } from '@/types/icon'
 
 interface Props {
 	size?: Size
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const sizeClasses = computed<string>(() => {
 	const sizes: Record<string, string> = {
-		xs: 'w-4 h-4',
+		xs: 'w-3 h-3',
 		sm: 'w-5 h-5',
 		md: 'w-6 h-6',
 		lg: 'w-7 h-7'

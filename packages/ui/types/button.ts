@@ -1,4 +1,4 @@
-import type { BorderRadius } from './tailwind/border-radius'
+import type { BorderRadius } from './border-radius'
 import type { Color } from './color'
 import type { Size } from './size'
 import type { Variant } from './variant'

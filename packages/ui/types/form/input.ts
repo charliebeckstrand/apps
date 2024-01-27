@@ -1,5 +1,5 @@
-import type { BorderRadius } from './tailwind/border-radius'
-import type { Size } from './size'
+import type { BorderRadius } from '@/types/border-radius'
+import type { Size } from '@/types/size'
 
 type Variant = 'default' | 'outlined' | 'plain'
 

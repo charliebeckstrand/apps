@@ -8,8 +8,8 @@ type Emit = {
 }
 
 interface Props {
+	modelValue: string
 	variant?: Variant
-	modelValue?: string
 	rows?: number | string
 	resize?: Resize
 }
@@ -17,8 +17,8 @@ interface Props {
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
-	variant: 'default',
 	modelValue: '',
+	variant: 'default',
 	rows: 4,
 	resize: 'none'
 })

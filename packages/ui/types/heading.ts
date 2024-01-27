@@ -1,3 +1,5 @@
-import type { Size, Weight } from './tailwind'
+import type { FontWeight } from './font-weight'
 
-export type { Size, Weight }
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
+
+export type { Size, FontWeight as Weight }
