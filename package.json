@@ -2,9 +2,8 @@
 	"private": true,
 	"version": "1.0.0",
 	"scripts": {
-		"chat": "yarn workspace aichat run dev",
-		"mtgdraft": "yarn workspace mtgdraft run dev",
-		"mtgcollection": "yarn workspace mtgcollection run dev",
+		"chat": "yarn workspace chat run dev",
+		"mtg": "yarn workspace mtg run dev",
 		"recipes": "yarn workspace recipes run dev"
 	},
 	"workspaces": [
@@ -15,6 +14,8 @@
 		"@nuxt/typescript-build": "^3.0.1",
 		"@nuxtjs/tailwindcss": "^6.10.0",
 		"@pinia/nuxt": "^0.5.1",
+		"@types/lodash": "^4.14.202",
+		"@types/node": "^20.11.7",
 		"@types/prettier": "^2.7.2",
 		"autoprefixer": "^10.4.14",
 		"nuxt": "^3.8.2",
@@ -34,7 +35,10 @@
 	},
 	"dependencies": {
 		"@headlessui/vue": "^1.7.13",
-		"@heroicons/vue": "^2.0.17"
+		"@heroicons/vue": "^2.0.17",
+		"@vuepic/vue-datepicker": "^7.4.1",
+		"@vueuse/core": "^10.7.2",
+		"lodash": "^4.17.21"
 	},
 	"packageManager": "yarn@4.0.2",
 	"engines": {
