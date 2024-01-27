@@ -8,7 +8,7 @@ Tippy.setDefaultProps({
 	arrow: true,
 	theme: 'light',
 	placement: 'bottom',
-	trigger: 'mouseenter focus',
+	trigger: 'mouseenter',
 	allowHTML: true
 })
 

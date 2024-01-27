@@ -75,23 +75,23 @@ definePageMeta({
 <template>
 	<div class="min-h-full">
 		<UINavbar>
-			<template #left> Navbar </template>
-			<template #right> </template>
+			<template #left>Navbar</template>
+			<template #right></template>
 		</UINavbar>
 
 		<UINavbar color="secondary">
-			<template #left> Navbar </template>
-			<template #right> </template>
+			<template #left>Navbar</template>
+			<template #right></template>
 		</UINavbar>
 
-		<div class="space-y-5 p-5">
+		<div class="space-y-4 p-4">
 			<UIPageHeader>
 				<template #title>Title</template>
 				<template #subtitle>Subtitle</template>
 			</UIPageHeader>
 
 			<UIFlex>
-				<UIButton color="primary"> Primary </UIButton>
+				<UIButton color="primary">Primary</UIButton>
 				<UIButton
 					color="primary"
 					variant="outlined"
@@ -119,7 +119,7 @@ definePageMeta({
 			</UIFlex>
 
 			<UIFlex>
-				<UIButton color="secondary"> Secondary </UIButton>
+				<UIButton color="secondary">Secondary</UIButton>
 				<UIButton
 					color="secondary"
 					variant="outlined"
@@ -147,7 +147,7 @@ definePageMeta({
 			</UIFlex>
 
 			<UIFlex>
-				<UIButton color="accent"> Accent </UIButton>
+				<UIButton color="accent">Accent</UIButton>
 				<UIButton
 					color="accent"
 					variant="outlined"
@@ -176,20 +176,20 @@ definePageMeta({
 
 			<UIFlex>
 				<UIButtonGroup>
-					<UIButton color="primary"> Primary </UIButton>
-					<UIButton color="primary"> Primary </UIButton>
-					<UIButton color="primary"> Primary </UIButton>
+					<UIButton color="primary">Primary</UIButton>
+					<UIButton color="primary">Primary</UIButton>
+					<UIButton color="primary">Primary</UIButton>
 				</UIButtonGroup>
 				<UIButtonGroup>
-					<UIButton color="secondary"> Secondary </UIButton>
-					<UIButton color="secondary"> Secondary </UIButton>
-					<UIButton color="secondary"> Secondary </UIButton>
+					<UIButton color="secondary">Secondary</UIButton>
+					<UIButton color="secondary">Secondary</UIButton>
+					<UIButton color="secondary">Secondary</UIButton>
 				</UIButtonGroup>
 
 				<UIButtonGroup>
-					<UIButton color="primary"> Primary </UIButton>
-					<UIButton color="secondary"> Secondary </UIButton>
-					<UIButton color="accent"> Accent </UIButton>
+					<UIButton color="primary">Primary</UIButton>
+					<UIButton color="secondary">Secondary</UIButton>
+					<UIButton color="accent">Accent</UIButton>
 				</UIButtonGroup>
 			</UIFlex>
 
@@ -241,8 +241,9 @@ definePageMeta({
 						<UIButton
 							color="secondary"
 							variant="plain"
-							>Button</UIButton
 						>
+							Button
+						</UIButton>
 					</template>
 				</UICard>
 
@@ -268,7 +269,7 @@ definePageMeta({
 			</UIFlex>
 
 			<UIFlex grow>
-				<UIAlert color="accent"> Accent </UIAlert>
+				<UIAlert color="accent">Accent</UIAlert>
 
 				<UIAlert
 					color="accent"

@@ -7,6 +7,29 @@ const props = defineProps<{
 	searchTerm: string
 }>()
 
+const conversationRefs = ref<Record<string, any>>({})
+const conversations = conversationStore.conversations
+const previousConversations = ref(conversations.map((conv) => ({ ...conv })))
+
+const setRef = (component: any) => {
+	if (component) {
+		const id = component.$props.conversation.id
+
+		conversationRefs.value[id] = component.$el
+
+		const isNewConversation = !previousConversations.value.some((conv) => conv.id === id)
+
+		if (isNewConversation) {
+			nextTick(() => {
+				conversationRefs.value[id].scrollIntoViewIfNeeded()
+			})
+
+			// Update the previousConversations to include the new conversation
+			previousConversations.value.push(component.$props.conversation)
+		}
+	}
+}
+
 const sortedConversations = computed(() => {
 	return conversationStore.conversations.sort((a: any, b: any) => {
 		return b.createdAt - a.createdAt
@@ -34,6 +57,7 @@ const filteredConversations = computed(() => {
 	<div class="space-y-2">
 		<template v-if="sortedConversations.length > 0">
 			<ConversationsListCard
+				:ref="setRef"
 				v-for="(conversation, index) in filteredConversations"
 				:key="index"
 				:conversation="conversation"
@@ -45,7 +69,6 @@ const filteredConversations = computed(() => {
 				variant="tonal"
 				dark
 			>
-				<!-- <template #title>No conversations found</template> -->
 				No conversations match your search term
 			</UIAlert>
 		</template>
@@ -53,6 +76,7 @@ const filteredConversations = computed(() => {
 			<UIAlert
 				color="warning"
 				variant="tonal"
+				dark
 			>
 				<template #title>No conversations</template>
 				Click the plus icon to create a new one

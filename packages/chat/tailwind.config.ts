@@ -14,6 +14,5 @@ module.exports = {
 			}
 		}
 	},
-	presets: ['../../tailwind.config'],
-	plugins: []
+	presets: ['../../tailwind.config']
 }

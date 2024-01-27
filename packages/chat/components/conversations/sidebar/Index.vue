@@ -44,9 +44,10 @@ const cancelSearchIfNoValue = () => {
 						<UIFormInput
 							:ref="setRef"
 							v-model="searchTerm"
-							class="bg-transparent font-normal placeholder:text-white focus:outline-none focus:ring-0"
+							class="bg-transparent px-0 text-lg placeholder:text-gray-400 focus:outline-none focus:ring-0"
+							:class="{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }"
 							placeholder="Search..."
-							@blur="cancelSearchIfNoValue()"
+							@blur="cancelSearchIfNoValue"
 						/>
 					</template>
 					<template v-else>Conversations</template>
@@ -54,10 +55,12 @@ const cancelSearchIfNoValue = () => {
 				<template #append>
 					<template v-if="searching">
 						<UIButton
+							v-tippy="{ content: 'Cancel search' }"
 							color="white"
 							variant="text"
 							icon
-							@click="cancelSearch()"
+							dark
+							@click="cancelSearch"
 						>
 							<UIIcon :icon="XMarkIcon" />
 						</UIButton>
@@ -68,19 +71,23 @@ const cancelSearchIfNoValue = () => {
 					>
 						<UIButton
 							v-if="conversationStore.conversations.length"
+							v-tippy="{ content: 'Search conversations' }"
 							color="white"
 							variant="text"
 							icon
-							@click="searchConversations()"
+							dark
+							@click="searchConversations"
 						>
 							<UIIcon :icon="MagnifyingGlassIcon" />
 						</UIButton>
 
 						<UIButton
+							v-tippy="{ content: 'New conversation' }"
 							color="white"
 							variant="text"
 							icon
-							@click="conversationStore.newConversation()"
+							dark
+							@click="conversationStore.newConversation"
 						>
 							<UIIcon :icon="PlusIcon" />
 						</UIButton>

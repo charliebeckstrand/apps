@@ -2,10 +2,8 @@
 import { Bars3Icon } from '@heroicons/vue/24/outline'
 
 import { useConversationStore } from '@/stores/conversation'
-import { useLayoutStore } from '@/stores/layout'
 
 const conversationStore = useConversationStore()
-const layoutStore = useLayoutStore()
 </script>
 <template>
 	<div class="flex h-full flex-col">
@@ -15,14 +13,6 @@ const layoutStore = useLayoutStore()
 					<ConversationsSidebarButton />
 				</template>
 
-				<!-- <UIPageHeader>
-					<template #title>
-						{{ conversationStore.selectedConversation?.name }}
-					</template>
-					<template #subtitle>
-						{{ conversationStore.selectedConversation?.id }}
-					</template>
-				</UIPageHeader> -->
 				<template #title>
 					{{ conversationStore.selectedConversation?.name }}
 				</template>
@@ -44,12 +34,16 @@ const layoutStore = useLayoutStore()
 				<ConversationsSidebarButton />
 			</div>
 			<UIAlert
-				color="error"
+				color="danger"
 				variant="tonal"
 				class="mx-5 lg:my-5"
 			>
-				<template #title> No conversation selected </template>
-				Select a conversation from the sidebar to start chatting
+				<template #title>No conversation selected</template>
+				{{
+					conversationStore.conversations?.length
+						? 'Select a conversation from the sidebar to start chatting'
+						: 'Create a new conversation from the sidebar to start chatting'
+				}}
 			</UIAlert>
 		</template>
 	</div>

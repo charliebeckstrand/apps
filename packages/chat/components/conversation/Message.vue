@@ -16,23 +16,16 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
-const setRef = (component: any) => {
+const setRef = (element: any) => {
 	nextTick(() => {
-		if (!component) return
+		if (!element) return
 
-		component.scrollIntoViewIfNeeded()
+		element.scrollIntoViewIfNeeded()
 	})
 }
 
-// const colorClasses = computed(() => {
-// 	return {
-// 		'bg-gray-600': props.message.type === 'bot' || props.message.type === 'system',
-// 		'bg-accent': props.message.type === 'user'
-// 	}
-// })
-
 const baseClasses = computed<string>(() => {
-	const classes = `max-w-[640px] justify-self-end break-all rounded-lg p-3 border ${
+	const classes = `max-w-[640px] justify-self-end rounded-lg p-3 border ${
 		'border-transparent' ? props.variant !== 'outlined' : null
 	}}`
 
@@ -59,7 +52,7 @@ const colorClasses = computed<string | undefined>(() => {
 			accent: 'bg-accent/10',
 			gray: 'bg-gray-600/10'
 		}
-	} as const
+	}
 
 	return props.color ? variants[props.variant][props.color] : undefined
 })

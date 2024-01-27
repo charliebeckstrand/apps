@@ -5,6 +5,7 @@ import { useConversationStore } from '@/stores/conversation'
 import { useLayoutStore } from '@/stores/layout'
 
 import type { Conversation } from '@/types/conversation'
+import type { Message } from '@/types/message'
 
 const conversationStore = useConversationStore()
 const layoutStore = useLayoutStore()
@@ -13,6 +14,8 @@ const props = defineProps<{
 	conversation: Conversation
 }>()
 
+const isActive = computed<boolean>(() => conversationStore.selectedConversation?.id === props.conversation.id)
+
 const selectConversation = () => {
 	conversationStore.selectConversation(props.conversation)
 
@@ -20,18 +23,25 @@ const selectConversation = () => {
 }
 
 const removeConversation = (conversation: Conversation) => {
-	console.log('remove')
 	conversationStore.removeConversation(conversation)
+}
+
+const getLatestResponse = (conversation: Conversation) => {
+	const messagesByType = (type: Message['type']) => conversation.messages.filter((message) => message.type === type)
+
+	const latestResponse = messagesByType('system').pop() || messagesByType('bot').pop()
+
+	return latestResponse?.value
 }
 </script>
 
 <template>
 	<UICard
-		variant="plain"
 		color="accent"
-		class="card cursor-pointer"
-		:active="conversationStore.selectedConversation?.id === props.conversation.id"
+		variant="plain"
+		:active="isActive"
 		interactive
+		class="conversation-card"
 		@click="selectConversation"
 	>
 		<div class="flex items-center justify-between">
@@ -49,14 +59,15 @@ const removeConversation = (conversation: Conversation) => {
 					v-if="props.conversation.messages.length"
 					class="line-clamp-1 text-gray-300"
 				>
-					{{ props.conversation.messages[conversation.messages.length - 1].value }}
+					{{ getLatestResponse(props.conversation) }}
 				</span>
 			</div>
 			<div class="remove">
 				<UIButton
-					icon
 					color="white"
 					variant="text"
+					icon
+					dark
 					@click.stop="removeConversation(props.conversation)"
 				>
 					<UIIcon :icon="XMarkIcon" />
@@ -67,7 +78,7 @@ const removeConversation = (conversation: Conversation) => {
 </template>
 
 <style scoped lang="scss">
-.card {
+.conversation-card {
 	.remove {
 		display: none;
 	}

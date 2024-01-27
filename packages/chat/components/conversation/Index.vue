@@ -5,7 +5,7 @@ const conversationStore = useConversationStore()
 </script>
 
 <template>
-	<div class="flex flex-col space-y-3 space-y-3 px-5">
+	<div class="flex flex-col space-y-4 px-4">
 		<div
 			v-for="(message, index) in conversationStore.selectedConversation?.messages"
 			:key="index"

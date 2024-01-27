@@ -80,12 +80,12 @@ onMounted(() => {
 			>
 				<Dialog
 					as="div"
-					class="relative z-50 lg:hidden"
+					class="relative lg:hidden"
 					@close="layoutStore.sidebarOpen = false"
 				>
 					<UIOverlay />
 
-					<div class="fixed inset-0 flex">
+					<div class="fixed inset-0 z-40 flex">
 						<TransitionChild
 							as="template"
 							enter="transition ease-in-out duration-300 transform"
