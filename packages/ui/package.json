@@ -1,0 +1,13 @@
+{
+	"name": "ui",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare"
+	},
+	"devDependencies": {
+		"nuxt": "^3.9.3"
+	}
+}

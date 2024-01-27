@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-	<header class="flex items-center">
+	<div class="flex items-center">
 		<div
 			v-if="$slots['prepend']"
 			class="mr-3 empty:mr-0"
@@ -29,5 +29,5 @@
 		>
 			<slot name="append" />
 		</div>
-	</header>
+	</div>
 </template>

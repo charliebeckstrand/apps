@@ -1,12 +1,11 @@
 <script setup lang="ts">
-const props = withDefaults(
-	defineProps<{
-		lines?: number
-	}>(),
-	{
-		lines: 3
-	}
-)
+interface Props {
+	lines?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	lines: 3
+})
 </script>
 
 <template>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-type Size = 'sm' | 'md' | 'lg'
+import { computed } from 'vue'
 
-type Props = {
+import type { Size } from '@/types/size'
+
+interface Props {
 	size?: Size
 }
 
@@ -10,13 +12,13 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const sizeClasses = computed<string>(() => {
-	const classes: Record<Size, string> = {
+	const classMap: Record<Size, string> = {
 		sm: 'text-sm',
 		md: 'text-base',
 		lg: 'text-lg'
-	} as const
+	}
 
-	return classes[props.size]
+	return classMap[props.size]
 })
 </script>
 

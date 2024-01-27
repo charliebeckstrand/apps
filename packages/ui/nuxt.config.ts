@@ -9,6 +9,7 @@ export default defineNuxtConfig({
 			ignore: ['**/*.test.*', '**/*.spec.*']
 		}
 	],
+	devtools: { enabled: true },
 	typescript: {
 		strict: true
 	}

@@ -1,13 +1,17 @@
 <script setup lang="ts">
-interface Item {
+type Item = {
 	label: string
-	to: string
+	to?: string
 	disabled?: boolean
 }
 
-const props = defineProps<{
+interface props {
 	items: Item[]
-}>()
+}
+
+const props = withDefaults(defineProps<props>(), {
+	items: undefined
+})
 </script>
 
 <template>
@@ -21,7 +25,7 @@ const props = defineProps<{
 		>
 			<nuxt-link
 				:to="item.to"
-				class="breadcrumb-item"
+				class="ui-breadcrumb-item"
 				:class="{
 					'text-gray-500 hover:text-gray-700': index !== props.items.length - 1
 				}"

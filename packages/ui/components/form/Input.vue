@@ -1,70 +1,78 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Size = 'xs' | 'sm' | 'md' | 'lg'
-type Variant = 'default' | 'outlined' | 'plain'
+import type { BorderRadius, Size, Variant } from '@/types/form/input'
+
+type ModelValue = string | number
+
+type Emit = {
+	(event: 'update:modelValue', value: ModelValue): void
+}
 
 interface Props {
-	modelValue?: string | number
+	modelValue?: ModelValue
 	variant?: Variant
 	size?: Size
+	borderRadius?: BorderRadius
+	autocomplete?: string
 }
+
+const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: '',
 	variant: 'default',
-	size: 'md'
+	size: 'md',
+	borderRadius: 'md',
+	autocomplete: 'one-time-code'
 })
 
-const baseClasses = computed<string>(() => {
-	const classes = 'flex w-full rounded-md p-3'
-
-	return classes
+const inputValue = computed<ModelValue>({
+	get: () => props.modelValue,
+	set: (value) => {
+		emit('update:modelValue', value)
+	}
 })
 
-const variantClasses = computed<string | undefined>(() => {
-	const variants: Record<Variant, string> = {
-		default: 'bg-gray-100',
-		outlined: 'border border-gray-300',
-		plain: 'bg-transparent'
-	} as const
+const baseClasses = computed<string>(() => 'flex w-full')
 
-	return variants[props.variant]
+const borderRadiusClasses = computed<string>(() => {
+	const borderRadiusMap: Record<BorderRadius, string> = {
+		sm: 'rounded-sm',
+		md: 'rounded-md',
+		lg: 'rounded-lg',
+		full: 'rounded-full',
+		none: 'rounded-none'
+	}
+
+	return borderRadiusMap[props.borderRadius]
 })
 
 const sizeClasses = computed<string>(() => {
-	const classes: Record<string, string> = {
-		xs: 'text-xs',
-		sm: 'text-sm',
-		md: 'text-base',
-		lg: 'text-lg'
-	} as const
+	const sizeMap: Record<string, string> = {
+		sm: 'p-2 text-sm',
+		md: 'p-3 text-base',
+		lg: 'p-4 text-lg'
+	}
 
-	return classes[props.size]
+	return sizeMap[props.size]
 })
 
-const emit = defineEmits(['update:modelValue'])
-
-const value = ref(props.modelValue)
-
-watch(
-	() => props.modelValue,
-	() => {
-		value.value = props.modelValue
+const variantClasses = computed<string | undefined>(() => {
+	const variantMap: Record<Variant, string> = {
+		default: 'bg-gray-100',
+		outlined: 'border border-gray-300',
+		plain: 'bg-transparent'
 	}
-)
 
-watch(
-	() => value.value,
-	() => {
-		emit('update:modelValue', value.value)
-	}
-)
+	return variantMap[props.variant]
+})
 </script>
 
 <template>
 	<input
-		v-model="value"
-		:class="[baseClasses, variantClasses, sizeClasses]"
+		v-model="inputValue"
+		:class="[baseClasses, borderRadiusClasses, variantClasses, sizeClasses]"
+		:autocomplete="props.autocomplete"
 	/>
 </template>

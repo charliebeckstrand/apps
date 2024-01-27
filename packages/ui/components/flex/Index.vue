@@ -5,11 +5,7 @@ const props = defineProps<{
 	grow?: boolean
 }>()
 
-const baseClasses = computed<string>(() => {
-	const classes = 'flex flex-col items-center space-y-3 lg:flex-row lg:space-x-3 lg:space-y-0'
-
-	return classes
-})
+const baseClasses = computed<string>(() => 'flex flex-col items-center space-y-3 lg:flex-row lg:space-x-4 lg:space-y-0')
 </script>
 
 <template>

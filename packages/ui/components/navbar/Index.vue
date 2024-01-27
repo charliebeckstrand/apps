@@ -1,45 +1,43 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Variant = 'default'
-type Color = 'primary' | 'secondary' | 'transparent'
+import type { Color, Variant } from '@/types/navbar'
 
 interface Props {
-	variant?: Variant
 	color?: Color
+	variant?: Variant
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	variant: 'default',
-	color: 'primary'
+	color: 'primary',
+	variant: 'default'
 })
 
-const baseClasses = computed<string>(() => {
-	const classes = 'flex items-center p-5 leading-tight'
-
-	return classes
-})
+const baseClasses = computed<string>(() => 'flex items-center p-4 leading-tight')
 
 const variantClasses = computed<string | undefined>(() => {
-	const variants: Record<Variant, Record<Color, string>> = {
+	const variantMap: Record<Variant, Record<Color, string>> = {
 		default: {
 			primary: 'bg-primary text-white',
 			secondary: 'bg-secondary text-white',
-			transparent: 'bg-transparent text-primary'
+			transparent: 'bg-transparent text-primary',
+			dark: 'bg-[#333] text-white'
 		}
-	} as const
+	}
 
-	return props.color ? variants[props.variant][props.color] : undefined
+	return variantMap[props.variant][props.color]
 })
 </script>
 
 <template>
 	<nav :class="[baseClasses, variantClasses]">
-		<div>
+		<div class="mr-auto">
 			<slot name="left" />
 		</div>
 
-		<div class="ml-auto space-x-3">
+		<slot />
+
+		<div class="ml-auto space-x-4">
 			<slot name="right" />
 		</div>
 	</nav>

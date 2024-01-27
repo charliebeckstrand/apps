@@ -6,24 +6,25 @@ interface Step {
 	step: number
 }
 
-const props = defineProps<{
-	steps: Step[]
+interface Props {
 	modelValue: number
-}>()
+	steps: Step[]
+}
 
-const baseClasses = computed<string>(() => {
-	const classes = 'flex items-center justify-between'
+type Emit = {
+	(event: 'update:modelValue', value: string | number): void
+}
 
-	return classes
+const emit = defineEmits<Emit>()
+
+const props = withDefaults(defineProps<Props>(), {
+	modelValue: 1,
+	steps: () => []
 })
 
-const baseItemClasses = computed<string>(() => {
-	const classes = 'cursor-pointer select-none rounded-full p-3'
+const baseClasses = computed<string>(() => 'flex items-center justify-between')
 
-	return classes
-})
-
-const emit = defineEmits(['update:modelValue'])
+const baseItemClasses = computed<string>(() => 'cursor-pointer select-none rounded-full p-4')
 </script>
 
 <template>

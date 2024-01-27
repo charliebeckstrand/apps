@@ -6,13 +6,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	sticky: false
 })
+
+const baseClasses = computed<string>(
+	() =>
+		`ui-page-header flex items-center bg-white p-4 ${[props.sticky ? 'sticky top-0 z-30 bg-white/95' : undefined]}`
+)
 </script>
 
 <template>
-	<div
-		class="ui-page-header flex items-center bg-white p-5"
-		:class="{ 'sticky top-0': props.sticky }"
-	>
+	<div :class="[baseClasses]">
 		<div
 			v-if="$slots['prepend']"
 			class="prepend mr-5 flex items-center empty:mr-0"

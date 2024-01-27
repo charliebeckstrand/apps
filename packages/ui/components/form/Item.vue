@@ -11,9 +11,14 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
 	<div
 		class="ui-form-item relative flex items-center"
-		:class="{ text: props.type === 'text', number: props.type === 'number' }"
+		:class="{
+			text: props.type === 'text',
+			number: props.type === 'number',
+			prepend: $slots.prepend,
+			append: $slots.append
+		}"
 	>
-		<div class="prepend absolute left-0 z-20 bg-gray-100 px-2">
+		<div class="prepend absolute left-0 z-20 px-2">
 			<slot name="prepend" />
 		</div>
 
@@ -21,20 +26,32 @@ const props = withDefaults(defineProps<Props>(), {
 			<slot />
 		</div>
 
-		<div class="append absolute right-0 z-20 bg-gray-100 px-2">
+		<div class="append absolute right-0 z-20 px-2">
 			<slot name="append" />
 		</div>
 	</div>
 </template>
 
 <style scoped lang="scss">
-.ui-form-item.number {
-	&:hover,
-	&:focus,
-	&:focus-within,
-	&:active {
-		.append {
-			@apply pointer-events-none mr-8;
+.ui-form-item {
+	&.prepend {
+		:deep(input) {
+			@apply pl-10;
+		}
+	}
+	&.append {
+		:deep(input) {
+			@apply pr-4;
+		}
+	}
+	&.number {
+		&:hover,
+		&:focus,
+		&:focus-within,
+		&:active {
+			.append {
+				@apply pointer-events-none mr-8;
+			}
 		}
 	}
 }

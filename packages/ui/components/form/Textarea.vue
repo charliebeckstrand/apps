@@ -1,61 +1,64 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Variant = 'default' | 'outlined'
+import type { Resize, Variant } from '@/types/form/textarea'
+
+type Emit = {
+	(event: 'update:modelValue', value: string): void
+}
 
 interface Props {
 	variant?: Variant
 	modelValue?: string
 	rows?: number | string
+	resize?: Resize
 }
+
+const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	variant: 'default',
 	modelValue: '',
-	rows: 4
+	rows: 4,
+	resize: 'none'
 })
 
-const baseClasses = computed<string>(() => {
-	const classes = 'flex w-full rounded-md p-3 resize-none'
+const inputValue = computed<string>({
+	get: () => props.modelValue,
+	set: (value) => {
+		emit('update:modelValue', value)
+	}
+})
 
-	return classes
+const baseClasses = computed<string>(() => 'ui-textarea flex w-full rounded-md p-4 resize-none min-h-[48px]')
+
+const resizeClasses = computed<string>(() => {
+	const resizeMap: Record<Resize, string> = {
+		none: 'resize-none',
+		vertical: 'resize-y',
+		horizontal: 'resize-x',
+		both: 'resize'
+	}
+
+	return resizeMap[props.resize]
 })
 
 const variantClasses = computed<string | undefined>(() => {
-	const variants: Record<Variant, string> = {
+	const variantMap: Record<Variant, string> = {
 		default: 'bg-gray-100',
 		outlined: 'border border-gray-300'
-	} as const
-
-	return variants[props.variant]
-})
-
-const emit = defineEmits(['update:modelValue'])
-
-const height = computed<string>(() => {
-	const heights: Record<Variant, string> = {
-		default: 'h-40',
-		outlined: 'h-32'
-	} as const
-
-	return heights[props.variant]
-})
-
-const value = computed<string>({
-	get() {
-		return props.modelValue
-	},
-	set(value) {
-		emit('update:modelValue', value)
 	}
+
+	return variantMap[props.variant]
 })
 </script>
 
 <template>
 	<textarea
-		v-model="value"
-		:class="[baseClasses, variantClasses]"
+		v-model="inputValue"
+		:class="[baseClasses, resizeClasses, variantClasses]"
 		:rows="props.rows"
-		@input="emit('update:modelValue', value)"
 	/>
 </template>
+
+<style lang="scss" scoped></style>

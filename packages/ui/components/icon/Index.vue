@@ -19,7 +19,7 @@ const sizeClasses = computed<string>(() => {
 		sm: 'w-5 h-5',
 		md: 'w-6 h-6',
 		lg: 'w-7 h-7'
-	} as const
+	}
 
 	return sizes[props.size]
 })

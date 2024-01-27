@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-	<div class="ui-page-content space-y-5 p-5">
+	<div class="ui-page-content space-y-4 p-4">
 		<slot />
 	</div>
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { CameraIcon, PlusIcon, PhotoIcon } from '@heroicons/vue/24/outline'
+import { CameraIcon } from '@heroicons/vue/24/outline'
 
-type Props = {
+interface Props {
 	src: string
-	height: string
-	width: string
+	height?: string
+	width?: string
 	editable?: boolean
 }
 

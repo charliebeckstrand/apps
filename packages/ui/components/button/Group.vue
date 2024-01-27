@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-	<div class="overflow-x-scroll whitespace-nowrap">
+	<div class="flex overflow-x-scroll whitespace-nowrap">
 		<slot />
 	</div>
 </template>

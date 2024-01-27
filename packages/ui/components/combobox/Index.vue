@@ -12,45 +12,46 @@ import {
 	TransitionRoot
 } from '@headlessui/vue'
 
-interface Emit {
-	(event: 'update:modelValue', ...args: any[]): void
+type Emit = {
+	(event: 'update:modelValue', value: string): void
 }
 
 interface Props {
-	modelValue: null
+	id: string
+	modelValue: string
 	items: string[]
 	placeholder?: string
+	variant?: 'default' | 'outlined' | 'plain'
 }
 
 const emit = defineEmits<Emit>()
 
-// items will be an array of items with a value and label or an array of strings
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: null,
+	id: undefined,
+	modelValue: undefined,
 	items: undefined,
-	placeholder: 'Select an item'
+	placeholder: 'Select an item',
+	variant: 'default'
 })
 
 const query = ref('')
 
-const filteredItems = computed(() => {
-	return props.items.filter((item) => {
-		return item.toLowerCase().includes(query.value.toLowerCase())
-	})
-})
-
-const value = computed({
+const inputValue = computed({
 	get: () => props.modelValue,
 	set: (newValue) => {
 		emit('update:modelValue', newValue)
 	}
 })
+
+const filteredItems = computed(() =>
+	props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase()))
+)
 </script>
 
 <template>
 	<Combobox
 		v-slot="{ open }"
-		v-model="value"
+		v-model="inputValue"
 	>
 		<div class="relative">
 			<div class="relative w-full cursor-default rounded-lg bg-white">
@@ -59,25 +60,20 @@ const value = computed({
 					class="border-non relative z-10 flex items-center"
 				>
 					<ComboboxInput
-						class="flex w-full rounded-md bg-gray-100 p-3"
+						:id="props.id"
+						class="flex w-full rounded-md p-3"
+						:class="{
+							'bg-gray-100': props.variant === 'default',
+							'border border-gray-300': props.variant === 'outlined',
+							'bg-transparent': props.variant === 'plain'
+						}"
 						:displayValue="(item: any) => item"
+						autocomplete="one-time-code"
 						:placeholder="props.placeholder"
 						@change="query = $event.target.value"
 					/>
 
 					<div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-						<UIButton
-							icon
-							variant="plain"
-							color="primary"
-							v-if="value"
-							@click="value = null"
-						>
-							<UIIcon
-								:icon="XMarkIcon"
-								size="md"
-							/>
-						</UIButton>
 						<UIIcon
 							:icon="open ? ChevronUpIcon : ChevronDownIcon"
 							size="md"

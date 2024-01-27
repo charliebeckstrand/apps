@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Size = 'sm' | 'md' | 'lg'
+import type { Size } from '@/types/size'
 
 interface Props {
 	size?: Size
@@ -8,12 +8,20 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	size: 'md'
 })
+
+const sizeClasses = computed<string>(() => {
+	const sizeMap: Record<Size, string> = {
+		sm: 'text-sm',
+		md: 'text-base',
+		lg: 'text-lg'
+	}
+
+	return sizeMap[props.size]
+})
 </script>
 
 <template>
-	<label
-		:class="{ 'text-sm': props.size === 'sm', 'text-base': props.size === 'md', 'text-lg': props.size === 'lg' }"
-	>
+	<label :class="[sizeClasses]">
 		<slot />
 	</label>
 </template>

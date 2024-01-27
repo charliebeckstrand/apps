@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Color = 'default' | 'primary' | 'secondary' | 'accent'
+import type { Color } from '@/types/list'
 
 interface Props {
 	color?: Color
@@ -13,26 +13,20 @@ const props = withDefaults(defineProps<Props>(), {
 	to: undefined
 })
 
-const baseClasses = computed<string>(() => {
-	const classes = 'flex items-center'
-
-	return classes
-})
+const baseClasses = computed<string>(() => 'flex items-center')
 
 const colorClasses = computed<string | undefined>(() => {
-	const colors: Record<Color, string> = {
+	const colorMap: Record<Color, string> = {
 		default: 'bg-transparent',
 		primary: 'text-primary',
 		secondary: 'text-secondary',
 		accent: 'text-accent'
-	} as const
+	}
 
-	return props.color ? colors[props.color] : undefined
+	return colorMap[props.color]
 })
 
-const elementType = computed(() => {
-	return props.to ? resolveComponent('NuxtLink') : 'li'
-})
+const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'li'))
 </script>
 
 <template>

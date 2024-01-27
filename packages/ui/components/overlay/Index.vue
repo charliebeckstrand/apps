@@ -12,6 +12,6 @@ import { TransitionChild } from '@headlessui/vue'
 		leave-from="opacity-100"
 		leave-to="opacity-0"
 	>
-		<div class="fixed inset-0 bg-gray-900/80" />
+		<div class="fixed inset-0 z-30 bg-gray-900/80" />
 	</TransitionChild>
 </template>
