@@ -4,10 +4,13 @@ import { HeartIcon as SolidHeartIcon, PencilIcon, TrashIcon } from '@heroicons/v
 
 import type { Recipe } from '@/types/recipe'
 
-type Props = {
+type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'light' | 'dark'
+type Variant = 'plain' | 'outlined' | 'raised' | 'flat' | 'text'
+
+interface Props {
 	recipe?: Recipe
-	color?: string
-	variant?: string
+	color?: Color
+	variant?: Variant
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -34,11 +37,16 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 			/>
 
 			<UIHeader class="flex-grow">
-				{{ recipe.name }}
+				<template v-if="recipe.name">
+					{{ recipe.name }}
+				</template>
+				<template v-else>
+					<span class="text-gray-400">Untitled Recipe</span>
+				</template>
 			</UIHeader>
 
 			<div class="ml-auto flex items-center space-x-1">
-				<UIButton
+				<Button
 					color="pink"
 					variant="text"
 					icon
@@ -46,9 +54,9 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 					@click.prevent="recipe.favorite = !recipe.favorite"
 				>
 					<UIIcon :icon="recipe.favorite ? SolidHeartIcon : OutlineHeartIcon" />
-				</UIButton>
+				</Button>
 				<div v-tippy="{ content: 'Edit' }">
-					<UIButton
+					<Button
 						color="info"
 						variant="text"
 						icon
@@ -56,9 +64,9 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 						@click.prevent
 					>
 						<UIIcon :icon="PencilIcon" />
-					</UIButton>
+					</Button>
 				</div>
-				<UIButton
+				<Button
 					color="danger"
 					variant="text"
 					icon
@@ -66,7 +74,7 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 					@click.prevent
 				>
 					<UIIcon :icon="TrashIcon" />
-				</UIButton>
+				</Button>
 			</div>
 		</div>
 	</UICard>

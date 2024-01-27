@@ -14,9 +14,9 @@ export default defineNuxtConfig({
 			link: [{ rel: 'icon', type: 'image/png', href: '/restaurant.png' }]
 		}
 	},
-	extends: ['../base', '../ui'],
-	css: ['~/assets/css/main.scss'],
 	components: [{ path: '~/components', pathPrefix: true }],
+	css: ['~/assets/css/main.scss'],
 	devtools: { enabled: true },
+	extends: ['../base', '../ui'],
 	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt']
 })

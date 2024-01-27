@@ -6,29 +6,45 @@ import { CloudArrowUpIcon, PlusIcon } from '@heroicons/vue/24/solid'
 
 import type { Recipe } from '@/types/recipe'
 
-type Emit = (event: 'update:modelValue', ...args: unknown[]) => void
+type State = {
+	name: string
+	description: string
+	thumbnail: string
+	prepTime: number | undefined
+	cookTime: number | undefined
+	servings: number | undefined
+	ingredients: Ingredient[]
+	instructions: Instruction[]
+	notes: string
+}
+
+type Emit = {
+	(event: 'update:modelValue', value: State): void
+}
 
 interface Props {
 	modelValue?: Recipe
 }
 
+const emit = defineEmits<Emit>()
+
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: undefined
 })
 
-const emit = defineEmits<Emit>()
-
-const state = reactive({
+const state = reactive<State>({
 	name: '',
 	description: '',
 	thumbnail: '',
-	prepTime: null,
-	cookTime: null,
-	servings: null,
-	ingredients: [] as Ingredient[],
-	instructions: [] as Instruction[],
+	prepTime: undefined,
+	cookTime: undefined,
+	servings: undefined,
+	ingredients: [],
+	instructions: [],
 	notes: ''
 })
+
+const fileInputRef = ref<HTMLInputElement | null>(null)
 
 watch(
 	() => props.modelValue,
@@ -51,25 +67,8 @@ watch(
 const addIngredient = () => {
 	state.ingredients.push({
 		name: '',
-		quantity: null,
-		unit: null
-	})
-
-	nextTick(() => {
-		const ingredientsContainer = ingredientsContainerRef.value
-
-		if (ingredientsContainer) {
-			const newlyAddedIngredient = ingredientsContainer.lastElementChild
-			if (newlyAddedIngredient) {
-				newlyAddedIngredient.scrollIntoView({ behavior: 'smooth' })
-
-				const ingredientNameInput = newlyAddedIngredient.querySelector('input')
-
-				if (ingredientNameInput) {
-					ingredientNameInput.focus()
-				}
-			}
-		}
+		quantity: undefined,
+		unit: undefined
 	})
 }
 
@@ -77,29 +76,7 @@ const addInstruction = () => {
 	state.instructions.push({
 		description: ''
 	})
-
-	nextTick(() => {
-		const instructionsContainer = instructionsContainerRef.value
-
-		if (instructionsContainer) {
-			const newlyAddedInstruction = instructionsContainer.lastElementChild
-			if (newlyAddedInstruction) {
-				newlyAddedInstruction.scrollIntoView({ behavior: 'smooth' })
-
-				const instructionNameInput = newlyAddedInstruction.querySelector('input')
-
-				if (instructionNameInput) {
-					instructionNameInput.focus()
-				}
-			}
-		}
-	})
 }
-
-const ingredientsContainerRef = ref<HTMLElement | null>(null)
-const instructionsContainerRef = ref<HTMLElement | null>(null)
-
-const fileInputRef = ref<HTMLInputElement | null>(null)
 
 const uploadFile = () => {
 	const fileInput = fileInputRef.value
@@ -123,26 +100,33 @@ const handleFileUpload = (event: Event) => {
 </script>
 
 <template>
-	<div class="space-y-5">
+	<div class="space-y-4">
 		<UIFormGroup>
-			<UIFormLabel>Name</UIFormLabel>
-			<UIFormInput v-model="state.name" />
+			<UIFormLabel for="recipe-name">Name</UIFormLabel>
+			<UIFormInput
+				id="recipe-name"
+				v-model="state.name"
+			/>
 		</UIFormGroup>
 
 		<UIFormGroup>
-			<UIFormLabel>Description</UIFormLabel>
-			<UIFormTextarea v-model="state.description" />
+			<UIFormLabel for="recipe-description">Description</UIFormLabel>
+			<UIFormTextarea
+				id="recipe-description"
+				v-model="state.description"
+			/>
 		</UIFormGroup>
 
 		<UIFormGroup>
-			<UIFormLabel>Thumbnail</UIFormLabel>
+			<UIFormLabel for="recipe-thumbnail">Thumbnail</UIFormLabel>
 			<UIFormItem>
 				<UIFormInput
+					id="recipe-thumbnail"
 					v-model="state.thumbnail"
 					placeholder="https://example.com/image.jpg"
 				/>
 				<template #append>
-					<UIButton
+					<Button
 						v-tippy="{ content: 'Upload' }"
 						color="info"
 						variant="plain"
@@ -150,7 +134,7 @@ const handleFileUpload = (event: Event) => {
 						@click.prevent="uploadFile"
 					>
 						<UIIcon :icon="CloudArrowUpIcon" />
-					</UIButton>
+					</Button>
 				</template>
 			</UIFormItem>
 			<input
@@ -179,7 +163,7 @@ const handleFileUpload = (event: Event) => {
 			No ingredients added
 		</UIAlert>
 
-		<UIButton
+		<Button
 			color="info"
 			variant="outlined"
 			size="sm"
@@ -192,7 +176,7 @@ const handleFileUpload = (event: Event) => {
 				/>
 			</template>
 			Add Ingredient
-		</UIButton>
+		</Button>
 
 		<UIHeader>
 			<template #title>Instructions</template>
@@ -212,7 +196,7 @@ const handleFileUpload = (event: Event) => {
 			No instructions added
 		</UIAlert>
 
-		<UIButton
+		<Button
 			color="info"
 			variant="outlined"
 			size="sm"
@@ -225,32 +209,39 @@ const handleFileUpload = (event: Event) => {
 				/>
 			</template>
 			Add Instruction
-		</UIButton>
+		</Button>
 
-		<div class="grid gap-5 lg:grid-cols-3">
+		<div class="grid gap-4 lg:grid-cols-3">
 			<UIFormGroup>
-				<UIFormLabel>Prep Time</UIFormLabel>
-				<UIFormItem type="number">
-					<UIFormInput
-						v-model="state.prepTime"
-						type="number"
-					/>
-					<template #append>minutes</template>
+				<UIFormLabel for="recipe-prep-time">Prep Time</UIFormLabel>
+				<UIFormItem>
+					<div class="flex items-center space-x-2">
+						<UIFormInput
+							id="recipe-prep-time"
+							v-model="state.prepTime"
+							type="number"
+						/>
+						<div>minutes</div>
+					</div>
 				</UIFormItem>
 			</UIFormGroup>
 			<UIFormGroup>
-				<UIFormLabel>Cook Time</UIFormLabel>
-				<UIFormItem type="number">
-					<UIFormInput
-						v-model="state.cookTime"
-						type="number"
-					/>
-					<template #append>minutes</template>
+				<UIFormLabel for="recipe-cook-time">Cook Time</UIFormLabel>
+				<UIFormItem>
+					<div class="flex items-center space-x-2">
+						<UIFormInput
+							id="recipe-cook-time"
+							v-model="state.cookTime"
+							type="number"
+						/>
+						<div>minutes</div>
+					</div>
 				</UIFormItem>
 			</UIFormGroup>
 			<UIFormGroup>
-				<UIFormLabel>Servings</UIFormLabel>
+				<UIFormLabel for="recipe-servings">Servings</UIFormLabel>
 				<UIFormInput
+					id="recipe-servings"
 					v-model="state.servings"
 					type="number"
 				/>
@@ -258,8 +249,11 @@ const handleFileUpload = (event: Event) => {
 		</div>
 
 		<UIFormGroup>
-			<UIFormLabel>Notes</UIFormLabel>
-			<UIFormTextarea v-model="state.notes" />
+			<UIFormLabel for="recipe-notes">Notes</UIFormLabel>
+			<UIFormTextarea
+				id="recipe-notes"
+				v-model="state.notes"
+			/>
 		</UIFormGroup>
 	</div>
 </template>

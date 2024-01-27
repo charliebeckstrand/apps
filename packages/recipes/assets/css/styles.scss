@@ -15,12 +15,12 @@ body,
 }
 
 .ui-breadcrumbs {
-	@apply p-5;
+	@apply p-4;
 }
 
 .ui-breadcrumbs + .ui-page-header,
 .ui-breadcrumbs + .ui-page-content {
-	@apply -mt-5;
+	@apply -mt-2;
 }
 
 .ui-page-header + .ui-page-content {

@@ -28,7 +28,7 @@ const createRecipe = () => {
 			]"
 		/>
 
-		<UIPageHeader>
+		<UIPageHeader sticky>
 			<template #title>Create Recipe</template>
 		</UIPageHeader>
 
@@ -37,7 +37,7 @@ const createRecipe = () => {
 		</UIPageContent>
 
 		<UIPageFooter>
-			<UIButton
+			<Button
 				color="success"
 				@click="createRecipe"
 			>
@@ -45,7 +45,7 @@ const createRecipe = () => {
 					<UIIcon :icon="PlusIcon" />
 				</template>
 				Create
-			</UIButton>
+			</Button>
 		</UIPageFooter>
 	</div>
 </template>

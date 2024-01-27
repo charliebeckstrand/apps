@@ -94,7 +94,7 @@ useHead({
 				:items="[
 					{ label: 'Home', to: '/' },
 					{ label: 'Recipes', to: '/recipes' },
-					{ label: `${recipe.name}`, disabled: true }
+					{ label: `${recipe.name ? recipe.name : 'Untitled Recipe'}`, disabled: true }
 				]"
 			/>
 
@@ -112,7 +112,14 @@ useHead({
 					/>
 				</template>
 
-				<template #title>{{ recipe.name }}</template>
+				<template #title>
+					<template v-if="recipe.name">
+						{{ recipe.name }}
+					</template>
+					<template v-else>
+						<span class="text-gray-400">Untitled Recipe</span>
+					</template>
+				</template>
 				<template #subtitle>
 					<div
 						ref="descriptionRef"
@@ -121,7 +128,7 @@ useHead({
 					>
 						{{ recipe.description }}
 					</div>
-					<UIButton
+					<Button
 						v-if="isTruncated"
 						color="info"
 						variant="plain"
@@ -137,11 +144,11 @@ useHead({
 								size="xs"
 							/>
 						</template>
-					</UIButton>
+					</Button>
 				</template>
 				<template #misc>
 					<div class="flex items-center space-x-1">
-						<UIButton
+						<Button
 							color="pink"
 							:variant="recipe.favorite ? 'default' : 'tonal'"
 							size="sm"
@@ -155,8 +162,8 @@ useHead({
 							</template>
 
 							{{ recipe.favorite ? 'Unfavorite' : 'Favorite' }}
-						</UIButton>
-						<UIButton
+						</Button>
+						<Button
 							color="info"
 							variant="tonal"
 							size="sm"
@@ -169,9 +176,9 @@ useHead({
 								/>
 							</template>
 							Edit
-						</UIButton>
+						</Button>
 
-						<UIButton
+						<Button
 							color="danger"
 							variant="tonal"
 							size="sm"
@@ -183,7 +190,7 @@ useHead({
 								/>
 							</template>
 							Delete
-						</UIButton>
+						</Button>
 					</div>
 				</template>
 			</UIPageHeader>
@@ -198,7 +205,7 @@ useHead({
 						<div
 							v-for="(ingredient, index) in ingredients"
 							:key="index"
-							class="flex items-center space-x-5 border-l border-r border-t p-5 first:rounded-t last:rounded-b last:border-b"
+							class="flex items-center space-x-5 border-l border-r border-t p-4 first:rounded-t last:rounded-b last:border-b"
 						>
 							<div>{{ ingredient.name }}</div>
 							<UIBadge
@@ -228,7 +235,7 @@ useHead({
 						<div
 							v-for="(instruction, index) in instructions"
 							:key="index"
-							class="flex items-center space-x-5 border-l border-r border-t p-5 first:rounded-t last:rounded-b last:border-b"
+							class="flex items-center space-x-5 border-l border-r border-t p-4 first:rounded-t last:rounded-b last:border-b"
 						>
 							<div>{{ index + 1 }}.</div>
 							<div>{{ instruction.description }}</div>
@@ -302,7 +309,7 @@ useHead({
 
 <style scoped lang="scss">
 section {
-	@apply space-y-5;
+	@apply space-y-4;
 }
 
 .info {

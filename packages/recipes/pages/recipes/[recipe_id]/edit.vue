@@ -1,94 +1,116 @@
 <script setup lang="ts">
+import { isEqual, cloneDeep } from 'lodash'
+
 import { useRoute } from 'vue-router'
 
 import { useRecipesStore } from '@/stores/recipes'
 
-import { CheckIcon, BackspaceIcon } from '@heroicons/vue/24/solid'
+import { CheckIcon } from '@heroicons/vue/24/solid'
 
 import type { Recipe } from '@/types/recipe'
+
+type ExtendedRecipe = Recipe & {
+	[key: string]: any
+}
 
 const route = useRoute()
 const router = useRouter()
 
 const recipesStore = useRecipesStore()
 
-const originalRecipe = ref<Recipe>({} as Recipe)
-const editableRecipe = ref<Recipe>({} as Recipe)
+const existingRecipe = computed(() => {
+	return recipesStore.recipes
+		? recipesStore.recipes.find((recipe) => recipe.id === Number(route.params.recipe_id))
+		: ({} as Recipe)
+})
+const originalRecipe = ref<Recipe>({} as ExtendedRecipe)
+const editableRecipe = ref<Recipe>({} as ExtendedRecipe)
 
-originalRecipe.value = JSON.parse(
-	JSON.stringify(recipesStore.recipes.find((recipe) => recipe.id === Number(route.params.recipe_id)))
-)
-editableRecipe.value = JSON.parse(JSON.stringify(originalRecipe.value))
+originalRecipe.value = existingRecipe.value ? cloneDeep(existingRecipe.value) : ({} as ExtendedRecipe)
+editableRecipe.value = originalRecipe.value ? originalRecipe.value : ({} as ExtendedRecipe)
 
-const differencesBetweenRecipes = (recipe1: any, recipe2: any) => {
-	const differences = {} as any
+const recipeExists = recipesStore.recipes.find((recipe) => recipe.id === editableRecipe.value.id)
+const navigationDestination = recipeExists ? `/recipes/${editableRecipe.value.id}` : '/recipes'
 
-	for (const key in recipe1) {
-		if (typeof recipe1[key] === 'object') {
-			if (Array.isArray(recipe1[key])) {
-				if (recipe1[key].length !== recipe2[key].length) {
-					differences[key] = recipe2[key]
-				} else {
-					for (const index in recipe1[key]) {
-						if (JSON.stringify(recipe1[key][index]) !== JSON.stringify(recipe2[key][index])) {
-							differences[key] = recipe2[key]
-						}
-					}
-				}
-			} else {
-				if (JSON.stringify(recipe1[key]) !== JSON.stringify(recipe2[key])) {
-					differences[key] = recipe2[key]
+const isEmptyArray = (value: any) => {
+	return Array.isArray(value) && value.length === 0
+}
+
+const isEmptyString = (value: any) => {
+	return typeof value === 'string' && value.trim() === ''
+}
+
+const preprocessRecipe = (recipe: ExtendedRecipe) => {
+	const processValue = (value: any): any => {
+		if (Array.isArray(value)) {
+			return value
+				.map((item) => processValue(item))
+				.filter((item) => item != null && !(typeof item === 'object' && Object.keys(item).length === 0))
+		} else if (value && typeof value === 'object') {
+			const processedObject: { [key: string]: any } = {}
+			for (const key in value) {
+				const processedItem = processValue(value[key])
+				if (
+					processedItem != null &&
+					!(typeof processedItem === 'object' && Object.keys(processedItem).length === 0)
+				) {
+					processedObject[key] = processedItem
 				}
 			}
-		} else {
-			if (recipe1[key] !== recipe2[key]) {
-				differences[key] = recipe2[key]
-			}
+			return processedObject
+		} else if (!isEmptyString(value) && value != null) {
+			return value
 		}
+		return null
 	}
 
-	for (const key in recipe2) {
-		if (!(key in recipe1) && recipe2[key] !== '' && recipe2[key] !== null && recipe2[key] !== undefined) {
-			differences[key] = recipe2[key]
-		}
-	}
-
-	return differences
+	return processValue(cloneDeep(recipe)) as ExtendedRecipe
 }
 
 const isDifferences = computed(() => {
-	return Object.keys(differencesBetweenRecipes(originalRecipe.value, editableRecipe.value)).length > 0
+	const preprocessedOriginal = preprocessRecipe(originalRecipe.value)
+	const preprocessedEditable = preprocessRecipe(editableRecipe.value)
+
+	return !isEqual(preprocessedOriginal, preprocessedEditable)
 })
 
 const saveChanges = () => {
 	recipesStore.updateRecipe(editableRecipe.value)
 
-	// if there is a router.back method, use it, otherwise navigate to the recipe page
-	if (router.back) {
+	// if there is a router.back method and the recipe still exists, go back, otherwise navigate to the recipes page
+	if (router.back && recipeExists) {
 		router.back()
 	} else {
-		navigateTo(`/recipes/${editableRecipe.value.id}`)
+		navigateTo(navigationDestination)
 	}
 }
 
-const confirmDiscardChangesRef = ref() as Ref<HTMLDivElement>
 const showConfirmDiscardChanges = ref(false)
 
-const discardChanges = () => {
-	showConfirmDiscardChanges.value = true
+const cancel = () => {
+	if (!isDifferences.value) {
+		navigateTo(navigationDestination)
+		return
+	}
 
-	nextTick(() => {
-		confirmDiscardChangesRef.value?.focus()
-	})
+	showConfirmDiscardChanges.value = true
+}
+
+const discardChanges = () => {
+	navigateTo(navigationDestination)
 }
 
 onUnmounted(() => {
 	// if there are differences, set the recipe to the original recipe
-	editableRecipe.value = JSON.parse(JSON.stringify(originalRecipe.value))
+	if (isDifferences.value) {
+		editableRecipe.value = originalRecipe.value
+	}
 })
 
 useHead({
-	title: editableRecipe.value ? `Edit: ${editableRecipe.value.name}` : 'Recipe not found'
+	title: editableRecipe.value
+		? `Edit: ${editableRecipe.value.name ? editableRecipe.value.name : 'Untitled Recipe'}`
+		: 'Recipe not found'
 })
 </script>
 <template>
@@ -97,15 +119,25 @@ useHead({
 			:items="[
 				{ label: 'Home', to: '/' },
 				{ label: 'Recipes', to: '/recipes' },
-				{ label: `${originalRecipe.name}`, to: `/recipes/${editableRecipe.id}` },
+				{
+					label: `${originalRecipe.name ? originalRecipe.name : 'Untitled Recipe'}`,
+					to: `/recipes/${editableRecipe.id}`
+				},
 				{ label: 'Edit', disabled: true }
 			]"
 		/>
 
-		<UIPageHeader>
+		<UIPageHeader sticky>
 			<template #title>
-				<span class="font-normal">Edit:</span>
-				{{ originalRecipe.name }}
+				<div class="flex items-center space-x-1">
+					<span class="font-normal">Edit:</span>
+					<template v-if="originalRecipe.name">
+						<span>{{ originalRecipe.name }}</span>
+					</template>
+					<template v-else>
+						<span class="text-gray-400">Untitled Recipe</span>
+					</template>
+				</div>
 			</template>
 		</UIPageHeader>
 
@@ -114,65 +146,55 @@ useHead({
 		</UIPageContent>
 
 		<UIPageFooter>
-			<UIButton
+			<Button
 				color="info"
 				@click="saveChanges"
 			>
 				<template #prepend>
 					<UIIcon :icon="CheckIcon" />
 				</template>
-				Save Changes
-			</UIButton>
-
-			<UIButton
+				Save
+			</Button>
+			<Button
+				color="primary"
+				variant="text"
+				@click="cancel"
+			>
+				Cancel
+			</Button>
+			<!-- <Button
 				v-if="isDifferences"
 				color="danger"
-				variant="plain"
+				variant="tonal"
 				@click="discardChanges"
 			>
 				<template #prepend>
 					<UIIcon :icon="BackspaceIcon" />
 				</template>
 				Discard Changes
-			</UIButton>
+			</Button> -->
 		</UIPageFooter>
 
-		<div
-			v-show="showConfirmDiscardChanges"
-			ref="confirmDiscardChangesRef"
-			class="relative"
-			@keydown.esc="showConfirmDiscardChanges = false"
-		>
-			<div
-				class="bg-primary/75 fixed inset-0 z-40"
-				@click="showConfirmDiscardChanges = false"
-			/>
-			<div class="fixed inset-0 z-50 flex items-center justify-center">
-				<div
-					class="flex max-w-[500px] flex-col items-center justify-center space-y-5 rounded-lg bg-white p-10 text-center"
-				>
-					<div class="text-xl font-bold">Are you sure you want to discard changes?</div>
-					<div class="flex items-center">
-						<UIButton
-							color="danger"
-							variant="tonal"
-							@click="navigateTo(`/recipes/${editableRecipe.id}`)"
-						>
-							<template #prepend>
-								<UIIcon :icon="BackspaceIcon" />
-							</template>
-							Yes, Discard Changes
-						</UIButton>
-						<UIButton
-							color="primary"
-							variant="plain"
-							@click="showConfirmDiscardChanges = false"
-						>
-							Cancel
-						</UIButton>
-					</div>
+		<UIDialog v-model="showConfirmDiscardChanges">
+			<div class="mb-4 mt-2 text-center text-lg">Are you sure you want to discard changes?</div>
+			<template #actions>
+				<div class="flex items-center justify-center space-x-2">
+					<Button
+						color="danger"
+						variant="tonal"
+						@click="discardChanges"
+					>
+						Discard Changes
+					</Button>
+					<Button
+						color="primary"
+						variant="text"
+						@click="showConfirmDiscardChanges = false"
+					>
+						Cancel
+					</Button>
 				</div>
-			</div>
-		</div>
+			</template>
+		</UIDialog>
 	</div>
 </template>

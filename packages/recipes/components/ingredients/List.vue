@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { SlickList, SlickItem, DragHandle } from 'vue-slicksort'
 
-import type { Ingredient } from '@/types/ingredient'
-
 import { TrashIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 
 import { measurements } from '@/common/measurements'
 
-type Emit = (event: 'update:modelValue', ...args: unknown[]) => void
+import type { Ingredient } from '@/types/ingredient'
 
-type Props = {
+type Emit = {
+	(event: 'update:modelValue', value: Ingredient[]): void
+}
+
+interface Props {
 	modelValue: Ingredient[]
 }
 
-const emit = defineEmits(['update:modelValue']) as Emit
+const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: undefined
@@ -25,6 +27,30 @@ const ingredients = computed({
 		emit('update:modelValue', value)
 	}
 })
+
+const ingredientsContainerRef = ref<HTMLElement | null>(null)
+
+// watch for new ingredients and focus the name input
+watch(
+	() => ingredients.value.length,
+	() => {
+		nextTick(() => {
+			const ingredientsContainer = ingredientsContainerRef.value
+
+			if (ingredientsContainer) {
+				const newlyAddedIngredient = ingredientsContainer.lastElementChild
+
+				if (newlyAddedIngredient) {
+					const ingredientNameInput = newlyAddedIngredient.querySelector('input')
+
+					if (ingredientNameInput) {
+						ingredientNameInput.focus()
+					}
+				}
+			}
+		})
+	}
+)
 </script>
 
 <template>
@@ -53,29 +79,53 @@ const ingredients = computed({
 				</DragHandle>
 
 				<div class="grid flex-grow gap-2 md:grid-cols-3">
-					<UIFormInput
-						ref="ingredientNameInputRef"
-						v-model="ingredient.name"
-						placeholder="Name"
-					/>
-					<UIFormItem>
+					<UIFormGroup>
+						<UIFormLabel
+							:for="`ingredient-name-${index}`"
+							class="sr-only"
+						>
+							Name
+						</UIFormLabel>
 						<UIFormInput
+							:id="`ingredient-name-${index}`"
+							ref="ingredientNameInputRef"
+							v-model="ingredient.name"
+							placeholder="Name"
+						/>
+					</UIFormGroup>
+
+					<UIFormGroup>
+						<UIFormLabel
+							:for="`ingredient-quantity-${index}`"
+							class="sr-only"
+						>
+							Quantity
+						</UIFormLabel>
+						<UIFormInput
+							:id="`ingredient-quantity-${index}`"
 							type="number"
 							placeholder="Quantity"
 							v-model="ingredient.quantity"
 						/>
-					</UIFormItem>
+					</UIFormGroup>
 
-					<UIFormItem>
+					<UIFormGroup>
+						<UIFormLabel
+							:for="`ingredient-unit-${index}`"
+							class="sr-only"
+						>
+							Unit of Measurement
+						</UIFormLabel>
 						<UICombobox
+							:id="`ingredient-unit-${index}`"
 							v-model="ingredient.unit"
 							placeholder="Unit of Measurement"
 							:items="measurements"
 						/>
-					</UIFormItem>
+					</UIFormGroup>
 				</div>
 
-				<UIButton
+				<Button
 					color="danger"
 					variant="plain"
 					icon
@@ -83,7 +133,7 @@ const ingredients = computed({
 					@click="() => ingredients.splice(index, 1)"
 				>
 					<UIIcon :icon="TrashIcon" />
-				</UIButton>
+				</Button>
 			</SlickItem>
 		</div>
 	</SlickList>

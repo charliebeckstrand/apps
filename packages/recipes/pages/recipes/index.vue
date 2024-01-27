@@ -15,7 +15,8 @@ const filter = ref<string>('')
 
 const filteredRecipes = computed(() => {
 	return recipes.value.filter((recipe: Recipe) => {
-		return recipe.name ? recipe.name.toLowerCase().includes(filter.value.toLowerCase()) : false
+		// return recipe if name includes filter value or if no filter value
+		return recipe.name ? recipe.name.toLowerCase().includes(filter.value.toLowerCase()) : false || !filter.value
 	})
 })
 
@@ -30,21 +31,22 @@ onMounted(() => {
 })
 </script>
 <template>
-	<div>
+	<div class="h-full">
 		<UIPageHeader>
 			<template #title>Recipes</template>
 
 			<template #append>
-				<UIButton
+				<Button
 					to="/create"
 					color="success"
 					variant="tonal"
+					rounded="full"
 				>
 					<template #prepend>
 						<UIIcon :icon="PlusIcon" />
 					</template>
 					Create Recipe
-				</UIButton>
+				</Button>
 			</template>
 		</UIPageHeader>
 		<UIPageContent>
@@ -56,16 +58,15 @@ onMounted(() => {
 						placeholder="Search"
 					/>
 
-					<div
-						v-if="filteredRecipes.length"
-						class="space-y-2"
-					>
-						<RecipeCard
-							v-for="(recipe, index) in filteredRecipes"
-							:key="index"
-							:recipe="recipe"
-						/>
-					</div>
+					<template v-if="filteredRecipes.length">
+						<div class="space-y-2">
+							<RecipeCard
+								v-for="(recipe, index) in filteredRecipes"
+								:key="index"
+								:recipe="recipe"
+							/>
+						</div>
+					</template>
 
 					<UIAlert
 						v-else

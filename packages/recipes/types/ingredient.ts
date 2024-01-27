@@ -1,7 +1,7 @@
 interface Ingredient {
 	name: string
-	quantity: number | null
-	unit: string | null
+	quantity?: number
+	unit?: string
 }
 
 export type { Ingredient }

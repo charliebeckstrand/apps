@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
 import { useRecipesStore } from '@/stores/recipes'
 
+const authStore = useAuthStore()
 const recipesStore = useRecipesStore()
+
+onMounted(() => {
+	authStore.setUser({
+		id: 1,
+		name: 'John Doe'
+	})
+})
 
 // recipesStore.recipes = [
 // 	{
