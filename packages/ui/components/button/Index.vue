@@ -234,6 +234,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'b
 		<div class="mr-1 empty:mr-0">
 			<slot name="prepend" />
 		</div>
+
 		<div>
 			<slot />
 		</div>
