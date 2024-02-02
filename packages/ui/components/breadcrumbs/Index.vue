@@ -5,11 +5,11 @@ type Item = {
 	disabled?: boolean
 }
 
-interface props {
+interface Props {
 	items: Item[]
 }
 
-const props = withDefaults(defineProps<props>(), {
+const props = withDefaults(defineProps<Props>(), {
 	items: undefined
 })
 </script>

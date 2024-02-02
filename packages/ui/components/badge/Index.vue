@@ -19,8 +19,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const baseClasses = computed<string>(
 	() =>
-		`ui-badge inline-flex px-1.5 py-0.5 border text-sm ${
-			props.variant === 'ghost' ? 'border-transparent' : undefined
+		`ui-badge inline-flex space-x-1 items-center px-1.5 py-0.5 border text-sm ${
+			props.variant === 'plain' ? 'border-transparent' : undefined
 		}`
 )
 
@@ -68,7 +68,7 @@ const colorClasses = computed<string | undefined>(() => {
 			danger: 'bg-transparent text-danger border border-danger',
 			info: 'bg-transparent text-info border border-info'
 		},
-		ghost: {
+		plain: {
 			default: 'bg-transparent text-gray-800',
 			primary: 'bg-transparent text-primary',
 			secondary: 'bg-transparent text-secondary',
@@ -96,6 +96,14 @@ const sizeClasses = computed<string>(() => {
 
 <template>
 	<div :class="[baseClasses, borderRadiusClasses, sizeClasses, colorClasses]">
-		<slot />
+		<div class="mr-1 empty:mr-0">
+			<slot name="prepend" />
+		</div>
+		<div>
+			<slot />
+		</div>
+		<div class="ml-1 empty:ml-0">
+			<slot name="append" />
+		</div>
 	</div>
 </template>

@@ -1,8 +1,6 @@
-import type { BorderRadius } from './border-radius'
-import type { Color } from './color'
-import type { Size } from './size'
-import type { Variant } from './variant'
+import type { BorderRadius } from './base/border-radius'
+import type { Color } from './base/color'
+import type { Size } from './base/size'
+import type { Variant } from './base/variant'
 
-type ExtendedVariant = Variant | 'ghost'
-
-export type { BorderRadius, Color, Size, ExtendedVariant as Variant }
+export type { BorderRadius, Color, Size, Variant }

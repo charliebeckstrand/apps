@@ -77,19 +77,24 @@ const clearDate = () => {
 			:action-row="{ showNow: true, showCancel: true }"
 		>
 			<template #dp-input="{ value, isMenuOpen, onEnter }">
-				<UIFormItem>
-					<template #prepend>
-						<UIIcon :icon="CalendarIcon" />
-					</template>
-					<UIFormInput
-						:id="props.id"
-						:value="value"
-						:variant="props.variant"
-						placeholder="Select Date"
-						:class="{ active: isMenuOpen }"
-						@keydown.enter="onEnter"
-					/>
-				</UIFormItem>
+				<template v-if="$slots['trigger']">
+					<slot name="trigger" />
+				</template>
+				<template v-else>
+					<UIFormItem>
+						<template #prepend>
+							<UIIcon :icon="CalendarIcon" />
+						</template>
+						<UIFormInput
+							:id="props.id"
+							:value="value"
+							:variant="props.variant"
+							placeholder="Select Date"
+							:class="{ active: isMenuOpen }"
+							@keydown.enter="onEnter"
+						/>
+					</UIFormItem>
+				</template>
 			</template>
 			<template #clear-icon="{ clear }">
 				<div class="p-3">

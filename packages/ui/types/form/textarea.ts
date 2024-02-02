@@ -1,4 +1,6 @@
-type Variant = 'default' | 'outlined'
-type Resize = 'none' | 'vertical' | 'horizontal' | 'both'
+import type { Size } from '@/types/base/size'
+import type { Variant } from '@/types/base/variant'
 
-export type { Resize, Variant }
+type Resize = 'both' | 'vertical' | 'horizontal' | 'none'
+
+export type { Resize, Size, Variant }

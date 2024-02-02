@@ -1,5 +1,4 @@
-import type { Size } from './size'
-
-type Color = 'primary' | 'secondary' | 'accent'
+import type { Color } from './base/color'
+import type { Size } from './base/size'
 
 export type { Color, Size }

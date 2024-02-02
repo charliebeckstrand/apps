@@ -18,7 +18,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	variant: 'default',
-	color: 'default',
+	color: undefined,
 	textColor: undefined,
 	size: 'md',
 	icon: false,
@@ -118,7 +118,7 @@ const backgroundColorClasses = computed<string | undefined>(() => {
 		}
 	}
 
-	return backgroundVariantMap[props.variant][props.color]
+	return props.color ? backgroundVariantMap[props.variant][props.color] : undefined
 })
 
 const disabledClasses = computed<string | undefined>(() =>

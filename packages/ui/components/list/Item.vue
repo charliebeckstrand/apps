@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
 const baseClasses = computed<string>(() => 'flex items-center')
 
 const colorClasses = computed<string | undefined>(() => {
-	const colorMap: Record<Color, string> = {
+	const colorMap: Partial<Record<Color, string>> = {
 		default: 'bg-transparent',
 		primary: 'text-primary',
 		secondary: 'text-secondary',

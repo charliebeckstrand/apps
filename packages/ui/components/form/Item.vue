@@ -1,19 +1,9 @@
-<script setup lang="ts">
-interface Props {
-	type?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-	type: 'text'
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<div
 		class="ui-form-item relative flex items-center"
 		:class="{
-			text: props.type === 'text',
-			number: props.type === 'number',
 			prepend: $slots.prepend,
 			append: $slots.append
 		}"
@@ -42,16 +32,6 @@ const props = withDefaults(defineProps<Props>(), {
 	&.append {
 		:deep(input) {
 			@apply pr-4;
-		}
-	}
-	&.number {
-		&:hover,
-		&:focus,
-		&:focus-within,
-		&:active {
-			.append {
-				@apply pointer-events-none mr-8;
-			}
 		}
 	}
 }

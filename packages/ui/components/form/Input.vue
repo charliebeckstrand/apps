@@ -59,7 +59,7 @@ const sizeClasses = computed<string>(() => {
 })
 
 const variantClasses = computed<string | undefined>(() => {
-	const variantMap: Record<Variant, string> = {
+	const variantMap: Partial<Record<Variant, string>> = {
 		default: 'bg-gray-100',
 		outlined: 'border border-gray-300',
 		plain: 'bg-transparent'

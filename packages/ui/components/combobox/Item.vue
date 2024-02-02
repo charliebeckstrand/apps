@@ -12,15 +12,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 <template>
 	<li
-		class="relative cursor-pointer select-none py-2 pl-10 pr-4"
+		class="relative cursor-pointer select-none px-4 py-2"
 		:class="{
-			'bg-secondary/75 text-white': active && !selected,
-			'bg-secondary text-white': selected
+			'bg-secondary/75 text-white': props.active && !props.selected,
+			'bg-secondary text-white': props.selected
 		}"
 	>
 		<span
 			class="block truncate"
-			:class="{ 'font-medium': selected, 'font-normal': !selected }"
+			:class="{ 'font-medium': props.selected, 'font-normal': !props.selected }"
 		>
 			<slot />
 		</span>

@@ -67,7 +67,7 @@ const textSizeClasses = computed<string | undefined>(() => {
 })
 
 const colorClasses = computed<string | undefined>(() => {
-	const colorMap: Record<Color, string> = {
+	const colorMap: Partial<Record<Color, string>> = {
 		primary: 'bg-primary text-white',
 		secondary: 'bg-secondary text-white',
 		accent: 'bg-accent text-white'

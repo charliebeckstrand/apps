@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Size } from '@/types/size'
+import type { Size } from '@/types/base/size'
 
 interface Props {
 	size?: Size

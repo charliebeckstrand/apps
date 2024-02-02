@@ -38,7 +38,7 @@ const cancelSearchIfNoValue = () => {
 <template>
 	<UISidebar>
 		<template #prepend>
-			<UIHeader class="h-[4.75rem] min-h-[4.75rem] px-3 text-white">
+			<UIHeader class="h-[4.5rem] min-h-[4.5rem] text-white">
 				<template #title>
 					<template v-if="searching">
 						<UIFormInput
@@ -96,6 +96,8 @@ const cancelSearchIfNoValue = () => {
 			</UIHeader>
 		</template>
 
-		<ConversationsList :search-term="searchTerm" />
+		<template #default>
+			<ConversationsList :search-term="searchTerm" />
+		</template>
 	</UISidebar>
 </template>

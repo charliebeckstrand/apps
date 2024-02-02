@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 const baseClasses = computed<string>(() => `rounded-md ${props.dark ? 'text-white' : 'text-black'}`)
 
 const variantClasses = computed<string | undefined>(() => {
-	const variants: Record<Variant, Record<Color, string>> = {
+	const variants: Partial<Record<Variant, Partial<Record<Color, string>>>> = {
 		default: {
 			default: 'text-default',
 			primary: 'text-primary',
@@ -35,7 +35,7 @@ const variantClasses = computed<string | undefined>(() => {
 		}
 	}
 
-	return variants[props.variant][props.color]
+	return props.variant && props.color ? variants[props.variant]?.[props.color] : undefined
 })
 
 const densityClasses = computed<string>(() => {

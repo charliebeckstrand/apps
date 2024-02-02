@@ -12,16 +12,22 @@ import {
 	TransitionRoot
 } from '@headlessui/vue'
 
+type ModelValue = string | string[]
+type Size = 'sm' | 'md' | 'lg'
+type Variant = 'default' | 'outlined' | 'plain'
+
 type Emit = {
-	(event: 'update:modelValue', value: string): void
+	(event: 'update:modelValue', value: ModelValue): void
 }
 
 interface Props {
 	id: string
-	modelValue: string
+	modelValue: ModelValue
 	items: string[]
 	placeholder?: string
-	variant?: 'default' | 'outlined' | 'plain'
+	size?: Size
+	variant?: Variant
+	multiple?: boolean
 }
 
 const emit = defineEmits<Emit>()
@@ -31,7 +37,9 @@ const props = withDefaults(defineProps<Props>(), {
 	modelValue: undefined,
 	items: undefined,
 	placeholder: 'Select an item',
-	variant: 'default'
+	size: 'md',
+	variant: 'default',
+	multiple: false
 })
 
 const query = ref('')
@@ -46,6 +54,17 @@ const inputValue = computed({
 const filteredItems = computed(() =>
 	props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase()))
 )
+
+const sizeClasses = computed<string>(() => {
+	const sizeMap: Record<string, string> = {
+		xs: 'p-1 text-xs',
+		sm: 'p-2 text-sm',
+		md: 'p-3 text-base',
+		lg: 'p-4 text-lg'
+	}
+
+	return sizeMap[props.size]
+})
 </script>
 
 <template>
@@ -61,12 +80,15 @@ const filteredItems = computed(() =>
 				>
 					<ComboboxInput
 						:id="props.id"
-						class="flex w-full rounded-md p-3"
-						:class="{
-							'bg-gray-100': props.variant === 'default',
-							'border border-gray-300': props.variant === 'outlined',
-							'bg-transparent': props.variant === 'plain'
-						}"
+						class="flex w-full rounded-md"
+						:class="[
+							sizeClasses,
+							{
+								'bg-gray-100': props.variant === 'default',
+								'border border-gray-300': props.variant === 'outlined',
+								'bg-transparent': props.variant === 'plain'
+							}
+						]"
 						:displayValue="(item: any) => item"
 						autocomplete="one-time-code"
 						:placeholder="props.placeholder"

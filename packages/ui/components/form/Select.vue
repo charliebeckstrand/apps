@@ -3,7 +3,7 @@ import { computed } from 'vue'
 
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
-import type { Padding } from '@/types/padding'
+import type { Padding } from '@/types/base/padding'
 
 type ModelValue = string | number | undefined
 

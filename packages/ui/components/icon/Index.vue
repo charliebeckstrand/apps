@@ -9,13 +9,13 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	size: 'sm',
+	size: 'md',
 	icon: undefined
 })
 
 const sizeClasses = computed<string>(() => {
 	const sizes: Record<string, string> = {
-		xs: 'w-3 h-3',
+		xs: 'w-4 h-4',
 		sm: 'w-5 h-5',
 		md: 'w-6 h-6',
 		lg: 'w-7 h-7'

@@ -1,5 +1,5 @@
-type Color = 'default' | 'primary' | 'secondary' | 'accent'
-type Density = 'default' | 'comfortable' | 'dense'
-type Variant = 'default' | 'outlined'
+import type { Color } from './base/color'
+import type { Density } from './base/density'
+import type { Variant } from './base/variant'
 
 export type { Color, Density, Variant }

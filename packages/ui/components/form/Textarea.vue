@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import type { Resize, Variant } from '@/types/form/textarea'
+import type { Resize, Size, Variant } from '@/types/form/textarea'
 
 type Emit = {
 	(event: 'update:modelValue', value: string): void
@@ -10,6 +10,7 @@ type Emit = {
 interface Props {
 	modelValue: string
 	variant?: Variant
+	size?: Size
 	rows?: number | string
 	resize?: Resize
 }
@@ -19,6 +20,7 @@ const emit = defineEmits<Emit>()
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: '',
 	variant: 'default',
+	size: 'md',
 	rows: 4,
 	resize: 'none'
 })
@@ -30,7 +32,7 @@ const inputValue = computed<string>({
 	}
 })
 
-const baseClasses = computed<string>(() => 'ui-textarea flex w-full rounded-md p-4 resize-none min-h-[48px]')
+const baseClasses = computed<string>(() => 'ui-textarea flex w-full rounded-md resize-none min-h-[48px]')
 
 const resizeClasses = computed<string>(() => {
 	const resizeMap: Record<Resize, string> = {
@@ -43,8 +45,19 @@ const resizeClasses = computed<string>(() => {
 	return resizeMap[props.resize]
 })
 
+const sizeClasses = computed<string>(() => {
+	const sizeMap: Record<string, string> = {
+		xs: 'p-1 text-xs',
+		sm: 'p-2 text-sm',
+		md: 'p-3 text-base',
+		lg: 'p-4 text-lg'
+	}
+
+	return sizeMap[props.size]
+})
+
 const variantClasses = computed<string | undefined>(() => {
-	const variantMap: Record<Variant, string> = {
+	const variantMap: Partial<Record<Variant, string>> = {
 		default: 'bg-gray-100',
 		outlined: 'border border-gray-300'
 	}
@@ -56,7 +69,7 @@ const variantClasses = computed<string | undefined>(() => {
 <template>
 	<textarea
 		v-model="inputValue"
-		:class="[baseClasses, resizeClasses, variantClasses]"
+		:class="[baseClasses, resizeClasses, sizeClasses, variantClasses]"
 		:rows="props.rows"
 	/>
 </template>

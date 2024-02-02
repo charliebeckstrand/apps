@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Color = 'primary' | 'secondary'
+type Color = 'primary' | 'secondary' | 'gray'
 
 interface Props {
 	color?: Color
@@ -11,18 +11,19 @@ const props = withDefaults(defineProps<Props>(), {
 	width: undefined
 })
 
-const baseClasses = computed(() => `flex h-full flex-col`)
+const baseClasses = computed(() => `ui-sidebar h-full min-h-full flex flex-col px-4 overflow-hidden`)
 
 const colorClasses = computed(() => {
 	const colorMap: Record<Color, string> = {
 		primary: 'bg-primary',
-		secondary: 'bg-secondary'
+		secondary: 'bg-secondary',
+		gray: 'bg-gray-100'
 	}
 
 	return colorMap[props.color]
 })
 
-const width = computed(() => (props.width ? props.width : '280px'))
+const width = computed(() => (props.width ? props.width : '300px'))
 </script>
 
 <template>
@@ -32,12 +33,16 @@ const width = computed(() => (props.width ? props.width : '280px'))
 	>
 		<slot name="prepend" />
 
-		<div class="flex grow overflow-hidden pb-4">
-			<div class="grow overflow-y-auto px-4">
-				<slot />
-			</div>
-		</div>
+		<slot />
 
-		<slot name="append" />
+		<div class="pb-4">
+			<slot name="append" />
+		</div>
 	</div>
 </template>
+
+<style scoped lang="scss">
+.ui-sidebar {
+	max-height: 100vh;
+}
+</style>

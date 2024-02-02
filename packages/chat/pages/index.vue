@@ -8,7 +8,7 @@ const conversationStore = useConversationStore()
 <template>
 	<div class="flex h-full flex-col">
 		<template v-if="conversationStore.selectedConversation?.id">
-			<UIHeader class="h-[4.75rem] min-h-[4.75rem] px-2">
+			<UIHeader class="h-[4.5rem] min-h-[4.5rem] px-2">
 				<template #prepend>
 					<ConversationsSidebarButton />
 				</template>
