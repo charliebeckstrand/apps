@@ -9,14 +9,17 @@ type ModelValue = string | number | undefined
 
 type Emit = {
 	(event: 'update:modelValue', value: ModelValue): void
+	(event: 'change'): void
 }
 
 type Item = {
 	label: string
 	value: string | number
+	disabled: boolean
 }
 
 interface Props {
+	id?: string
 	modelValue: ModelValue
 	items: Item[]
 	placeholder?: string
@@ -33,12 +36,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const inputValue = computed<ModelValue>({
-	get() {
-		return props.modelValue
-	},
-	set(value) {
-		emit('update:modelValue', value)
-	}
+	get: () => props.modelValue,
+	set: (value) => emit('update:modelValue', value)
 })
 
 const baseClasses = computed<string>(() => 'bg-gray-100 flex w-full rounded-md resize-none appearance-none pr-10')
@@ -58,8 +57,10 @@ const paddingClasses = computed<string>(() => {
 <template>
 	<div class="relative">
 		<select
+			:id="props.id"
 			v-model="inputValue"
 			:class="[baseClasses, paddingClasses]"
+			@change="$emit('change')"
 		>
 			<option
 				:value="undefined || null"
@@ -72,6 +73,7 @@ const paddingClasses = computed<string>(() => {
 				v-for="(item, index) in props.items"
 				:key="index"
 				:value="item.value"
+				:disabled="item.disabled"
 			>
 				{{ item.label ? item.label : item }}
 			</option>
@@ -80,7 +82,7 @@ const paddingClasses = computed<string>(() => {
 		<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
 			<UIIcon
 				:icon="ChevronDownIcon"
-				size="xs"
+				size="sm"
 			/>
 		</div>
 	</div>
