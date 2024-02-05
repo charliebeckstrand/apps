@@ -57,7 +57,13 @@ const inputValue = computed({
 })
 
 const filteredItems = computed(() =>
-	props.items.filter((item: Item) => item.value.toLowerCase().includes(query.value.toLowerCase()))
+	props.items.filter((item: Item) => {
+		const match =
+			item.label.toLowerCase().includes(query.value.toLowerCase()) ||
+			item.value.toLowerCase().includes(query.value.toLowerCase())
+
+		return match
+	})
 )
 
 const sizeClasses = computed<string>(() => {
