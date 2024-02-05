@@ -130,6 +130,7 @@ const handleFileUpload = (event: Event) => {
 						v-tippy="{ content: 'Upload' }"
 						color="info"
 						variant="plain"
+						class="-mr-1"
 						icon
 						@click.prevent="uploadFile"
 					>

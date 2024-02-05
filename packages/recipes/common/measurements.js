@@ -1,4 +1,4 @@
-export const measurements = [
+const items = [
 	'g',
 	'kg',
 	'mg',
@@ -109,3 +109,10 @@ export const measurements = [
 	'leaf',
 	'package'
 ]
+
+export const measurements = items.map((item) => {
+	return {
+		value: item,
+		label: item
+	}
+})

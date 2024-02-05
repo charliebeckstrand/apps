@@ -213,7 +213,7 @@ useHead({
 								color="primary"
 								variant="outlined"
 							>
-								{{ ingredient.quantity }} {{ ingredient.unit }}
+								{{ ingredient.quantity }} {{ ingredient.unit?.label }}
 							</UIBadge>
 						</div>
 					</div>
