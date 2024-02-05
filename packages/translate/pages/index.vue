@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import translate from 'translate'
-import { ref, reactive, watch, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { debounce } from 'lodash'
 import { ArrowsRightLeftIcon, Bars2Icon } from '@heroicons/vue/24/solid'
 
-const languages = reactive([
-	{ value: 'en', label: 'English' },
-	{ value: 'es', label: 'Spanish' }
-])
+import { languages } from '@/common/languages'
 
-const fromLanguage = ref('en')
-const toLanguage = ref('es')
+const fromLanguage = ref()
+const toLanguage = ref()
+
+fromLanguage.value = languages.find((language) => language.value === 'en')
+toLanguage.value = languages.find((language) => language.value === 'es')
 
 const fromText = ref()
 const toText = ref()
@@ -24,7 +24,12 @@ const translateText = async (text: string, from: string, to: string) => {
 const updateText = debounce(async () => {
 	if (!fromText.value) return
 
-	toText.value = await translateText(fromText.value, fromLanguage.value, toLanguage.value)
+	const fromLang = fromLanguage.value
+	const toLang = toLanguage.value
+
+	const response = await translateText(fromText.value, fromLang.value, toLang.value)
+
+	toText.value = response || ''
 }, 500)
 
 const swapLanguages = () => {
@@ -37,7 +42,9 @@ watch(fromLanguage, async (newVal, oldVal) => {
 		toLanguage.value = oldVal
 	}
 
-	fromText.value = await translateText(fromText.value, oldVal, newVal)
+	const response = await translateText(fromText.value, oldVal.value, newVal.value)
+
+	fromText.value = response || ''
 })
 
 watch(toLanguage, async (newVal, oldVal) => {
@@ -45,7 +52,9 @@ watch(toLanguage, async (newVal, oldVal) => {
 		fromLanguage.value = oldVal
 	}
 
-	toText.value = await translateText(toText.value, oldVal, newVal)
+	const response = await translateText(toText.value, oldVal.value, newVal.value)
+
+	toText.value = response || ''
 })
 
 const layout = ref('horizontal')
@@ -76,10 +85,9 @@ onMounted(async () => {
 						>
 							From
 						</UIFormLabel>
-						<UIFormSelect
+						<LanguageCombobox
 							id="fromLanguage"
 							v-model="fromLanguage"
-							:items="languages"
 						/>
 					</UIFormGroup>
 				</div>
@@ -128,10 +136,9 @@ onMounted(async () => {
 						>
 							To
 						</UIFormLabel>
-						<UIFormSelect
+						<LanguageCombobox
 							id="toLanguage"
 							v-model="toLanguage"
-							:items="languages"
 						/>
 					</UIFormGroup>
 				</div>

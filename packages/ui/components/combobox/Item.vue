@@ -14,8 +14,8 @@ const props = withDefaults(defineProps<Props>(), {
 	<li
 		class="relative cursor-pointer select-none px-4 py-2"
 		:class="{
-			'bg-secondary/75 text-white': props.active && !props.selected,
-			'bg-secondary text-white': props.selected
+			'bg-accent/75 text-white': props.active && !props.selected,
+			'bg-accent text-white': props.selected
 		}"
 	>
 		<span

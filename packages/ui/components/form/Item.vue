@@ -4,11 +4,11 @@
 	<div
 		class="ui-form-item relative flex items-center"
 		:class="{
-			prepend: $slots.prepend,
-			append: $slots.append
+			prepend: $slots['prepend'],
+			append: $slots['append']
 		}"
 	>
-		<div class="prepend absolute left-0 z-20 px-2">
+		<div class="absolute left-0 z-20 px-3 empty:px-0">
 			<slot name="prepend" />
 		</div>
 
@@ -16,7 +16,7 @@
 			<slot />
 		</div>
 
-		<div class="append absolute right-0 z-20 px-2">
+		<div class="absolute right-0 z-20 px-3 empty:px-0">
 			<slot name="append" />
 		</div>
 	</div>
@@ -24,14 +24,14 @@
 
 <style scoped lang="scss">
 .ui-form-item {
-	&.prepend {
+	&.prepend:not(:empty) {
 		:deep(input) {
 			@apply pl-10;
 		}
 	}
-	&.append {
+	&.append:not(:empty) {
 		:deep(input) {
-			@apply pr-4;
+			@apply pr-10;
 		}
 	}
 }

@@ -12,7 +12,12 @@ import {
 	TransitionRoot
 } from '@headlessui/vue'
 
-type ModelValue = string | string[]
+type Item = {
+	value: string
+	label: string
+}
+
+type ModelValue = Item | undefined
 type Size = 'sm' | 'md' | 'lg'
 type Variant = 'default' | 'outlined' | 'plain'
 
@@ -23,7 +28,7 @@ type Emit = {
 interface Props {
 	id: string
 	modelValue: ModelValue
-	items: string[]
+	items: Item[]
 	placeholder?: string
 	size?: Size
 	variant?: Variant
@@ -52,7 +57,7 @@ const inputValue = computed({
 })
 
 const filteredItems = computed(() =>
-	props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase()))
+	props.items.filter((item: Item) => item.value.toLowerCase().includes(query.value.toLowerCase()))
 )
 
 const sizeClasses = computed<string>(() => {
@@ -89,7 +94,7 @@ const sizeClasses = computed<string>(() => {
 								'bg-transparent': props.variant === 'plain'
 							}
 						]"
-						:displayValue="(item: any) => item"
+						:displayValue="(item: any) => item.label"
 						autocomplete="one-time-code"
 						:placeholder="props.placeholder"
 						@change="query = $event.target.value"
@@ -118,8 +123,8 @@ const sizeClasses = computed<string>(() => {
 
 					<div v-else>
 						<ComboboxOption
-							v-for="(item, index) in filteredItems"
 							as="template"
+							v-for="(item, index) in filteredItems"
 							:key="index"
 							:value="item"
 							v-slot="{ selected, active }"
@@ -128,7 +133,13 @@ const sizeClasses = computed<string>(() => {
 								:active="active"
 								:selected="selected"
 							>
-								{{ item }}
+								<slot
+									:name="item.label"
+									:item="item"
+								>
+									<!-- Fallback content if no slot is provided -->
+									{{ item.label }}
+								</slot>
 							</UIComboboxItem>
 						</ComboboxOption>
 					</div>
