@@ -6375,17 +6375,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-app@workspace:packages/translate":
-  version: 0.0.0-use.local
-  resolution: "nuxt-app@workspace:packages/translate"
-  dependencies:
-    nuxt: "npm:^3.10.0"
-    translate: "npm:^2.0.2"
-    vue: "npm:^3.4.15"
-    vue-router: "npm:^4.2.5"
-  languageName: unknown
-  linkType: soft
-
 "nuxt@npm:^3.10.0, nuxt@npm:^3.4.3, nuxt@npm:^3.8.2, nuxt@npm:^3.9.3":
   version: 3.10.0
   resolution: "nuxt@npm:3.10.0"
@@ -8541,6 +8530,17 @@ __metadata:
   checksum: 2c64456da0c5883d406837b18e4560e08997157bd272585b987014eec97d279725836431ba3102522dcac3a6f3512b29197906c3ae357824ac3a7a772b9a2861
   languageName: node
   linkType: hard
+
+"translate@workspace:packages/translate":
+  version: 0.0.0-use.local
+  resolution: "translate@workspace:packages/translate"
+  dependencies:
+    nuxt: "npm:^3.10.0"
+    translate: "npm:^2.0.2"
+    vue: "npm:^3.4.15"
+    vue-router: "npm:^4.2.5"
+  languageName: unknown
+  linkType: soft
 
 "ts-interface-checker@npm:^0.1.9":
   version: 0.1.13

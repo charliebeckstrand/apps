@@ -2,12 +2,11 @@
 import translate from 'translate'
 import { ref, reactive, watch, onMounted } from 'vue'
 import { debounce } from 'lodash'
-import { ArrowsRightLeftIcon, ArrowsUpDownIcon } from '@heroicons/vue/24/solid'
-import { Bars2Icon } from '@heroicons/vue/24/outline'
+import { ArrowsRightLeftIcon, Bars2Icon } from '@heroicons/vue/24/solid'
+
 const languages = reactive([
 	{ value: 'en', label: 'English' },
 	{ value: 'es', label: 'Spanish' }
-	// { value: 'zh', label: 'Manderin' }
 ])
 
 const fromLanguage = ref('en')
@@ -15,12 +14,6 @@ const toLanguage = ref('es')
 
 const fromText = ref()
 const toText = ref()
-
-const layout = ref('horizontal')
-
-const changeLayout = () => {
-	layout.value = layout.value === 'horizontal' ? 'vertical' : 'horizontal'
-}
 
 const translateText = async (text: string, from: string, to: string) => {
 	if (!text) return
@@ -54,6 +47,12 @@ watch(toLanguage, async (newVal, oldVal) => {
 
 	toText.value = await translateText(toText.value, oldVal, newVal)
 })
+
+const layout = ref('horizontal')
+
+const changeLayout = () => {
+	layout.value = layout.value === 'horizontal' ? 'vertical' : 'horizontal'
+}
 
 const loaded = ref(false)
 
