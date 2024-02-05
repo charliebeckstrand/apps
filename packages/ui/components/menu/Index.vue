@@ -4,6 +4,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 type Item = {
 	value: string
 	icon: any
+	onClick?: () => void
 }
 
 interface Props {
@@ -41,6 +42,7 @@ const props = defineProps<Props>()
 							v-slot="{ active }"
 							v-for="(item, index) in props.items"
 							:key="index"
+							@click="item.onClick && item.onClick()"
 						>
 							<UIButton
 								color="primary"

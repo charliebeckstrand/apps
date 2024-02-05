@@ -5,13 +5,6 @@ import { useRecipesStore } from '@/stores/recipes'
 const authStore = useAuthStore()
 const recipesStore = useRecipesStore()
 
-onMounted(() => {
-	authStore.setUser({
-		id: 1,
-		name: 'John Doe'
-	})
-})
-
 // recipesStore.recipes = [
 // 	{
 // 		id: 1,

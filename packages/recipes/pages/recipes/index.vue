@@ -5,8 +5,10 @@ import { ref } from 'vue'
 
 import { PlusIcon } from '@heroicons/vue/24/solid'
 
+import { useAuthStore } from '@/stores/auth'
 import { useRecipesStore } from '@/stores/recipes'
 
+const authStore = useAuthStore()
 const recipesStore = useRecipesStore()
 
 const recipes = ref<Recipe[]>([])
@@ -37,6 +39,7 @@ onMounted(() => {
 
 			<template #append>
 				<Button
+					v-if="authStore.user?.id"
 					to="/create"
 					color="success"
 					variant="tonal"

@@ -4,10 +4,10 @@ import type { User } from '@/types/user'
 
 export const useAuthStore = defineStore('auth', {
 	state: () => ({
-		user: {} as User
+		user: {} as User | null
 	}),
 	actions: {
-		setUser(user: User) {
+		setUser(user: User | null) {
 			this.user = user
 		}
 	}

@@ -10,15 +10,25 @@ const authStore = useAuthStore()
 type Item = {
 	value: string
 	icon: any
+	onClick?: () => void
 }
 
 const items = ref<Item[]>([])
 
+const setUser = () => {
+	if (authStore.user?.id) return
+
+	authStore.setUser({
+		id: 1,
+		name: 'John Doe'
+	})
+}
 onMounted(() => {
 	items.value = [
 		{
 			value: 'Logout',
-			icon: PowerIcon
+			icon: PowerIcon,
+			onClick: () => authStore.setUser(null)
 		}
 	]
 })
@@ -37,7 +47,10 @@ onMounted(() => {
 				</nuxt-link>
 			</template>
 			<template #right>
-				<!-- <UIMenu :items="items">
+				<UIMenu
+					v-if="authStore.user?.id"
+					:items="items"
+				>
 					<template #trigger>
 						<Button
 							color="accent"
@@ -55,22 +68,17 @@ onMounted(() => {
 							</template>
 						</Button>
 					</template>
-				</UIMenu> -->
-
+				</UIMenu>
 				<Button
+					v-else
 					color="accent"
 					text-color="white"
 					variant="tonal"
 					rounded="full"
 					dark
+					@click="setUser"
 				>
-					{{ authStore.user?.name }}
-					<template #append>
-						<UIIcon
-							:icon="ChevronDownIcon"
-							size="sm"
-						/>
-					</template>
+					Login
 				</Button>
 			</template>
 		</UINavbar>
