@@ -42,7 +42,7 @@ const inputValue = computed({
 			v-model="inputValue"
 			:items="languages"
 		>
-			<template #English="{ item }">
+			<!-- <template #English="{ item }">
 				<div class="flex items-center space-x-3">
 					<FlagImg :src="item.value" />
 					<div>
@@ -51,6 +51,15 @@ const inputValue = computed({
 				</div>
 			</template>
 			<template #Spanish="{ item }">
+				<div class="flex items-center space-x-3">
+					<FlagImg :src="item.value" />
+					<div>
+						{{ item.label }}
+					</div>
+				</div>
+			</template> -->
+
+			<template #item="{ item }">
 				<div class="flex items-center space-x-3">
 					<FlagImg :src="item.value" />
 					<div>

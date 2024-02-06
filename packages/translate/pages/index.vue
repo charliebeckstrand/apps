@@ -1,79 +1,86 @@
 <script setup lang="ts">
 import translate from 'translate'
+import debounce from 'lodash/debounce'
 import { ref, watch, onMounted } from 'vue'
-import { debounce } from 'lodash'
-import { ArrowsRightLeftIcon, Bars2Icon } from '@heroicons/vue/24/solid'
+import { ArrowsRightLeftIcon } from '@heroicons/vue/24/solid'
 
 import { languages } from '@/common/languages'
 
 const fromLanguage = ref()
 const toLanguage = ref()
-
-fromLanguage.value = languages.find((language) => language.value === 'en')
-toLanguage.value = languages.find((language) => language.value === 'es')
-
 const fromText = ref()
 const toText = ref()
 
 const translateText = async (text: string, from: string, to: string) => {
 	if (!text) return
 
-	return await translate(text, { from, to })
+	try {
+		return await translate(text, { from, to })
+	} catch (error) {
+		console.error('Error during translation:', error)
+		return ''
+	}
 }
 
 const updateText = debounce(async () => {
 	if (!fromText.value) return
 
-	const fromLang = fromLanguage.value
-	const toLang = toLanguage.value
-
-	const response = await translateText(fromText.value, fromLang.value, toLang.value)
+	const response = await translateText(fromText.value, fromLanguage.value.value, toLanguage.value.value)
 
 	toText.value = response || ''
 }, 500)
 
 const swapLanguages = () => {
+	const temp = fromLanguage.value // temporary variable to hold the value of fromLanguage
+
 	fromLanguage.value = toLanguage.value
-	toLanguage.value = fromLanguage.value
+	toLanguage.value = temp
 }
 
 watch(fromLanguage, async (newVal, oldVal) => {
-	if (newVal === toLanguage.value) {
-		toLanguage.value = oldVal
+	try {
+		if (newVal === toLanguage.value) {
+			toLanguage.value = oldVal
+		}
+
+		const response = await translateText(fromText.value, oldVal.value, newVal.value)
+
+		fromText.value = response || ''
+	} catch (error) {
+		console.error('Error in fromLanguage watcher:', error)
 	}
-
-	const response = await translateText(fromText.value, oldVal.value, newVal.value)
-
-	fromText.value = response || ''
 })
 
 watch(toLanguage, async (newVal, oldVal) => {
-	if (newVal === fromLanguage.value) {
-		fromLanguage.value = oldVal
+	try {
+		if (newVal === fromLanguage.value) {
+			fromLanguage.value = oldVal
+		}
+
+		const response = await translateText(toText.value, oldVal.value, newVal.value)
+
+		toText.value = response || ''
+	} catch (error) {
+		console.error('Error in toLanguage watcher:', error)
 	}
-
-	const response = await translateText(toText.value, oldVal.value, newVal.value)
-
-	toText.value = response || ''
 })
-
-const layout = ref('horizontal')
-
-const changeLayout = () => {
-	layout.value = layout.value === 'horizontal' ? 'vertical' : 'horizontal'
-}
 
 const loaded = ref(false)
 
 onMounted(async () => {
+	const english = languages.find((language) => language.value === 'en')
+	const spanish = languages.find((language) => language.value === 'es')
+
+	fromLanguage.value = english
+	toLanguage.value = spanish
+
 	loaded.value = true
 })
 </script>
 <template>
 	<div
 		v-if="loaded"
-		class="flex h-full"
-		:class="{ 'flex-col lg:flex-row': layout === 'horizontal', 'flex-col lg:flex-col': layout === 'vertical' }"
+		class="flex h-full flex-col lg:flex-row"
 	>
 		<div class="flex h-full flex-1 flex-col space-y-5 bg-gray-500 p-5">
 			<div class="flex items-center space-x-3">
@@ -99,16 +106,6 @@ onMounted(async () => {
 				>
 					<UIIcon :icon="ArrowsRightLeftIcon" />
 				</UIButton>
-				<!-- <UIButton
-					v-tippy="{ content: 'Change Layout', animation: 'perspective' }"
-					icon
-					color="white"
-					class="hidden lg:flex"
-					:class="{ 'rotate-90': layout === 'vertical' }"
-					@click="changeLayout"
-				>
-					<UIIcon :icon="Bars2Icon" />
-				</UIButton> -->
 			</div>
 			<div class="flex grow">
 				<UIFormLabel

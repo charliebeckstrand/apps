@@ -140,7 +140,7 @@ const sizeClasses = computed<string>(() => {
 								:selected="selected"
 							>
 								<slot
-									:name="item.label"
+									name="item"
 									:item="item"
 								>
 									<!-- Fallback content if no slot is provided -->
