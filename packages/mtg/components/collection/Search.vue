@@ -3,10 +3,12 @@ import { XMarkIcon } from '@heroicons/vue/24/solid'
 
 import { debounce } from 'lodash'
 
+import type { Card } from '@/types/card'
+
 const show = ref(true)
 
 const searchTerm = ref('')
-const cards = ref([])
+const cards = ref([]) as Ref<Card[]>
 
 const searching = ref(false)
 
@@ -83,8 +85,8 @@ const addCard = (card: any) => {
 				class="space-y-4"
 			>
 				<div
-					v-for="card in cards"
-					:key="card.id"
+					v-for="(card, index) in cards"
+					:key="card.id || index"
 					class="flex cursor-pointer items-center space-x-5 rounded-lg p-4 hover:shadow-xl"
 					@click="addCard(card)"
 				>

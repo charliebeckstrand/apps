@@ -4,6 +4,7 @@
 	"scripts": {
 		"chat": "yarn workspace chat run dev",
 		"mtg": "yarn workspace mtg run dev",
+		"notes": "yarn workspace notes run dev",
 		"recipes": "yarn workspace recipes run dev",
 		"translate": "yarn workspace translate run dev"
 	},

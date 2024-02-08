@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const baseClasses = computed<string>(
 	() =>
-		`flex items-center flex-shrink-1 ${
+		`flex items-center flex-shrink-1 focus:outline-offset-4 ${
 			!props.color && !props.icon
 				? 'hover:underline'
 				: props.icon && !props.dark
@@ -39,7 +39,7 @@ const baseClasses = computed<string>(
 				: props.icon && props.dark
 				? 'hover:bg-gray-100/10'
 				: undefined
-		} ${props.block ? 'w-full' : undefined}`
+		} ${props.block ? 'w-full justify-center' : undefined}`
 )
 
 const borderRadiusClasses = computed<string | undefined>(() => {

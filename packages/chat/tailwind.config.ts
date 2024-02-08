@@ -7,7 +7,7 @@ module.exports = {
 				accent: '#00ADB5',
 				success: '#4CAF50',
 				warning: '#F8B500',
-				error: '#FC3C3C'
+				danger: '#FC3C3C'
 			}
 		}
 	},

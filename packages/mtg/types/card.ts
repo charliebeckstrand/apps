@@ -24,4 +24,5 @@ export interface Card {
 	image_uris: CardImageUris
 	card_faces: CardFace[]
 	frame_effects: string[]
+	oracle_text: string
 }

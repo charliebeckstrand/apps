@@ -9,8 +9,8 @@ Tippy.setDefaultProps({
 	arrow: true,
 	theme: 'light',
 	placement: 'bottom',
-	trigger: 'mouseenter focus',
-	animation: 'scale',
+	trigger: 'mouseenter',
+	animation: 'perspective',
 	allowHTML: true
 })
 

@@ -54,7 +54,7 @@ const filteredConversations = computed(() => {
 </script>
 
 <template>
-	<div class="space-y-2">
+	<div class="space-y-2 overflow-y-auto">
 		<template v-if="sortedConversations.length > 0">
 			<ConversationsListCard
 				:ref="setRef"
@@ -79,7 +79,7 @@ const filteredConversations = computed(() => {
 				dark
 			>
 				<template #title>No conversations</template>
-				Click the plus icon to create a new one
+				Add a new conversation to start chatting
 			</UIAlert>
 		</template>
 	</div>

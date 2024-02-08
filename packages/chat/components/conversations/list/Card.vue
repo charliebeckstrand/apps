@@ -50,9 +50,9 @@ const getLatestResponse = (conversation: Conversation) => {
 					<template #title>
 						<span class="line-clamp-1 leading-tight">{{ props.conversation.name }}</span>
 					</template>
-					<template #subtitle>
+					<!-- <template #subtitle>
 						<span class="line-clamp-1 text-gray-400">{{ props.conversation.id }}</span>
-					</template>
+					</template> -->
 				</UIHeader>
 
 				<span
@@ -80,11 +80,13 @@ const getLatestResponse = (conversation: Conversation) => {
 <style scoped lang="scss">
 .conversation-card {
 	.remove {
+		// visibility: hidden;
 		display: none;
 	}
 
 	&:hover {
 		.remove {
+			// visibility: visible;
 			display: block;
 		}
 	}
