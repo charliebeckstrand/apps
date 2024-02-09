@@ -152,7 +152,7 @@ watch(
 						v-tippy="{ content: 'Remove attached files' }"
 						icon
 						size="sm"
-						color="secondary"
+						color="primary"
 						variant="tonal"
 						class="attached-files-button"
 						@click="removeFiles"

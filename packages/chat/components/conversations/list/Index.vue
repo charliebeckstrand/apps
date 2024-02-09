@@ -11,6 +11,8 @@ const conversationRefs = ref<Record<string, any>>({})
 const conversations = conversationStore.conversations
 const previousConversations = ref(conversations.map((conv) => ({ ...conv })))
 
+const selectedConversation = computed(() => conversationStore.selectedConversation)
+
 const setRef = (component: any) => {
 	if (component) {
 		const id = component.$props.conversation.id
@@ -51,6 +53,19 @@ const filteredConversations = computed(() => {
 
 	return conversations
 })
+
+// watch conversations and set page title to the selected conversation name
+watch(
+	selectedConversation,
+	(selectedConversation) => {
+		if (selectedConversation) {
+			document.title = `Chat - ${selectedConversation.name}`
+		} else {
+			document.title = 'Chat'
+		}
+	},
+	{ immediate: true }
+)
 </script>
 
 <template>
