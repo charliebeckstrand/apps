@@ -2,27 +2,26 @@
 import translate from 'translate'
 import cloneDeep from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
+
 import { ref, watch, onMounted } from 'vue'
 import { ArrowsRightLeftIcon, LanguageIcon, PlayIcon, StopIcon } from '@heroicons/vue/24/solid'
 
 import { languages } from '@/common/languages'
 
-const from = reactive({
-	language: {
-		value: 'en',
-		label: 'English'
-	},
+import type { Language } from '@/types/language'
+
+const from: { language: Language; text: string } = reactive({
+	language: {} as Language,
 	text: ''
 })
 
-const to = reactive({
-	language: {
-		value: 'es',
-		label: 'Spanish'
-	},
+const to: { language: Language; text: string; words: string[] } = reactive({
+	language: {} as Language,
 	text: '',
 	words: []
 })
+
+const { speakWord, speakSentence } = useSpeechSynthesis()
 
 const translateText = async (text: string, from: string, to: string) => {
 	if (!text) return
@@ -38,101 +37,59 @@ const translateText = async (text: string, from: string, to: string) => {
 const setValues = (response: any) => {
 	// Use a regex to split the response into an array of words, accounting for punctuation
 	// The regex: /[\s,.!?;:()]+/ will split the string at spaces and punctuation marks
-	// Adjust the regex as needed to include or exclude specific punctuation characters
 	const regex = /[\s,.!?;:()]+/
 
-	// toWords assignment if you need the response as an array of words
-	to.words = response ? response.split(regex).filter(Boolean) : []
-
-	// toText assignment if you need the response as a string
-	to.text = response
+	if (response) {
+		to.words = response.split(regex) // toWords assignment if you need the response as an array of words
+		to.text = response // toText assignment if you need the response as a string
+	} else {
+		to.words = []
+		to.text = ''
+	}
 }
 
 const updateText = debounce(async () => {
-	if (!from.text) return
+	stopDictation() // Stop dictation when the text changes
 
-	const response = await translateText(from.text, from.language.value, to.language.value)
+	if (from.text) {
+		const response = await translateText(from.text, from.language.iso, to.language.iso)
 
-	setValues(response)
-}, 500)
+		setValues(response)
+	} else {
+		setValues(undefined)
+	}
+}, 250)
 
+const currentWordIndex = ref(-1)
 const dictationMode = ref(false)
 const dictating = ref(false)
 
-const speakWord = (word: string, language: string) => {
-	if (!word || dictating.value) return
-
-	const synth = window.speechSynthesis
-
-	// Stop any ongoing speech to prevent overlap
-	synth.cancel()
-
-	const utterance = new SpeechSynthesisUtterance(word)
-
-	utterance.lang = language // Set the language to match the word's language
-	utterance.rate = 1 // Speed of the speech, range [0.1 - 10]
-	utterance.pitch = 1 // Pitch of the speech, range [0 - 2]
-	utterance.volume = 1 // Volume of the speech, range [0 - 1]
-
-	utterance.onstart = () => {
-		console.log('Speech synthesis started')
-		dictating.value = true
-	}
-	utterance.onend = () => {
-		console.log('Speech synthesis finished')
-		dictating.value = false
-	}
-	utterance.onerror = (event) => console.error('Speech synthesis error', event)
-
-	// Speak the word
-	synth.speak(utterance)
-}
-
-const speakSentence = (sentence: string, language: string) => {
-	const synth = window.speechSynthesis
-	synth.cancel() // Stop any ongoing speech
-
-	const utterance = new SpeechSynthesisUtterance(sentence)
-
-	utterance.lang = language
-	utterance.rate = 1
-	utterance.pitch = 1
-	utterance.volume = 1
-
-	// Add event listeners as necessary
-	utterance.onstart = () => {
-		console.log('Speech synthesis started')
-		dictating.value = true
-	}
-	utterance.onend = () => {
-		console.log('Speech synthesis finished')
-		dictating.value = false
-	}
-	utterance.onerror = (event) => {
-		console.error('Speech synthesis error', event)
-		dictating.value = false
-	}
-
-	synth.speak(utterance)
-}
+const synth = window?.speechSynthesis
 
 const startDictation = () => {
-	speakSentence(to.text, to.language.value)
+	dictating.value = true
+
+	speakSentence(to.text, to.language.iso, dictating, currentWordIndex)
+}
+
+const startWordDictation = (word: string, index: number) => {
+	speakWord(word, to.language.iso, index, dictating, currentWordIndex)
 }
 
 const stopDictation = () => {
-	const synth = window.speechSynthesis
-
-	synth.cancel()
+	synth.cancel() // Stop speaking
 
 	dictating.value = false
+
+	currentWordIndex.value = -1 // Reset the word index
 }
 
 const toggleDictationMode = () => {
-	dictationMode.value = !dictationMode.value
+	stopDictation() // Stop dictation when the mode changes
+
 	dictating.value = false
 
-	stopDictation()
+	dictationMode.value = !dictationMode.value // Toggle dictation mode
 }
 
 const swapLanguages = () => {
@@ -143,13 +100,15 @@ const swapLanguages = () => {
 }
 
 const handleLanguageChange = async (newVal: string, oldVal: string, fromSide: string) => {
+	stopDictation() // Stop dictation when the language changes
+
 	const target = fromSide === 'from' ? from : to
 	const opposite = fromSide === 'from' ? to : from
 
-	if (newVal === opposite.language.value) {
-		const oldLang = languages.find((lang) => lang.value === oldVal)
+	if (newVal === opposite.language.iso) {
+		const oldLang = languages.find((lang) => lang.iso === oldVal) || ({} as Language)
 
-		opposite.language = { value: oldVal, label: oldLang?.label ?? '' }
+		opposite.language = { iso: oldVal, label: oldLang?.label, value: oldLang?.value }
 	}
 
 	if (!target.text) return
@@ -161,23 +120,29 @@ const handleLanguageChange = async (newVal: string, oldVal: string, fromSide: st
 			fromSide === 'to' ? setValues(response) : (target.text = response)
 		}
 	} catch (error) {
-		console.error(`Error in ${fromSide}.language.value watcher:`, error)
+		console.error(`Error in ${fromSide}.language.iso watcher:`, error)
 	}
 }
 
 watch(
-	() => from.language.value,
+	() => from.language.iso,
 	(newVal, oldVal) => handleLanguageChange(newVal, oldVal, 'from')
 )
 
 watch(
-	() => to.language.value,
+	() => to.language.iso,
 	(newVal, oldVal) => handleLanguageChange(newVal, oldVal, 'to')
 )
 
 const loaded = ref(false)
 
 onMounted(async () => {
+	const english = languages.find((lang) => lang.iso === 'en') || ({} as Language)
+	const spanish = languages.find((lang) => lang.iso === 'es') || ({} as Language)
+
+	from.language = english // Default from language
+	to.language = spanish // Default to language
+
 	loaded.value = true
 })
 </script>
@@ -283,8 +248,9 @@ onMounted(async () => {
 						<Word
 							v-for="(word, index) in to.words"
 							:key="index"
+							:class="{ 'bg-primary/50': currentWordIndex === index }"
 							:interactive="!dictating"
-							@click="speakWord(word, to.language.value)"
+							@click="startWordDictation(word, index)"
 						>
 							{{ word }}
 						</Word>

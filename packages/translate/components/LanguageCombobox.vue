@@ -3,18 +3,15 @@ import { computed } from 'vue'
 
 import { languages } from '@/common/languages'
 
-type Emit = {
-	(event: 'update:modelValue', value: Item): void
-}
+import type { Language } from '@/types/language'
 
-type Item = {
-	value: string
-	label: string
+type Emit = {
+	(event: 'update:modelValue', iso: Language): void
 }
 
 interface Props {
 	id: string
-	modelValue: Item
+	modelValue: Language
 }
 
 const emit = defineEmits<Emit>()
@@ -25,10 +22,18 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const inputValue = computed({
-	get: () => props.modelValue,
-	set: (newValue: Item) => {
-		emit('update:modelValue', newValue)
+	get: () => {
+		const language = languages.find((language) => language.iso === props.modelValue.iso)
+
+		return language ?? ({} as Language)
+	},
+	set: (iso: Language) => {
+		emit('update:modelValue', iso)
 	}
+})
+
+const sortedLanguages = computed(() => {
+	return languages.sort((a, b) => a.label.localeCompare(b.label))
 })
 </script>
 
@@ -40,25 +45,8 @@ const inputValue = computed({
 		<UICombobox
 			:id="props.id"
 			v-model="inputValue"
-			:items="languages"
+			:items="sortedLanguages"
 		>
-			<!-- <template #English="{ item }">
-				<div class="flex items-center space-x-3">
-					<FlagImg :src="item.value" />
-					<div>
-						{{ item.label }}
-					</div>
-				</div>
-			</template>
-			<template #Spanish="{ item }">
-				<div class="flex items-center space-x-3">
-					<FlagImg :src="item.value" />
-					<div>
-						{{ item.label }}
-					</div>
-				</div>
-			</template> -->
-
 			<template #item="{ item }">
 				<div class="flex items-center space-x-3">
 					<FlagImg :src="item.value" />
