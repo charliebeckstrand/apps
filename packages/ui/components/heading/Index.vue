@@ -3,8 +3,10 @@ import { computed } from 'vue'
 
 import type { Size, Weight } from '@/types/heading'
 
+type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'span'
+
 interface Props {
-	tag?: string
+	tag?: Tag
 	size?: Size
 	weight?: Weight
 }
