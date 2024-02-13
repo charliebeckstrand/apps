@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import type { BorderRadius, Color, Size, Variant } from '@/types/button'
+import type { BorderRadius, Color, Justify, Size, Variant } from '@/types/button'
 
 interface Props {
 	variant?: Variant
@@ -12,49 +12,26 @@ interface Props {
 	to?: string
 	dark?: boolean
 	block?: boolean
+	justify?: Justify
 	rounded?: BorderRadius
 	disabled?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	variant: 'default',
-	color: undefined,
-	textColor: undefined,
+	color: 'default',
+	textColor: 'default',
 	size: 'md',
 	icon: false,
 	to: undefined,
 	dark: false,
 	block: false,
+	justify: undefined,
 	rounded: 'md',
 	disabled: false
 })
 
-const baseClasses = computed<string>(
-	() =>
-		`flex items-center flex-shrink-1 focus:outline-offset-4 ${
-			!props.color && !props.icon
-				? 'hover:underline'
-				: props.icon && !props.dark
-				? 'hover:bg-gray-100'
-				: props.icon && props.dark
-				? 'hover:bg-gray-100/10'
-				: undefined
-		} ${props.block ? 'w-full justify-center' : undefined}`
-)
-
-const borderRadiusClasses = computed<string | undefined>(() => {
-	const borderRadiusMap: Record<BorderRadius, string | undefined> = {
-		sm: 'rounded-sm',
-		md: 'rounded-md',
-		lg: 'rounded-lg',
-		full: 'rounded-full',
-		none: 'rounded-none'
-	}
-
-	return props.icon ? 'rounded-full justify-center' : borderRadiusMap[props.rounded]
-})
-
-const backgroundColorClasses = computed<string | undefined>(() => {
+const classes = computed<string>(() => {
 	const backgroundVariantMap: Record<Variant, Record<Color, string>> = {
 		default: {
 			default: 'bg-gray-100 hover:bg-gray-200',
@@ -118,28 +95,29 @@ const backgroundColorClasses = computed<string | undefined>(() => {
 		}
 	}
 
-	return props.color ? backgroundVariantMap[props.variant][props.color] : undefined
-})
+	const borderRadiusMap: Record<BorderRadius, string | undefined> = {
+		sm: 'rounded-sm',
+		md: 'rounded-md',
+		lg: 'rounded-lg',
+		full: 'rounded-full',
+		none: 'rounded-none'
+	}
 
-const disabledClasses = computed<string | undefined>(() =>
-	props.disabled ? 'opacity-50 transition-all pointer-events-none' : undefined
-)
+	const justifyMap: Record<Justify, string> = {
+		start: 'justify-start',
+		center: 'justify-center',
+		end: 'justify-end',
+		'space-around': 'justify-around',
+		'space-between': 'justify-between',
+		'space-evenly': 'justify-evenly'
+	}
 
-const sizeClasses = computed<string>(() => {
 	const sizeMap = {
 		sm: { text: 'text-sm', padding: 'px-2 py-1 min-h-8', icon: 'h-8 w-8' },
 		md: { text: 'text-base', padding: 'px-4 py-2 min-h-10', icon: 'h-10 w-10' },
 		lg: { text: 'text-lg', padding: 'px-6 py-3 min-h-14', icon: 'h-12 w-12' }
 	}
 
-	const sizeClass = sizeMap[props.size]
-
-	return props.icon
-		? sizeClass.icon
-		: `${props.variant !== 'plain' ? sizeClass.padding : undefined} ${sizeClass.text}`
-})
-
-const textColorClasses = computed<string | undefined>(() => {
 	const textVariantMap: Record<Variant, Record<Color, string>> = {
 		default: {
 			default: 'text-default',
@@ -203,15 +181,68 @@ const textColorClasses = computed<string | undefined>(() => {
 		}
 	}
 
+	const classes = ['flex items-center space-x-1 focus:outline-offset-2']
+
+	if (props.block) {
+		classes.push('w-full')
+
+		if (props.justify) {
+			classes.push(justifyMap[props.justify])
+		} else {
+			classes.push('justify-center')
+		}
+	}
+
+	if (props.variant) {
+		const backgroundVariant = backgroundVariantMap[props.variant]
+		const textVariant = textVariantMap[props.variant]
+
+		if (backgroundVariant && props.color) {
+			const background = backgroundVariant[props.color]
+
+			if (background) {
+				classes.push(background)
+			}
+		}
+
+		if (textVariant && props.textColor) {
+			const text = textVariant[props.color]
+
+			if (text) {
+				classes.push(text)
+			}
+		}
+	}
+
+	if (props.dark) {
+		classes.push('text-white')
+	}
+
+	if (props.disabled) {
+		classes.push('opacity-50 transition-all pointer-events-none')
+	}
+
+	if (props.icon) {
+		classes.push(`rounded-full justify-center ${sizeMap[props.size].icon}`)
+
+		if (props.dark) {
+			classes.push('hover:bg-gray-100/10')
+		} else {
+			classes.push('hover:bg-gray-100')
+		}
+	} else {
+		classes.push(
+			`${props.variant !== 'plain' ? sizeMap[props.size].padding : undefined} ${sizeMap[props.size].text} ${
+				borderRadiusMap[props.rounded]
+			}`
+		)
+	}
+
 	if (props.textColor) {
-		return textVariantMap[props.variant][props.textColor]
+		classes.push(textVariantMap[props.variant][props.textColor])
 	}
 
-	if (props.color) {
-		return textVariantMap[props.variant][props.color]
-	}
-
-	return undefined
+	return classes.join(' ')
 })
 
 const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'button'))
@@ -220,18 +251,11 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'b
 <template>
 	<component
 		:is="elementType"
-		:to="props.to || undefined"
-		:class="[
-			baseClasses,
-			backgroundColorClasses,
-			borderRadiusClasses,
-			disabledClasses,
-			sizeClasses,
-			textColorClasses
-		]"
+		:class="classes"
 		:disabled="disabled"
+		:to="props.to || undefined"
 	>
-		<div class="mr-1 empty:mr-0">
+		<div v-if="$slots['prepend']">
 			<slot name="prepend" />
 		</div>
 
@@ -239,7 +263,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'b
 			<slot />
 		</div>
 
-		<div class="ml-1 empty:ml-0">
+		<div v-if="$slots['append']">
 			<slot name="append" />
 		</div>
 	</component>

@@ -4,18 +4,20 @@ import 'tippy.js/themes/light.css'
 import 'tippy.js/animations/scale.css'
 import 'tippy.js/animations/perspective.css'
 
-Tippy.setDefaultProps({
-	delay: [250, 0],
-	arrow: true,
-	theme: 'light',
-	placement: 'bottom',
-	trigger: 'mouseenter',
-	animation: 'perspective',
-	allowHTML: true
-})
+if (Tippy.setDefaultProps) {
+	Tippy.setDefaultProps({
+		delay: [250, 0],
+		arrow: true,
+		theme: 'light',
+		placement: 'bottom',
+		trigger: 'mouseenter',
+		animation: 'perspective',
+		allowHTML: true
+	})
+}
 
 export default defineNuxtPlugin((nuxtApp) => {
-	nuxtApp.vueApp.directive('tippy', {
+	nuxtApp.vueApp?.directive('tippy', {
 		beforeMount(el, binding) {
 			Tippy(el, binding.value)
 		},

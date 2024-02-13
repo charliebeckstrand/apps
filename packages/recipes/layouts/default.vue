@@ -54,7 +54,6 @@ onMounted(() => {
 					<template #trigger>
 						<Button
 							color="accent"
-							text-color="white"
 							variant="tonal"
 							rounded="full"
 							dark

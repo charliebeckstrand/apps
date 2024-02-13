@@ -17,7 +17,7 @@ interface Props {
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
-	id: '',
+	id: undefined,
 	modelValue: undefined,
 	color: 'primary',
 	size: 'md'
@@ -34,26 +34,38 @@ const toggleInput = () => {
 	emit('update:modelValue', !inputValue.value)
 }
 
-const baseClasses = computed<string>(() => 'cursor-pointer rounded focus:outline-offset-0')
+const classes = computed<string>(() => {
+	const classes = ['cursor-pointer rounded focus:outline-offset-0']
 
-const colorClasses = computed<string | undefined>(() => {
 	const colorMap: Record<string, string | undefined> = {
 		primary: 'accent-primary checked:bg-primary',
 		secondary: 'accent-secondary checked:bg-secondary',
 		accent: 'accent-accent checked:bg-accent'
 	}
 
-	return colorMap[props.color]
-})
-
-const sizeClasses = computed<string | undefined>(() => {
 	const sizeMap: Record<string, string | undefined> = {
 		sm: 'h-4 w-4 text-sm',
 		md: 'h-5 w-5 text-base',
 		lg: 'h-6 w-6 text-lg'
 	}
 
-	return sizeMap[props.size]
+	if (props.color) {
+		const color = colorMap[props.color]
+
+		if (color) {
+			classes.push(color)
+		}
+	}
+
+	if (props.size) {
+		const size = sizeMap[props.size]
+
+		if (size) {
+			classes.push(size)
+		}
+	}
+
+	return classes.join(' ')
 })
 </script>
 
@@ -63,7 +75,7 @@ const sizeClasses = computed<string | undefined>(() => {
 			:id="props.id"
 			type="checkbox"
 			v-model="inputValue"
-			:class="[baseClasses, colorClasses, sizeClasses]"
+			:class="classes"
 			@keydown.enter="toggleInput"
 		/>
 		<label

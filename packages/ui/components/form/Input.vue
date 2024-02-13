@@ -34,9 +34,7 @@ const inputValue = computed<ModelValue>({
 	}
 })
 
-const baseClasses = computed<string>(() => 'flex w-full')
-
-const borderRadiusClasses = computed<string>(() => {
+const classes = computed<string>(() => {
 	const borderRadiusMap: Record<BorderRadius, string> = {
 		sm: 'rounded-sm',
 		md: 'rounded-md',
@@ -45,20 +43,12 @@ const borderRadiusClasses = computed<string>(() => {
 		none: 'rounded-none'
 	}
 
-	return borderRadiusMap[props.borderRadius]
-})
-
-const sizeClasses = computed<string>(() => {
 	const sizeMap: Record<string, string> = {
 		sm: 'p-2 text-sm',
 		md: 'p-3 text-base',
 		lg: 'p-4 text-lg'
 	}
 
-	return sizeMap[props.size]
-})
-
-const variantClasses = computed<string | undefined>(() => {
 	const variantMap: Record<Variant, string> = {
 		default: 'bg-gray-100',
 		outlined: 'border border-gray-300',
@@ -66,14 +56,28 @@ const variantClasses = computed<string | undefined>(() => {
 		plain: 'bg-transparent'
 	}
 
-	return variantMap[props.variant]
+	const classes = ['flex w-full']
+
+	if (props.borderRadius) {
+		classes.push(borderRadiusMap[props.borderRadius])
+	}
+
+	if (props.size) {
+		classes.push(sizeMap[props.size])
+	}
+
+	if (props.variant) {
+		classes.push(variantMap[props.variant])
+	}
+
+	return classes.join(' ')
 })
 </script>
 
 <template>
 	<input
 		v-model="inputValue"
-		:class="[baseClasses, borderRadiusClasses, variantClasses, sizeClasses]"
+		:class="classes"
 		:autocomplete="props.autocomplete"
 	/>
 </template>

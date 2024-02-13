@@ -11,20 +11,10 @@ const props = withDefaults(defineProps<Props>(), {
 	validation: undefined
 })
 
-const baseClasses = computed(() => 'ui-form-group')
-
-const orientationClasses = computed(() => {
+const classes = computed(() => {
 	const orientationMap: Record<Orientation, string> = {
 		horizontal: 'flex items-center flex-row horizontal',
 		vertical: 'flex flex-col vertical'
-	}
-
-	return orientationMap[props.orientation]
-})
-
-const validationClasses = computed(() => {
-	if (!props.validation) {
-		return ''
 	}
 
 	const validationMap: Record<string, string> = {
@@ -32,13 +22,27 @@ const validationClasses = computed(() => {
 		valid: 'valid'
 	}
 
-	return validationMap[props.validation?.$errors.length ? 'invalid' : 'valid']
+	const classes = ['ui-form-group']
+
+	if (props.orientation) {
+		classes.push(orientationMap[props.orientation])
+	}
+
+	if (props.validation) {
+		if (props.validation?.$errors.length) {
+			classes.push(validationMap.invalid)
+		} else {
+			classes.push(validationMap.valid)
+		}
+	}
+
+	return classes.join(' ')
 })
 </script>
 
 <template>
 	<div>
-		<div :class="[baseClasses, orientationClasses, validationClasses]">
+		<div :class="classes">
 			<slot />
 		</div>
 		<div

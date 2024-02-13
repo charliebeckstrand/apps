@@ -30,18 +30,14 @@ const isOpen = computed({
 	}
 })
 
-const paddingClasses = computed(() => {
+const classes = computed(() => {
 	const paddingMap: Record<Padding, string> = {
 		sm: 'p-3',
 		md: 'p-4',
 		lg: 'p-5'
 	}
 
-	return paddingMap[props.padding]
-})
-
-const sizeClasses = computed(() => {
-	const sizeMap: Record<Size, string> = {
+	const sizeMap: Partial<Record<Size, string>> = {
 		sm: 'max-w-sm',
 		md: 'max-w-md',
 		lg: 'max-w-lg',
@@ -51,11 +47,28 @@ const sizeClasses = computed(() => {
 		'4xl': 'max-w-4xl'
 	}
 
-	return sizeMap[props.size]
+	const classes = [
+		'w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all'
+	]
+
+	if (props.padding) {
+		classes.push(paddingMap[props.padding])
+	}
+
+	if (props.size) {
+		const size = sizeMap[props.size]
+
+		if (size) {
+			classes.push(size)
+		}
+	}
+
+	return classes.join(' ')
 })
 
 const closeDialog = () => {
 	isOpen.value = false
+
 	emit('update:modelValue', false)
 }
 
@@ -123,11 +136,11 @@ onUnmounted(() => {
 							leave-from="opacity-100 scale-100"
 							leave-to="opacity-0 scale-95"
 						>
-							<DialogPanel
-								class="w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all"
-								:class="[paddingClasses, sizeClasses]"
-							>
-								<UIHeading size="lg">
+							<DialogPanel :class="classes">
+								<UIHeading
+									size="lg"
+									weight="bold"
+								>
 									<slot name="title" />
 								</UIHeading>
 

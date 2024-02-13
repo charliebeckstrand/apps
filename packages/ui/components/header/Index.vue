@@ -4,7 +4,7 @@
 	<div class="flex items-center">
 		<div
 			v-if="$slots['prepend']"
-			class="mr-3 empty:mr-0"
+			class="mr-4 empty:mr-0"
 		>
 			<slot name="prepend" />
 		</div>

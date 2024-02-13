@@ -6,12 +6,14 @@
 		"mtg": "yarn workspace mtg run dev",
 		"notes": "yarn workspace notes run dev",
 		"recipes": "yarn workspace recipes run dev",
-		"translate": "yarn workspace translate run dev"
+		"translate": "yarn workspace translate run dev",
+		"todo": "yarn workspace todo run dev"
 	},
 	"workspaces": [
 		"packages/*"
 	],
 	"devDependencies": {
+		"@biomejs/biome": "1.5.3",
 		"@nuxt/types": "^2.16.3",
 		"@nuxt/typescript-build": "^3.0.1",
 		"@nuxtjs/tailwindcss": "^6.10.0",
@@ -34,6 +36,7 @@
 		"typescript": "^5.1.3",
 		"vue": "^3.3.8",
 		"vue-router": "^4.2.5",
+		"vue-slicksort": "^2.0.5",
 		"vue-tippy": "^6.3.1"
 	},
 	"dependencies": {

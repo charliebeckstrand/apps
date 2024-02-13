@@ -13,9 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
 	to: undefined
 })
 
-const baseClasses = computed<string>(() => 'flex items-center')
-
-const colorClasses = computed<string | undefined>(() => {
+const classes = computed<string>(() => {
 	const colorMap: Partial<Record<Color, string>> = {
 		default: 'bg-transparent',
 		primary: 'text-primary',
@@ -23,7 +21,17 @@ const colorClasses = computed<string | undefined>(() => {
 		accent: 'text-accent'
 	}
 
-	return colorMap[props.color]
+	const classes = ['flex items-center']
+
+	if (props.color) {
+		const color = colorMap[props.color]
+
+		if (color) {
+			classes.push(color)
+		}
+	}
+
+	return classes.join(' ')
 })
 
 const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'li'))
@@ -32,7 +40,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'l
 <template>
 	<component
 		:is="elementType"
-		:class="[baseClasses, colorClasses]"
+		:class="classes"
 		:to="props.to"
 	>
 		<div class="prepend mr-1 empty:mr-0">

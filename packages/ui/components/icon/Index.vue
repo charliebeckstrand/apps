@@ -28,6 +28,6 @@ const sizeClasses = computed<string>(() => {
 <template>
 	<component
 		:is="props.icon"
-		:class="[sizeClasses]"
+		:class="sizeClasses"
 	/>
 </template>

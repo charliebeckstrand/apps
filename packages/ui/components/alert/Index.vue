@@ -17,9 +17,13 @@ const props = withDefaults(defineProps<Props>(), {
 	dark: false
 })
 
-const baseClasses = computed<string>(() => `rounded-md ${props.dark ? 'text-white' : undefined}`)
+const classes = computed<string>(() => {
+	const sizeMap: Record<Size, string> = {
+		sm: 'p-2',
+		md: 'p-3',
+		lg: 'p-4'
+	}
 
-const colorClasses = computed(() => {
 	const variantMap: Partial<Record<Variant, Record<Color, string>>> = {
 		default: {
 			default: 'bg-gray-100 text-white',
@@ -63,28 +67,41 @@ const colorClasses = computed(() => {
 		}
 	}
 
-	return variantMap[props.variant]?.[props.color]
-})
+	const classes = ['rounded-md']
 
-const paddingClasses = computed(() => {
-	const sizeMap: Record<Size, string> = {
-		sm: 'p-2',
-		md: 'p-3',
-		lg: 'p-4'
+	if (props.dark) {
+		classes.push('text-white')
 	}
 
-	return sizeMap[props.size]
+	if (props.size) {
+		classes.push(sizeMap[props.size])
+	}
+
+	if (props.variant && props.color) {
+		const variant = variantMap[props.variant]
+
+		if (variant) {
+			const color = variant[props.color]
+
+			if (color) {
+				classes.push(color)
+			}
+		}
+	}
+
+	return classes.join(' ')
 })
 </script>
 
 <template>
-	<div :class="[baseClasses, colorClasses, paddingClasses]">
-		<div
+	<div :class="classes">
+		<UIHeading
 			v-if="$slots['title']"
-			class="text-lg font-bold"
+			size="lg"
+			weight="bold"
 		>
 			<slot name="title" />
-		</div>
+		</UIHeading>
 		<slot />
 	</div>
 </template>

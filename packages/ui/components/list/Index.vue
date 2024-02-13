@@ -17,9 +17,13 @@ const props = withDefaults(defineProps<Props>(), {
 	dark: false
 })
 
-const baseClasses = computed<string>(() => `rounded-md ${props.dark ? 'text-white' : 'text-black'}`)
+const classes = computed<string>(() => {
+	const densityMap: Record<Density, string> = {
+		default: 'default',
+		comfortable: 'comfortable',
+		compact: 'compact'
+	}
 
-const variantClasses = computed<string | undefined>(() => {
 	const variants: Partial<Record<Variant, Partial<Record<Color, string>>>> = {
 		default: {
 			default: 'text-default',
@@ -35,22 +39,36 @@ const variantClasses = computed<string | undefined>(() => {
 		}
 	}
 
-	return props.variant && props.color ? variants[props.variant]?.[props.color] : undefined
-})
+	const classes = ['rounded-md']
 
-const densityClasses = computed<string>(() => {
-	const densityMap: Record<Density, string> = {
-		default: 'default',
-		comfortable: 'comfortable',
-		dense: 'dense'
+	if (props.dark) {
+		classes.push('text-white')
+	} else {
+		classes.push('text-black')
 	}
 
-	return densityMap[props.density]
+	if (props.density) {
+		classes.push(densityMap[props.density])
+	}
+
+	if (props.variant) {
+		const variant = variants[props.variant]
+
+		if (variant) {
+			const color = variant[props.color]
+
+			if (color) {
+				classes.push(color)
+			}
+		}
+	}
+
+	return classes.join(' ')
 })
 </script>
 
 <template>
-	<ul :class="[baseClasses, variantClasses, densityClasses]">
+	<ul :class="classes">
 		<slot />
 	</ul>
 </template>

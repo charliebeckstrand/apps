@@ -40,9 +40,9 @@ const inputValue = computed<ModelValue>({
 	set: (value) => emit('update:modelValue', value)
 })
 
-const baseClasses = computed<string>(() => 'bg-gray-100 flex w-full rounded-md resize-none appearance-none pr-10')
+const classes = computed<string>(() => {
+	const classes = ['bg-gray-100 flex w-full rounded-md resize-none appearance-none pr-10']
 
-const paddingClasses = computed<string>(() => {
 	const paddingMap: Record<Padding, string> = {
 		sm: 'p-2',
 		md: 'p-3',
@@ -50,7 +50,11 @@ const paddingClasses = computed<string>(() => {
 		none: 'p-0'
 	}
 
-	return paddingMap[props.padding]
+	if (props.padding) {
+		classes.push(paddingMap[props.padding])
+	}
+
+	return classes.join(' ')
 })
 </script>
 
@@ -59,7 +63,7 @@ const paddingClasses = computed<string>(() => {
 		<select
 			:id="props.id"
 			v-model="inputValue"
-			:class="[baseClasses, paddingClasses]"
+			:class="classes"
 			@change="$emit('change')"
 		>
 			<option

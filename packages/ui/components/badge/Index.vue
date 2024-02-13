@@ -17,14 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 	rounded: 'md'
 })
 
-const baseClasses = computed<string>(
-	() =>
-		`ui-badge inline-flex space-x-1 items-center px-1.5 py-0.5 border text-sm ${
-			props.variant === 'plain' ? 'border-transparent' : undefined
-		}`
-)
-
-const borderRadiusClasses = computed<string>(() => {
+const classes = computed<string>(() => {
 	const borderRadiusMap: Record<BorderRadius, string> = {
 		sm: 'rounded-sm',
 		md: 'rounded-md',
@@ -33,10 +26,12 @@ const borderRadiusClasses = computed<string>(() => {
 		none: 'rounded-none'
 	}
 
-	return borderRadiusMap[props.rounded]
-})
+	const sizeMap: Record<Size, string> = {
+		sm: 'text-sm',
+		md: 'text-base',
+		lg: 'text-lg'
+	}
 
-const colorClasses = computed<string | undefined>(() => {
 	const variantMap: Record<Variant, Record<Color, string>> = {
 		default: {
 			default: 'bg-gray-100 text-gray-800',
@@ -80,29 +75,45 @@ const colorClasses = computed<string | undefined>(() => {
 		}
 	}
 
-	return variantMap[props.variant][props.color]
-})
+	const classes = ['ui-badge inline-flex space-x-1 items-center px-1.5 py-0.5 border']
 
-const sizeClasses = computed<string>(() => {
-	const sizeMap: Record<Size, string> = {
-		sm: 'text-sm',
-		md: 'text-base',
-		lg: 'text-lg'
+	if (props.rounded) {
+		classes.push(borderRadiusMap[props.rounded])
 	}
 
-	return sizeMap[props.size]
+	if (props.size) {
+		classes.push(sizeMap[props.size])
+	}
+
+	if (props.variant) {
+		const variant = variantMap[props.variant]
+
+		if (variant) {
+			const color = variant[props.color]
+
+			classes.push(color)
+		}
+
+		if (props.variant === 'plain') {
+			classes.push('border-transparent')
+		}
+	}
+
+	return classes.join(' ')
 })
 </script>
 
 <template>
-	<div :class="[baseClasses, borderRadiusClasses, sizeClasses, colorClasses]">
-		<div class="mr-1 empty:mr-0">
+	<div :class="classes">
+		<div v-if="$slots['prepend']">
 			<slot name="prepend" />
 		</div>
+
 		<div>
 			<slot />
 		</div>
-		<div class="ml-1 empty:ml-0">
+
+		<div v-if="$slots['append']">
 			<slot name="append" />
 		</div>
 	</div>

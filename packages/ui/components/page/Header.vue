@@ -1,20 +1,42 @@
 <script setup lang="ts">
+type Color = 'white' | 'accent'
+
 interface Props {
+	color?: Color
 	sticky?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
+	color: 'white',
 	sticky: false
 })
 
-const baseClasses = computed<string>(
-	() =>
-		`ui-page-header flex items-center bg-white p-4 ${[props.sticky ? 'sticky top-0 z-30 bg-white/95' : undefined]}`
-)
+const classes = computed<string>(() => {
+	const colorMap = {
+		white: 'bg-white',
+		accent: 'bg-accent/5 border-accent/10'
+	}
+
+	const classes = ['ui-page-header flex items-center p-4']
+
+	if (props.color) {
+		const color = colorMap[props.color]
+
+		if (color) {
+			classes.push(color)
+		}
+	}
+
+	if (props.sticky) {
+		classes.push('sticky top-0 z-20')
+	}
+
+	return classes.join(' ')
+})
 </script>
 
 <template>
-	<div :class="[baseClasses]">
+	<div :class="classes">
 		<div
 			v-if="$slots['prepend']"
 			class="prepend mr-5 flex items-center empty:mr-0"

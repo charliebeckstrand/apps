@@ -30,8 +30,8 @@ const variantClasses = computed<string>(() => {
 		}"
 	>
 		<div
-			class="absolute left-3 z-20 pr-1.5"
-			:class="[variantClasses]"
+			class="absolute left-3 z-10 pr-1.5"
+			:class="variantClasses"
 		>
 			<slot name="prepend" />
 		</div>
@@ -41,8 +41,8 @@ const variantClasses = computed<string>(() => {
 		</div>
 
 		<div
-			class="absolute right-3 z-20 pl-1.5"
-			:class="[variantClasses]"
+			class="absolute right-3 z-10 pl-1.5"
+			:class="variantClasses"
 		>
 			<slot name="append" />
 		</div>

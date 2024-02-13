@@ -69,7 +69,7 @@ watch(
 </script>
 
 <template>
-	<div class="space-y-2 overflow-y-auto">
+	<div class="space-y-2">
 		<template v-if="sortedConversations.length > 0">
 			<ConversationsListCard
 				:ref="setRef"

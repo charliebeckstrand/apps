@@ -23,7 +23,7 @@ const sizeClasses = computed<string>(() => {
 </script>
 
 <template>
-	<div :class="[sizeClasses]">
+	<div :class="sizeClasses">
 		<slot />
 	</div>
 </template>

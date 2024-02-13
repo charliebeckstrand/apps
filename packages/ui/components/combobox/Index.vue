@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid'
-
+import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import {
 	Combobox,
 	ComboboxInput,
@@ -16,7 +14,6 @@ type Item = {
 	value: string
 	label: string
 }
-
 type ModelValue = Item | undefined
 type Size = 'sm' | 'md' | 'lg'
 type Variant = 'default' | 'outlined' | 'plain'
@@ -27,12 +24,13 @@ type Emit = {
 
 interface Props {
 	id: string
-	modelValue: ModelValue
+	modelValue: ModelValue | undefined
 	items: Item[]
 	placeholder?: string
 	size?: Size
 	variant?: Variant
 	multiple?: boolean
+	clearable?: boolean
 }
 
 const emit = defineEmits<Emit>()
@@ -44,15 +42,16 @@ const props = withDefaults(defineProps<Props>(), {
 	placeholder: 'Select an item',
 	size: 'md',
 	variant: 'default',
-	multiple: false
+	multiple: false,
+	clearable: false
 })
 
 const query = ref('')
 
 const inputValue = computed({
 	get: () => props.modelValue,
-	set: (newValue) => {
-		emit('update:modelValue', newValue)
+	set: (newValue: ModelValue) => {
+		emit('update:modelValue', newValue ? newValue : undefined)
 	}
 })
 
@@ -66,7 +65,7 @@ const filteredItems = computed(() =>
 	})
 )
 
-const sizeClasses = computed<string>(() => {
+const inputClasses = computed<string>(() => {
 	const sizeMap: Record<string, string> = {
 		xs: 'p-1 text-xs',
 		sm: 'p-2 text-sm',
@@ -74,8 +73,29 @@ const sizeClasses = computed<string>(() => {
 		lg: 'p-4 text-lg'
 	}
 
-	return sizeMap[props.size]
+	const variantMap: Record<Variant, string> = {
+		default: 'bg-gray-100',
+		outlined: 'border border-gray-300',
+		plain: 'bg-transparent'
+	}
+
+	const classes = ['flex w-full rounded-md']
+
+	if (props.size) {
+		classes.push(sizeMap[props.size])
+	}
+
+	if (props.variant) {
+		classes.push(variantMap[props.variant])
+	}
+
+	return classes.join(' ')
 })
+
+const clear = () => {
+	inputValue.value = {} as Item
+	query.value = ''
+}
 </script>
 
 <template>
@@ -91,15 +111,7 @@ const sizeClasses = computed<string>(() => {
 				>
 					<ComboboxInput
 						:id="props.id"
-						class="flex w-full rounded-md"
-						:class="[
-							sizeClasses,
-							{
-								'bg-gray-100': props.variant === 'default',
-								'border border-gray-300': props.variant === 'outlined',
-								'bg-transparent': props.variant === 'plain'
-							}
-						]"
+						:class="inputClasses"
 						:displayValue="(item: any) => item.label"
 						autocomplete="one-time-code"
 						:placeholder="props.placeholder"
@@ -107,6 +119,15 @@ const sizeClasses = computed<string>(() => {
 					/>
 
 					<div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+						<UIButton
+							v-if="props.clearable && inputValue?.value"
+							icon
+							size="sm"
+							@click.stop="clear"
+						>
+							<UIIcon :icon="XMarkIcon" />
+						</UIButton>
+
 						<UIIcon
 							:icon="open ? ChevronUpIcon : ChevronDownIcon"
 							size="md"

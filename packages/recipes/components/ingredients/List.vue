@@ -78,10 +78,41 @@ watch(
 					/>
 				</DragHandle>
 
-				<div class="grid flex-grow gap-2 md:grid-cols-3">
+				<div class="grid flex-grow gap-2 md:grid-cols-2">
+					<UIFormGroup>
+						<UIFormLabel
+							:for="`ingredient-quantity-${index}`"
+							size="sm"
+							class="sr-only"
+						>
+							Quantity
+						</UIFormLabel>
+						<UIFormInput
+							:id="`ingredient-quantity-${index}`"
+							placeholder="Quantity"
+							v-model="ingredient.quantity"
+						/>
+					</UIFormGroup>
+					<!-- <UIFormGroup>
+						<UIFormLabel
+							:for="`ingredient-unit-${index}`"
+							size="sm"
+							class="sr-only"
+						>
+							Measurement
+						</UIFormLabel>
+						<UICombobox
+							:id="`ingredient-unit-${index}`"
+							v-model="ingredient.unit"
+							placeholder="Measurement"
+							:items="measurements"
+							clearable
+						/>
+					</UIFormGroup> -->
 					<UIFormGroup>
 						<UIFormLabel
 							:for="`ingredient-name-${index}`"
+							size="sm"
 							class="sr-only"
 						>
 							Name
@@ -93,38 +124,7 @@ watch(
 							placeholder="Name"
 						/>
 					</UIFormGroup>
-
-					<UIFormGroup>
-						<UIFormLabel
-							:for="`ingredient-quantity-${index}`"
-							class="sr-only"
-						>
-							Quantity
-						</UIFormLabel>
-						<UIFormInput
-							:id="`ingredient-quantity-${index}`"
-							type="number"
-							placeholder="Quantity"
-							v-model="ingredient.quantity"
-						/>
-					</UIFormGroup>
-
-					<UIFormGroup>
-						<UIFormLabel
-							:for="`ingredient-unit-${index}`"
-							class="sr-only"
-						>
-							Unit of Measurement
-						</UIFormLabel>
-						<UICombobox
-							:id="`ingredient-unit-${index}`"
-							v-model="ingredient.unit"
-							placeholder="Unit of Measurement"
-							:items="measurements"
-						/>
-					</UIFormGroup>
 				</div>
-
 				<Button
 					color="danger"
 					variant="plain"

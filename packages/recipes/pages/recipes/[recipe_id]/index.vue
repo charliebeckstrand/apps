@@ -151,14 +151,10 @@ useHead({
 						<Button
 							color="pink"
 							:variant="recipe.favorite ? 'default' : 'tonal'"
-							size="sm"
 							@click="recipe.favorite = !recipe.favorite"
 						>
 							<template #prepend>
-								<UIIcon
-									:icon="recipe.favorite ? NoSymbolIcon : HeartIcon"
-									size="xs"
-								/>
+								<UIIcon :icon="recipe.favorite ? NoSymbolIcon : HeartIcon" />
 							</template>
 
 							{{ recipe.favorite ? 'Unfavorite' : 'Favorite' }}
@@ -166,28 +162,19 @@ useHead({
 						<Button
 							color="info"
 							variant="tonal"
-							size="sm"
 							:to="`/recipes/${recipe.id}/edit`"
 						>
 							<template #prepend>
-								<UIIcon
-									:icon="PencilIcon"
-									size="xs"
-								/>
+								<UIIcon :icon="PencilIcon" />
 							</template>
 							Edit
 						</Button>
-
 						<Button
 							color="danger"
 							variant="tonal"
-							size="sm"
 						>
 							<template #prepend>
-								<UIIcon
-									:icon="TrashIcon"
-									size="xs"
-								/>
+								<UIIcon :icon="TrashIcon" />
 							</template>
 							Delete
 						</Button>

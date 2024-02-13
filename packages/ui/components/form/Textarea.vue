@@ -32,9 +32,9 @@ const inputValue = computed<string>({
 	}
 })
 
-const baseClasses = computed<string>(() => 'ui-textarea flex w-full rounded-md resize-none min-h-[48px]')
+const classes = computed<string>(() => {
+	const classes = ['ui-textarea flex w-full rounded-md resize-none min-h-[48px]']
 
-const resizeClasses = computed<string>(() => {
 	const resizeMap: Record<Resize, string> = {
 		none: 'resize-none',
 		vertical: 'resize-y',
@@ -42,10 +42,6 @@ const resizeClasses = computed<string>(() => {
 		both: 'resize'
 	}
 
-	return resizeMap[props.resize]
-})
-
-const sizeClasses = computed<string>(() => {
 	const sizeMap: Record<string, string> = {
 		xs: 'p-1 text-xs',
 		sm: 'p-2 text-sm',
@@ -53,23 +49,35 @@ const sizeClasses = computed<string>(() => {
 		lg: 'p-4 text-lg'
 	}
 
-	return sizeMap[props.size]
-})
-
-const variantClasses = computed<string | undefined>(() => {
 	const variantMap: Partial<Record<Variant, string>> = {
 		default: 'bg-gray-100',
 		outlined: 'border border-gray-300'
 	}
 
-	return variantMap[props.variant]
+	if (props.resize) {
+		classes.push(resizeMap[props.resize])
+	}
+
+	if (props.size) {
+		classes.push(sizeMap[props.size])
+	}
+
+	if (props.variant) {
+		const variant = variantMap[props.variant]
+
+		if (variant) {
+			classes.push(variant)
+		}
+	}
+
+	return classes.join(' ')
 })
 </script>
 
 <template>
 	<textarea
 		v-model="inputValue"
-		:class="[baseClasses, resizeClasses, sizeClasses, variantClasses]"
+		:class="classes"
 		:rows="props.rows"
 	/>
 </template>

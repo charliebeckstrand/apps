@@ -80,7 +80,7 @@ const colorClasses = computed<string | undefined>(() => {
 <template>
 	<div
 		role="progressbar"
-		:class="[baseClasses]"
+		:class="baseClasses"
 		:aria-valuenow="adjustedValue"
 		:aria-valuemin="0"
 		:aria-valuemax="100"
@@ -91,7 +91,7 @@ const colorClasses = computed<string | undefined>(() => {
 		>
 			<span
 				v-if="props.showLabel"
-				:class="[textSizeClasses]"
+				:class="textSizeClasses"
 			>
 				{{ adjustedValue }}%
 			</span>

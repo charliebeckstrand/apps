@@ -27,11 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const interactive = props.to || props.href || props.interactive
 
-const baseClasses = computed<string>(
-	() => `${props.interactive ? 'interactive cursor-pointer' : undefined} ${props.to ? 'block' : undefined}`
-)
-
-const borderRadiusClasses = computed<string>(() => {
+const classes = computed<string>(() => {
 	const borderRadiusMap: Record<BorderRadius, string> = {
 		sm: 'rounded-sm',
 		md: 'rounded-md',
@@ -40,22 +36,27 @@ const borderRadiusClasses = computed<string>(() => {
 		none: 'rounded-none'
 	}
 
-	return borderRadiusMap[props.rounded]
-})
+	const paddingMap: Record<Padding, string> = {
+		sm: 'p-3',
+		md: 'p-4',
+		lg: 'p-5',
+		none: 'p-0'
+	}
 
-const colorClasses = computed<string | undefined>(() => {
 	const variantMap: Record<Variant, Record<Color, string>> = {
 		default: {
 			default: 'bg-gray-100 text-base',
 			primary: 'bg-primary text-white',
 			secondary: 'bg-secondary text-white',
-			accent: 'bg-accent text-white'
+			accent: 'bg-accent text-white',
+			white: 'bg-white text-base'
 		},
 		outlined: {
 			default: 'bg-transparent border border-gray-300 text-base',
 			primary: 'bg-transparent border border-primar text-primaryy',
 			secondary: 'bg-transparent border border-secondary text-secondary',
-			accent: 'bg-transparent border border-accent text-accent'
+			accent: 'bg-transparent border border-accent text-accent',
+			white: 'bg-transparent border border-white text-white'
 		},
 		tonal: {
 			default: 'bg-gray-50 text-base',
@@ -67,7 +68,8 @@ const colorClasses = computed<string | undefined>(() => {
 			}`,
 			accent: `bg-accent/10 text-accent ${props.active ? 'bg-accent/10' : undefined} ${
 				interactive ? 'hover:bg-accent/10' : undefined
-			}`
+			}`,
+			white: 'bg-white text-base'
 		},
 		plain: {
 			default: `text-base ${props.active ? 'bg-gray-100' : 'bg-transparent'} ${
@@ -81,22 +83,40 @@ const colorClasses = computed<string | undefined>(() => {
 			}`,
 			accent: `text-accent ${props.active ? 'bg-accent/10' : 'bg-transparent'} ${
 				interactive ? 'hover:bg-accent/10' : undefined
-			}`
+			}`,
+			white: 'text-white'
 		}
 	}
 
-	return props.color ? variantMap[props.variant][props.color] : undefined
-})
+	const classes = ['interactive cursor-pointer']
 
-const paddingClasses = computed<string>(() => {
-	const paddingMap: Record<Padding, string> = {
-		sm: 'p-3',
-		md: 'p-4',
-		lg: 'p-5',
-		none: 'p-0'
+	if (props.rounded) {
+		classes.push(borderRadiusMap[props.rounded])
 	}
 
-	return paddingMap[props.padding]
+	if (props.interactive) {
+		classes.push('interactive cursor-pointer')
+	}
+
+	if (props.padding) {
+		classes.push(paddingMap[props.padding])
+	}
+
+	if (props.to) {
+		classes.push('block')
+	}
+
+	if (props.variant) {
+		const variant = variantMap[props.variant]
+
+		if (variant) {
+			const color = variant[props.color]
+
+			classes.push(color)
+		}
+	}
+
+	return classes.join(' ')
 })
 
 const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'div'))
@@ -106,27 +126,36 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 	<component
 		:is="elementType"
 		:to="props.to"
-		:class="[baseClasses, borderRadiusClasses, colorClasses, paddingClasses]"
+		:class="classes"
 	>
-		<UIHeader :class="{ 'mb-2': $slots['title'] || $slots['subtitle'] }">
-			<template #title>
-				<slot name="title" />
-			</template>
-			<template #subtitle>
-				<slot name="subtitle" />
-			</template>
-		</UIHeader>
+		<div
+			v-if="$slots['title'] || $slots['subtitle'] || $slots['header-append']"
+			class="flex items-center justify-between space-x-2"
+		>
+			<UIHeader>
+				<template #title>
+					<slot name="title" />
+				</template>
+				<template #subtitle>
+					<slot name="subtitle" />
+				</template>
+			</UIHeader>
 
-		<div class="mb-2 empty:mb-0">
-			<slot name="prepend" />
+			<slot name="header-append" />
 		</div>
 
-		<div>
-			<slot />
-		</div>
+		<div class="space-y-2">
+			<div v-if="$slots['append']">
+				<slot name="prepend" />
+			</div>
 
-		<div class="mt-2 empty:mt-0">
-			<slot name="append" />
+			<div>
+				<slot />
+			</div>
+
+			<div v-if="$slots['append']">
+				<slot name="append" />
+			</div>
 		</div>
 	</component>
 </template>

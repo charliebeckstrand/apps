@@ -20,7 +20,10 @@ const props = defineProps<Props>()
 		class="relative"
 	>
 		<div>
-			<MenuButton as="div">
+			<MenuButton
+				as="div"
+				@click.stop
+			>
 				<slot name="trigger" />
 			</MenuButton>
 		</div>
@@ -42,12 +45,13 @@ const props = defineProps<Props>()
 							v-slot="{ active }"
 							v-for="(item, index) in props.items"
 							:key="index"
-							@click="item.onClick && item.onClick()"
+							@click.stop="item.onClick && item.onClick()"
 						>
 							<UIButton
 								color="primary"
 								:variant="active ? 'tonal' : 'text'"
 								block
+								justify="start"
 							>
 								<template #prepend>
 									<UIIcon

@@ -4,16 +4,18 @@ import { computed } from 'vue'
 import type { Size, Weight } from '@/types/heading'
 
 interface Props {
+	tag?: string
 	size?: Size
 	weight?: Weight
 }
 
 const props = withDefaults(defineProps<Props>(), {
+	tag: 'div',
 	size: 'md',
 	weight: 'normal'
 })
 
-const sizeClasses = computed(() => {
+const classes = computed(() => {
 	const sizeMap: Record<Size, string> = {
 		xs: 'text-xs',
 		sm: 'text-sm',
@@ -25,10 +27,6 @@ const sizeClasses = computed(() => {
 		'4xl': 'text-4xl'
 	}
 
-	return sizeMap[props.size]
-})
-
-const weightClasses = computed(() => {
 	const weightMap: Record<Weight, string> = {
 		thin: 'font-thin',
 		extralight: 'font-extralight',
@@ -41,12 +39,27 @@ const weightClasses = computed(() => {
 		black: 'font-black'
 	}
 
-	return weightMap[props.weight]
+	const classes = []
+
+	if (props.size) {
+		classes.push(sizeMap[props.size])
+	}
+
+	if (props.weight) {
+		classes.push(weightMap[props.weight])
+	}
+
+	return classes.join(' ')
 })
+
+const elementType = computed(() => (props.tag as string).toLowerCase())
 </script>
 
 <template>
-	<div :class="[sizeClasses, weightClasses]">
+	<component
+		:is="elementType"
+		:class="classes"
+	>
 		<slot />
-	</div>
+	</component>
 </template>

@@ -5,8 +5,6 @@ import { useRoute } from 'vue-router'
 
 import { useRecipesStore } from '@/stores/recipes'
 
-import { CheckIcon } from '@heroicons/vue/24/solid'
-
 import type { Recipe } from '@/types/recipe'
 
 type ExtendedRecipe = Recipe & {
@@ -150,9 +148,6 @@ useHead({
 				color="info"
 				@click="saveChanges"
 			>
-				<template #prepend>
-					<UIIcon :icon="CheckIcon" />
-				</template>
 				Save
 			</Button>
 			<Button
