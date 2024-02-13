@@ -22,6 +22,10 @@ const filteredRecipes = computed(() => {
 	})
 })
 
+const recipesWithNames = computed(() => {
+	return recipes.value.filter((recipe: Recipe) => recipe.name)
+})
+
 const loading = ref<boolean>(false)
 
 loading.value = true
@@ -43,7 +47,6 @@ onMounted(() => {
 					to="/create"
 					color="success"
 					variant="tonal"
-					rounded="full"
 				>
 					<template #prepend>
 						<UIIcon :icon="PlusIcon" />
@@ -57,6 +60,7 @@ onMounted(() => {
 			<template v-else>
 				<template v-if="recipes.length">
 					<UIFormInput
+						v-if="recipesWithNames.length"
 						v-model="filter"
 						placeholder="Search"
 					/>

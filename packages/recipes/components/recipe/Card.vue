@@ -2,6 +2,8 @@
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/vue/24/outline'
 import { HeartIcon as SolidHeartIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 
+import { useAuthStore } from '@/stores/auth'
+
 import type { Recipe } from '@/types/recipe'
 
 type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'light' | 'dark'
@@ -18,6 +20,8 @@ const props = withDefaults(defineProps<Props>(), {
 	color: 'primary',
 	variant: 'plain'
 })
+
+const authStore = useAuthStore()
 
 const recipe = ref(props.recipe) as Ref<Recipe>
 </script>
@@ -57,6 +61,7 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 				</Button>
 				<div v-tippy="{ content: 'Edit' }">
 					<Button
+						v-if="authStore.user?.id"
 						color="info"
 						variant="text"
 						icon
@@ -67,6 +72,7 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 					</Button>
 				</div>
 				<Button
+					v-if="authStore.user?.id"
 					color="danger"
 					variant="text"
 					icon

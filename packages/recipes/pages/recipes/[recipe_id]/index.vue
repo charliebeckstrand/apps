@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 
+import { useAuthStore } from '@/stores/auth'
 import { useRecipesStore } from '@/stores/recipes'
 
 import { HeartIcon, NoSymbolIcon } from '@heroicons/vue/24/outline'
@@ -10,6 +11,7 @@ import type { Recipe } from '@/types/recipe'
 
 const route = useRoute()
 
+const authStore = useAuthStore()
 const recipesStore = useRecipesStore()
 
 const recipe = ref<Recipe>({} as Recipe)
@@ -160,6 +162,7 @@ useHead({
 							{{ recipe.favorite ? 'Unfavorite' : 'Favorite' }}
 						</Button>
 						<Button
+							v-if="authStore.user?.id"
 							color="info"
 							variant="tonal"
 							:to="`/recipes/${recipe.id}/edit`"
@@ -170,6 +173,7 @@ useHead({
 							Edit
 						</Button>
 						<Button
+							v-if="authStore.user?.id"
 							color="danger"
 							variant="tonal"
 						>

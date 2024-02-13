@@ -40,9 +40,9 @@ onMounted(() => {
 			<template #left>
 				<nuxt-link to="/">
 					<img
-						src="/restaurant.png"
+						src="/bowl.png"
 						alt="Logo"
-						class="h-8 w-8"
+						class="h-10 w-10"
 					/>
 				</nuxt-link>
 			</template>

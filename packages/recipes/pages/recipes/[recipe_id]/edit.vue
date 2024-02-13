@@ -3,6 +3,7 @@ import { isEqual, cloneDeep } from 'lodash'
 
 import { useRoute } from 'vue-router'
 
+import { useAuthStore } from '@/stores/auth'
 import { useRecipesStore } from '@/stores/recipes'
 
 import type { Recipe } from '@/types/recipe'
@@ -14,6 +15,7 @@ type ExtendedRecipe = Recipe & {
 const route = useRoute()
 const router = useRouter()
 
+const authStore = useAuthStore()
 const recipesStore = useRecipesStore()
 
 const existingRecipe = computed(() => {
@@ -113,51 +115,52 @@ useHead({
 </script>
 <template>
 	<div>
-		<UIBreadcrumbs
-			:items="[
-				{ label: 'Home', to: '/' },
-				{ label: 'Recipes', to: '/recipes' },
-				{
-					label: `${originalRecipe.name ? originalRecipe.name : 'Untitled Recipe'}`,
-					to: `/recipes/${editableRecipe.id}`
-				},
-				{ label: 'Edit', disabled: true }
-			]"
-		/>
+		<template v-if="authStore.user?.id">
+			<UIBreadcrumbs
+				:items="[
+					{ label: 'Home', to: '/' },
+					{ label: 'Recipes', to: '/recipes' },
+					{
+						label: `${originalRecipe.name ? originalRecipe.name : 'Untitled Recipe'}`,
+						to: `/recipes/${editableRecipe.id}`
+					},
+					{ label: 'Edit', disabled: true }
+				]"
+			/>
 
-		<UIPageHeader sticky>
-			<template #title>
-				<div class="flex items-center space-x-1">
-					<span class="font-normal">Edit:</span>
-					<template v-if="originalRecipe.name">
-						<span>{{ originalRecipe.name }}</span>
-					</template>
-					<template v-else>
-						<span class="text-gray-400">Untitled Recipe</span>
-					</template>
-				</div>
-			</template>
-		</UIPageHeader>
+			<UIPageHeader>
+				<template #title>
+					<div class="flex items-center space-x-1">
+						<span class="font-normal">Edit:</span>
+						<template v-if="originalRecipe.name">
+							<span>{{ originalRecipe.name }}</span>
+						</template>
+						<template v-else>
+							<span class="text-gray-400">Untitled Recipe</span>
+						</template>
+					</div>
+				</template>
+			</UIPageHeader>
 
-		<UIPageContent>
-			<RecipeForm v-model="editableRecipe" />
-		</UIPageContent>
+			<UIPageContent>
+				<RecipeForm v-model="editableRecipe" />
+			</UIPageContent>
 
-		<UIPageFooter>
-			<Button
-				color="info"
-				@click="saveChanges"
-			>
-				Save
-			</Button>
-			<Button
-				color="primary"
-				variant="text"
-				@click="cancel"
-			>
-				Cancel
-			</Button>
-			<!-- <Button
+			<UIPageFooter>
+				<Button
+					color="info"
+					@click="saveChanges"
+				>
+					Save
+				</Button>
+				<Button
+					color="primary"
+					variant="text"
+					@click="cancel"
+				>
+					Cancel
+				</Button>
+				<!-- <Button
 				v-if="isDifferences"
 				color="danger"
 				variant="tonal"
@@ -168,28 +171,41 @@ useHead({
 				</template>
 				Discard Changes
 			</Button> -->
-		</UIPageFooter>
+			</UIPageFooter>
 
-		<UIDialog v-model="showConfirmDiscardChanges">
-			<div class="mb-4 mt-2 text-center text-lg">Are you sure you want to discard changes?</div>
-			<template #actions>
-				<div class="flex items-center justify-center space-x-2">
-					<Button
-						color="danger"
-						variant="tonal"
-						@click="discardChanges"
-					>
-						Discard Changes
-					</Button>
-					<Button
-						color="primary"
-						variant="text"
-						@click="showConfirmDiscardChanges = false"
-					>
-						Cancel
-					</Button>
+			<UIDialog v-model="showConfirmDiscardChanges">
+				<div class="mb-4 mt-2 text-center text-lg">
+					Are you sure you want to discard changes to this recipe?
 				</div>
-			</template>
-		</UIDialog>
+				<template #actions>
+					<div class="flex items-center justify-center space-x-2">
+						<Button
+							color="danger"
+							variant="tonal"
+							@click="discardChanges"
+						>
+							Discard Changes
+						</Button>
+						<Button
+							color="primary"
+							variant="text"
+							@click="showConfirmDiscardChanges = false"
+						>
+							Cancel
+						</Button>
+					</div>
+				</template>
+			</UIDialog>
+		</template>
+		<template v-else>
+			<div class="m-4">
+				<UIAlert
+					color="danger"
+					variant="tonal"
+				>
+					You are not authorized to edit this recipe
+				</UIAlert>
+			</div>
+		</template>
 	</div>
 </template>

@@ -28,7 +28,7 @@ const createRecipe = () => {
 			]"
 		/>
 
-		<UIPageHeader sticky>
+		<UIPageHeader>
 			<template #title>Create Recipe</template>
 		</UIPageHeader>
 
