@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import Label from '@/components/form/Label.vue'
+</script>
+
 <template>
-	<UILabel tag="label">
+	<Label tag="label">
 		<slot />
-	</UILabel>
+	</Label>
 </template>

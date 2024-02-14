@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Icon from '@/components/icon/Index.vue'
+
 import { computed } from 'vue'
 
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
@@ -79,7 +81,7 @@ const classes = computed<string>(() => {
 		</select>
 
 		<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-			<UIIcon
+			<Icon
 				:icon="ChevronDownIcon"
 				size="sm"
 			/>

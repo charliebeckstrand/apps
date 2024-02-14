@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import Panel from '@/components/panel/Index.vue'
+import Header from '@/components/header/Index.vue'
+
 import { computed } from 'vue'
 
-import { borderRadiusMap } from '@/constants'
+import { borderRadiusMap, textColorMap } from '@/constants'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/card'
 
 interface Props {
 	color?: Color
+	textColor?: Color
 	variant?: Variant
 	rounded?: BorderRadius
 	padding?: Padding
@@ -18,6 +22,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
+	textColor: 'default',
 	variant: 'default',
 	rounded: 'md',
 	padding: 'md',
@@ -251,6 +256,10 @@ const classes = computed<string>(() => {
 		classes.push(borderRadiusMap[props.rounded])
 	}
 
+	if (props.textColor) {
+		classes.push(textColorMap[props.textColor])
+	}
+
 	if (props.to) {
 		classes.push('block')
 	}
@@ -277,24 +286,24 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 		:to="props.to"
 		:class="classes"
 	>
-		<UIPanel
+		<Panel
 			v-if="$slots['title'] || $slots['subtitle'] || $slots['header-append']"
 			class="flex items-center justify-between space-x-4"
 			:color="props.color"
 			:padding="props.padding"
 			:variant="props.variant"
 		>
-			<UIHeader>
+			<Header>
 				<template #title>
 					<slot name="title" />
 				</template>
 				<template #subtitle>
 					<slot name="subtitle" />
 				</template>
-			</UIHeader>
+			</Header>
 			<slot name="header-append" />
-		</UIPanel>
-		<UIPanel
+		</Panel>
+		<Panel
 			v-if="$slots['prepend'] || $slots['default'] || $slots['append']"
 			class="space-y-2"
 			:color="props.color"
@@ -313,7 +322,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 			<div v-if="$slots['append']">
 				<slot name="append" />
 			</div>
-		</UIPanel>
+		</Panel>
 	</component>
 </template>
 

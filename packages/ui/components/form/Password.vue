@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import Button from '@/components/button/Index.vue'
+import FormItem from '@/components/form/Item.vue'
+import FormInput from '@/components/form/Input.vue'
+import Icon from '@/components/icon/Index.vue'
+
 import { computed } from 'vue'
 
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
@@ -48,8 +53,8 @@ const toggleInputType = () => {
 </script>
 
 <template>
-	<UIFormItem :variant="props.variant">
-		<UIFormInput
+	<FormItem :variant="props.variant">
+		<FormInput
 			:id="props.id"
 			:type="inputType"
 			v-model="inputValue"
@@ -60,17 +65,17 @@ const toggleInputType = () => {
 			:size="props.size"
 		/>
 		<template #append>
-			<UIButton
+			<Button
 				v-tippy="{ content: inputType === 'password' ? 'Show password' : 'Hide password' }"
 				icon
 				size="sm"
 				@click="toggleInputType"
 			>
-				<UIIcon
+				<Icon
 					:icon="inputType === 'password' ? EyeIcon : EyeSlashIcon"
 					size="sm"
 				/>
-			</UIButton>
+			</Button>
 		</template>
-	</UIFormItem>
+	</FormItem>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Icon from '@/components/icon/Index.vue'
+
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
 import type { Sort } from '@/types/table'
@@ -104,7 +106,7 @@ const handleSort = (column: any) => {
 									'opacity-0': !props.sortable || !column.sortable || sorting.key !== column.field
 								}"
 							>
-								<UIIcon
+								<Icon
 									:icon="
 										sorting.order === 'asc'
 											? ChevronUpIcon

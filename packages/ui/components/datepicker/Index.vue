@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import Button from '@/components/button/Index.vue'
+import FormItem from '@/components/form/Item.vue'
+import FormInput from '@/components/form/Input.vue'
+import Icon from '@/components/icon/Index.vue'
+
 import { ref, computed } from 'vue'
 
 import { CalendarIcon, XMarkIcon } from '@heroicons/vue/24/outline'
@@ -81,11 +86,11 @@ const clearDate = () => {
 					<slot name="trigger" />
 				</template>
 				<template v-else>
-					<UIFormItem>
+					<FormItem>
 						<template #prepend>
-							<UIIcon :icon="CalendarIcon" />
+							<Icon :icon="CalendarIcon" />
 						</template>
-						<UIFormInput
+						<FormInput
 							:id="props.id"
 							:value="value"
 							:variant="props.variant"
@@ -93,12 +98,12 @@ const clearDate = () => {
 							:class="{ active: isMenuOpen }"
 							@keydown.enter="onEnter"
 						/>
-					</UIFormItem>
+					</FormItem>
 				</template>
 			</template>
 			<template #clear-icon="{ clear }">
 				<div class="p-3">
-					<UIIcon
+					<Icon
 						:icon="XMarkIcon"
 						class="hover:text-black"
 						@click="clear"
@@ -107,21 +112,21 @@ const clearDate = () => {
 			</template>
 			<template #action-buttons>
 				<div class="action-row grid w-full grid-cols-2 gap-1">
-					<UIButton
+					<Button
 						color="primary"
 						block
 						@click="setDateToToday"
 					>
 						Today
-					</UIButton>
-					<UIButton
+					</Button>
+					<Button
 						color="primary"
 						variant="outlined"
 						block
 						@click="clearDate"
 					>
 						{{ datepickerRef.internalModelValue ? 'Clear' : 'Cancel' }}
-					</UIButton>
+					</Button>
 				</div>
 			</template>
 		</VueDatePicker>

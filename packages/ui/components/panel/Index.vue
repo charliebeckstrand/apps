@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { borderRadiusMap, paddingMap, variantMap } from '@/constants'
+import { borderRadiusMap, paddingMap, textColorMap, variantMap } from '@/constants'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/panel'
 
 interface Props {
 	color?: Color
+	textColor?: Color
 	rounded?: BorderRadius
 	padding?: Padding
 	variant?: Variant
@@ -12,6 +13,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
+	textColor: 'default',
 	rounded: 'md',
 	padding: 'md',
 	variant: 'default'
@@ -26,6 +28,10 @@ const classes = computed<string>(() => {
 
 	if (props.padding) {
 		classes.push(paddingMap[props.padding])
+	}
+
+	if (props.textColor) {
+		classes.push(textColorMap[props.textColor])
 	}
 
 	if (props.variant) {

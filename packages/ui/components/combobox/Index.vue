@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import Button from '@/components/button/Index.vue'
+import ComboboxItem from '@/components/combobox/Item.vue'
+import Icon from '@/components/icon/Index.vue'
+
 import { ref, computed } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import {
@@ -110,16 +114,16 @@ const clear = () => {
 					/>
 
 					<div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-						<UIButton
+						<Button
 							v-if="props.clearable && inputValue?.value"
 							icon
 							size="sm"
 							@click.stop="clear"
 						>
-							<UIIcon :icon="XMarkIcon" />
-						</UIButton>
+							<Icon :icon="XMarkIcon" />
+						</Button>
 
-						<UIIcon
+						<Icon
 							:icon="open ? ChevronUpIcon : ChevronDownIcon"
 							size="md"
 							class="pointer-events-none"
@@ -147,7 +151,7 @@ const clear = () => {
 							:value="item"
 							v-slot="{ selected, active }"
 						>
-							<UIComboboxItem
+							<ComboboxItem
 								:active="active"
 								:selected="selected"
 							>
@@ -158,7 +162,7 @@ const clear = () => {
 									<!-- Fallback content if no slot is provided -->
 									{{ item.label }}
 								</slot>
-							</UIComboboxItem>
+							</ComboboxItem>
 						</ComboboxOption>
 					</div>
 				</ComboboxOptions>

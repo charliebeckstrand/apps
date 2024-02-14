@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Icon from '@/components/icon/Index.vue'
+
 import { CameraIcon } from '@heroicons/vue/24/outline'
 
 interface Props {
@@ -30,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
 			v-if="props.editable"
 			class="overlay bg-accent/50 absolute inset-0 z-20 flex cursor-pointer items-center rounded-full opacity-0 hover:opacity-100"
 		>
-			<UIIcon
+			<Icon
 				:icon="CameraIcon"
 				class="m-auto text-white"
 				size="lg"

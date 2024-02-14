@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Heading from '@/components/heading/Index.vue'
+import Overlay from '@/components/overlay/Index.vue'
+
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 import { paddingMap } from '@/constants'
@@ -119,7 +122,7 @@ onUnmounted(() => {
 					leave-from="opacity-100"
 					leave-to="opacity-0"
 				>
-					<UIOverlay />
+					<Overlay />
 				</TransitionChild>
 
 				<div class="fixed inset-0 z-50 overflow-y-auto">
@@ -134,12 +137,12 @@ onUnmounted(() => {
 							leave-to="opacity-0 scale-95"
 						>
 							<DialogPanel :class="classes">
-								<UIHeading
+								<Heading
 									size="lg"
 									weight="bold"
 								>
 									<slot name="title" />
-								</UIHeading>
+								</Heading>
 
 								<slot />
 

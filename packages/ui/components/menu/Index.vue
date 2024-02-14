@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Button from '@/components/button/Index.vue'
+import Icon from '@/components/icon/Index.vue'
+
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 type Item = {
@@ -47,20 +50,20 @@ const props = defineProps<Props>()
 							:key="index"
 							@click.stop="item.onClick && item.onClick()"
 						>
-							<UIButton
+							<Button
 								color="primary"
 								:variant="active ? 'tonal' : 'text'"
 								block
 								justify="start"
 							>
 								<template #prepend>
-									<UIIcon
+									<Icon
 										:icon="item.icon"
 										class="mr-2"
 									/>
 								</template>
 								{{ item.value }}
-							</UIButton>
+							</Button>
 						</MenuItem>
 					</template>
 					<template v-else-if="$slots['items']">
