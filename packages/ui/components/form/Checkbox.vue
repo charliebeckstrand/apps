@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { textSizeMap } from '@/constants/mapping'
+
 import type { Color, Size } from '@/types/form/checkbox'
 
 type Emit = {
@@ -44,9 +46,9 @@ const classes = computed<string>(() => {
 	}
 
 	const sizeMap: Record<string, string | undefined> = {
-		sm: 'h-4 w-4 text-sm',
-		md: 'h-5 w-5 text-base',
-		lg: 'h-6 w-6 text-lg'
+		sm: 'h-4 w-4',
+		md: 'h-5 w-5',
+		lg: 'h-6 w-6'
 	}
 
 	if (props.color) {
@@ -63,6 +65,8 @@ const classes = computed<string>(() => {
 		if (size) {
 			classes.push(size)
 		}
+
+		classes.push(textSizeMap[props.size])
 	}
 
 	return classes.join(' ')

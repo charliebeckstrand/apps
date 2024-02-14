@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { textSizeMap } from '@/constants/mapping'
+
 import type { Color, Size } from '@/types/progress'
 
 interface Props {
@@ -56,15 +58,7 @@ const sizeClasses = computed<string | undefined>(() => {
 	return `${baseClasses} ${sizes[props.size]}`
 })
 
-const textSizeClasses = computed<string | undefined>(() => {
-	const sizeMap: Record<string, string> = {
-		sm: 'text-xs',
-		md: 'text-sm',
-		lg: 'text-base'
-	}
-
-	return sizeMap[props.size]
-})
+const textSizeClasses = computed<string | undefined>(() => textSizeMap[props.size])
 
 const colorClasses = computed<string | undefined>(() => {
 	const colorMap: Partial<Record<Color, string>> = {

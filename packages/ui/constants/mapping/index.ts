@@ -1,0 +1,6 @@
+export { borderRadiusMap } from '@/constants/mapping/base/border-radius'
+export { fontWeightMap } from '@/constants/mapping/base/font-weight'
+export { justifyMap } from '@/constants/mapping/base/justify'
+export { paddingMap } from '@/constants/mapping/base/padding'
+export { textSizeMap } from '@/constants/mapping/base/text-size'
+export { variantMap } from '@/constants/mapping/base/variant'

@@ -18,8 +18,7 @@ const classes = computed<string>(() => {
 		default: {
 			primary: 'bg-primary text-white',
 			secondary: 'bg-secondary text-white',
-			transparent: 'bg-transparent text-primary',
-			dark: 'bg-[#333] text-white'
+			transparent: 'bg-transparent text-primary'
 		}
 	}
 

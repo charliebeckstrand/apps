@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
+import { paddingMap } from '@/constants/mapping'
+
 import type { Padding, Size } from '@/types/dialog'
 
 type Emit = {
@@ -31,13 +33,8 @@ const isOpen = computed({
 })
 
 const classes = computed(() => {
-	const paddingMap: Record<Padding, string> = {
-		sm: 'p-3',
-		md: 'p-4',
-		lg: 'p-5'
-	}
-
-	const sizeMap: Partial<Record<Size, string>> = {
+	const sizeMap: Record<Size, string> = {
+		xs: 'max-w-xs',
 		sm: 'max-w-sm',
 		md: 'max-w-md',
 		lg: 'max-w-lg',

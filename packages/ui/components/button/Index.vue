@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { borderRadiusMap, justifyMap } from '@/constants/mapping'
+
 import type { BorderRadius, Color, Justify, Size, Variant } from '@/types/button'
 
 interface Props {
@@ -95,23 +97,6 @@ const classes = computed<string>(() => {
 		}
 	}
 
-	const borderRadiusMap: Record<BorderRadius, string | undefined> = {
-		sm: 'rounded-sm',
-		md: 'rounded-md',
-		lg: 'rounded-lg',
-		full: 'rounded-full',
-		none: 'rounded-none'
-	}
-
-	const justifyMap: Record<Justify, string> = {
-		start: 'justify-start',
-		center: 'justify-center',
-		end: 'justify-end',
-		'space-around': 'justify-around',
-		'space-between': 'justify-between',
-		'space-evenly': 'justify-evenly'
-	}
-
 	const sizeMap = {
 		sm: { text: 'text-sm', padding: 'px-2 py-1 min-h-8', icon: 'h-8 w-8' },
 		md: { text: 'text-base', padding: 'px-4 py-2 min-h-10', icon: 'h-10 w-10' },
@@ -193,33 +178,12 @@ const classes = computed<string>(() => {
 		}
 	}
 
-	if (props.variant) {
-		const backgroundVariant = backgroundVariantMap[props.variant]
-		const textVariant = textVariantMap[props.variant]
-
-		if (backgroundVariant && props.color) {
-			const background = backgroundVariant[props.color]
-
-			if (background) {
-				classes.push(background)
-			}
-		}
-
-		if (textVariant && props.textColor) {
-			const text = textVariant[props.color]
-
-			if (text) {
-				classes.push(text)
-			}
-		}
-	}
-
 	if (props.dark) {
 		classes.push('text-white')
 	}
 
 	if (props.disabled) {
-		classes.push('opacity-50 transition-all pointer-events-none')
+		classes.push('opacity-50 pointer-events-none')
 	}
 
 	if (props.icon) {
@@ -240,6 +204,27 @@ const classes = computed<string>(() => {
 
 	if (props.textColor) {
 		classes.push(textVariantMap[props.variant][props.textColor])
+	}
+
+	if (props.variant) {
+		const backgroundVariant = backgroundVariantMap[props.variant]
+		const textVariant = textVariantMap[props.variant]
+
+		if (backgroundVariant) {
+			const background = backgroundVariant[props.color]
+
+			if (background) {
+				classes.push(background)
+			}
+		}
+
+		if (textVariant && props.textColor) {
+			const text = textVariant[props.color]
+
+			if (text) {
+				classes.push(text)
+			}
+		}
 	}
 
 	return classes.join(' ')

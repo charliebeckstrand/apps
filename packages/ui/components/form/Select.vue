@@ -3,6 +3,8 @@ import { computed } from 'vue'
 
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
+import { paddingMap } from '@/constants/mapping'
+
 import type { Padding } from '@/types/base/padding'
 
 type ModelValue = string | number | undefined
@@ -42,13 +44,6 @@ const inputValue = computed<ModelValue>({
 
 const classes = computed<string>(() => {
 	const classes = ['bg-gray-100 flex w-full rounded-md resize-none appearance-none pr-10']
-
-	const paddingMap: Record<Padding, string> = {
-		sm: 'p-2',
-		md: 'p-3',
-		lg: 'p-4',
-		none: 'p-0'
-	}
 
 	if (props.padding) {
 		classes.push(paddingMap[props.padding])

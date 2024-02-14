@@ -20,5 +20,7 @@ appStore.setLanes([
 </script>
 
 <template>
-	<NuxtLayout />
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
 </template>

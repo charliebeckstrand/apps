@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { paddingMap, textSizeMap } from '@/constants/mapping'
+import { variantMap } from '@/constants/mapping/form/input'
+
 import type { Resize, Size, Variant } from '@/types/form/textarea'
 
 type Emit = {
@@ -42,24 +45,13 @@ const classes = computed<string>(() => {
 		both: 'resize'
 	}
 
-	const sizeMap: Record<string, string> = {
-		xs: 'p-1 text-xs',
-		sm: 'p-2 text-sm',
-		md: 'p-3 text-base',
-		lg: 'p-4 text-lg'
-	}
-
-	const variantMap: Partial<Record<Variant, string>> = {
-		default: 'bg-gray-100',
-		outlined: 'border border-gray-300'
-	}
-
 	if (props.resize) {
 		classes.push(resizeMap[props.resize])
 	}
 
 	if (props.size) {
-		classes.push(sizeMap[props.size])
+		classes.push(paddingMap[props.size])
+		classes.push(textSizeMap[props.size])
 	}
 
 	if (props.variant) {

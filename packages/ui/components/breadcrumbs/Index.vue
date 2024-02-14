@@ -15,17 +15,13 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-	<nav
-		aria-label="breadcrumb"
-		class="ui-breadcrumbs"
-	>
+	<nav aria-label="breadcrumb">
 		<template
 			v-for="(item, index) in props.items"
 			:key="index"
 		>
 			<nuxt-link
 				:to="item.to"
-				class="ui-breadcrumb-item"
 				:class="{
 					'text-gray-500 hover:text-gray-700': index !== props.items.length - 1
 				}"

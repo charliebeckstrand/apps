@@ -13,21 +13,21 @@ const props = withDefaults(defineProps<Props>(), {
 	icon: undefined
 })
 
-const sizeClasses = computed<string>(() => {
-	const sizes: Record<string, string> = {
+const classes = computed<string>(() => {
+	const sizeMap: Record<string, string> = {
 		xs: 'w-4 h-4',
 		sm: 'w-5 h-5',
 		md: 'w-6 h-6',
 		lg: 'w-7 h-7'
 	}
 
-	return sizes[props.size]
+	return sizeMap[props.size]
 })
 </script>
 
 <template>
 	<component
 		:is="props.icon"
-		:class="sizeClasses"
+		:class="classes"
 	/>
 </template>

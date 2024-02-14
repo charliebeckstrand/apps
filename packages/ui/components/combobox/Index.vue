@@ -10,6 +10,9 @@ import {
 	TransitionRoot
 } from '@headlessui/vue'
 
+import { paddingMap, textSizeMap } from '@/constants/mapping'
+import { variantMap } from '@/constants/mapping/form/input'
+
 type Item = {
 	value: string
 	label: string
@@ -66,23 +69,11 @@ const filteredItems = computed(() =>
 )
 
 const inputClasses = computed<string>(() => {
-	const sizeMap: Record<string, string> = {
-		xs: 'p-1 text-xs',
-		sm: 'p-2 text-sm',
-		md: 'p-3 text-base',
-		lg: 'p-4 text-lg'
-	}
-
-	const variantMap: Record<Variant, string> = {
-		default: 'bg-gray-100',
-		outlined: 'border border-gray-300',
-		plain: 'bg-transparent'
-	}
-
 	const classes = ['flex w-full rounded-md']
 
 	if (props.size) {
-		classes.push(sizeMap[props.size])
+		classes.push(paddingMap[props.size])
+		classes.push(textSizeMap[props.size])
 	}
 
 	if (props.variant) {
@@ -107,7 +98,7 @@ const clear = () => {
 			<div class="relative w-full cursor-default rounded-lg bg-white">
 				<ComboboxButton
 					as="div"
-					class="border-non relative z-10 flex items-center"
+					class="relative z-10 flex items-center border-none"
 				>
 					<ComboboxInput
 						:id="props.id"

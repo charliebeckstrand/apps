@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { fontWeightMap } from '@/constants/mapping'
+
 import type { Size, Weight } from '@/types/heading'
 
 type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'span'
@@ -18,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const classes = computed(() => {
-	const sizeMap: Record<Size, string> = {
+	const textSizeMap: Record<Size, string> = {
 		xs: 'text-xs',
 		sm: 'text-sm',
 		md: 'text-md',
@@ -29,26 +31,14 @@ const classes = computed(() => {
 		'4xl': 'text-4xl'
 	}
 
-	const weightMap: Record<Weight, string> = {
-		thin: 'font-thin',
-		extralight: 'font-extralight',
-		light: 'font-light',
-		normal: 'font-normal',
-		medium: 'font-medium',
-		semibold: 'font-semibold',
-		bold: 'font-bold',
-		extrabold: 'font-extrabold',
-		black: 'font-black'
-	}
-
 	const classes = []
 
 	if (props.size) {
-		classes.push(sizeMap[props.size])
+		classes.push(textSizeMap[props.size])
 	}
 
 	if (props.weight) {
-		classes.push(weightMap[props.weight])
+		classes.push(fontWeightMap[props.weight])
 	}
 
 	return classes.join(' ')

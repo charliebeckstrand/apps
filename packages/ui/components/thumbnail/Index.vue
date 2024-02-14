@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-	<div class="ui-thumbnail relative rounded-full">
+	<div class="relative rounded-full">
 		<img
 			:src="props.src"
 			:height="props.height"

@@ -5,9 +5,8 @@ import { HeartIcon as SolidHeartIcon, PencilIcon, TrashIcon } from '@heroicons/v
 import { useAuthStore } from '@/stores/auth'
 
 import type { Recipe } from '@/types/recipe'
-
-type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'light' | 'dark'
-type Variant = 'plain' | 'outlined' | 'raised' | 'flat' | 'text'
+import type { Color } from '@ui/types/base/color'
+import type { Variant } from '@ui/types/base/variant'
 
 interface Props {
 	recipe?: Recipe
@@ -17,8 +16,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	recipe: undefined,
-	color: 'primary',
-	variant: 'plain'
+	color: undefined,
+	variant: 'default'
 })
 
 const authStore = useAuthStore()

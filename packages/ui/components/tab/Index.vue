@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const classes = computed<string>(() => {
-	const classes = ['relative flex w-full cursor-pointer items-center justify-center border-b-2 py-3 font-medium']
+	const classes = ['relative flex w-full cursor-pointer items-center justify-center border-b-2 py-2 font-medium']
 
 	if (props.active) {
 		classes.push('bg-accent/75 text-white')
@@ -22,8 +22,8 @@ const classes = computed<string>(() => {
 
 <template>
 	<li :class="classes">
-		<button class="flex items-center justify-between">
-			<div>
+		<button class="flex items-center justify-between space-x-2">
+			<div v-if="$slots['prepend']">
 				<slot name="prepend" />
 			</div>
 
@@ -31,7 +31,7 @@ const classes = computed<string>(() => {
 				<slot />
 			</div>
 
-			<div>
+			<div v-if="$slots['append']">
 				<slot name="append" />
 			</div>
 		</button>

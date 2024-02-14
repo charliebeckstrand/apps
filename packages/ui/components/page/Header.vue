@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Color = 'white' | 'accent'
+type Color = 'accent' | 'white'
 
 interface Props {
 	color?: Color
@@ -13,11 +13,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const classes = computed<string>(() => {
 	const colorMap = {
-		white: 'bg-white',
-		accent: 'bg-accent/5 border-accent/10'
+		accent: 'bg-accent/5 border-accent/10',
+		white: 'bg-white'
 	}
 
-	const classes = ['ui-page-header flex items-center p-4']
+	const classes = ['flex items-center p-4']
 
 	if (props.color) {
 		const color = colorMap[props.color]

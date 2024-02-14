@@ -22,17 +22,8 @@ const props = withDefaults(defineProps<Props>(), {
 	steps: () => []
 })
 
-const classes = computed<string>(() => {
-	const classes = ['flex items-center justify-between']
-
-	return classes.join(' ')
-})
-
-const itemClasses = computed<string>(() => {
-	const classes = ['cursor-pointer select-none rounded-full p-4']
-
-	return classes.join(' ')
-})
+const classes = computed<string>(() => 'flex items-center justify-between')
+const itemClasses = computed<string>(() => 'cursor-pointer select-none rounded-full p-4')
 </script>
 
 <template>

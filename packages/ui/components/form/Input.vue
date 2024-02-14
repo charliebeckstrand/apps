@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { borderRadiusMap, paddingMap, textSizeMap } from '@/constants/mapping'
+import { variantMap } from '@/constants/mapping/form/input'
+
 import type { BorderRadius, Size, Variant } from '@/types/form/input'
 
 type ModelValue = string | number
@@ -35,27 +38,6 @@ const inputValue = computed<ModelValue>({
 })
 
 const classes = computed<string>(() => {
-	const borderRadiusMap: Record<BorderRadius, string> = {
-		sm: 'rounded-sm',
-		md: 'rounded-md',
-		lg: 'rounded-lg',
-		full: 'rounded-full',
-		none: 'rounded-none'
-	}
-
-	const sizeMap: Record<string, string> = {
-		sm: 'p-2 text-sm',
-		md: 'p-3 text-base',
-		lg: 'p-4 text-lg'
-	}
-
-	const variantMap: Record<Variant, string> = {
-		default: 'bg-gray-100',
-		outlined: 'border border-gray-300',
-		tonal: 'bg-gray-50',
-		plain: 'bg-transparent'
-	}
-
 	const classes = ['flex w-full']
 
 	if (props.borderRadius) {
@@ -63,7 +45,8 @@ const classes = computed<string>(() => {
 	}
 
 	if (props.size) {
-		classes.push(sizeMap[props.size])
+		classes.push(paddingMap[props.size])
+		classes.push(textSizeMap[props.size])
 	}
 
 	if (props.variant) {

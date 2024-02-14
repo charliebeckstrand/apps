@@ -1,29 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { textSizeMap } from '@/constants/mapping'
+
 import type { Size } from '@/types/base/size'
 
 interface Props {
 	size?: Size
+	tag?: 'label' | 'div'
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	size: 'md'
+	size: 'md',
+	tag: 'div'
 })
 
-const sizeClasses = computed<string>(() => {
-	const classMap: Record<Size, string> = {
-		sm: 'text-sm',
-		md: 'text-base',
-		lg: 'text-lg'
-	}
+const classes = computed<string>(() => textSizeMap[props.size])
 
-	return classMap[props.size]
-})
+const elementType = computed(() => (props.tag === 'label' ? resolveComponent('label') : 'div'))
 </script>
 
 <template>
-	<div :class="sizeClasses">
+	<component
+		:is="elementType"
+		:class="classes"
+	>
 		<slot />
-	</div>
+	</component>
 </template>

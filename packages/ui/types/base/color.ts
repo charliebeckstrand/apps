@@ -1,1 +1,1 @@
-export type Color = 'default' | 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'danger' | 'info'
+export type Color = 'default' | 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'white'

@@ -23,14 +23,14 @@ const variantClasses = computed<string>(() => {
 
 <template>
 	<div
-		class="ui-form-item relative flex items-center"
+		class="relative flex items-center"
 		:class="{
 			'has-prepend': $slots['prepend'],
 			'has-append': $slots['append']
 		}"
 	>
 		<div
-			class="absolute left-3 z-10 pr-1.5"
+			class="absolute left-4 z-20 pr-2"
 			:class="variantClasses"
 		>
 			<slot name="prepend" />
@@ -41,7 +41,7 @@ const variantClasses = computed<string>(() => {
 		</div>
 
 		<div
-			class="absolute right-3 z-10 pl-1.5"
+			class="absolute right-4 z-10 pl-2"
 			:class="variantClasses"
 		>
 			<slot name="append" />
@@ -50,16 +50,14 @@ const variantClasses = computed<string>(() => {
 </template>
 
 <style scoped lang="scss">
-.ui-form-item {
-	&.has-prepend:not(:empty) {
-		:deep(input) {
-			@apply pl-10;
-		}
+.has-prepend:not(:empty) {
+	:deep(input) {
+		@apply pl-12;
 	}
-	&.has-append:not(:empty) {
-		:deep(input) {
-			@apply pr-10;
-		}
+}
+.has-append:not(:empty) {
+	:deep(input) {
+		@apply pr-12;
 	}
 }
 </style>

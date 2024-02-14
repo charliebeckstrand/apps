@@ -109,5 +109,7 @@ const recipesStore = useRecipesStore()
 </script>
 
 <template>
-	<NuxtLayout />
+	<NuxtLayout>
+		<NuxtPage />
+	</NuxtLayout>
 </template>

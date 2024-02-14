@@ -1,4 +1,4 @@
 type Variant = 'default'
-type Color = 'primary' | 'secondary' | 'transparent' | 'dark'
+type Color = 'primary' | 'secondary' | 'transparent'
 
 export type { Color, Variant }

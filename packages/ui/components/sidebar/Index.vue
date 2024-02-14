@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Color = 'primary' | 'secondary' | 'gray'
+type Color = 'primary' | 'secondary' | 'accent'
 
 interface Props {
 	color?: Color
@@ -15,7 +15,7 @@ const classes = computed(() => {
 	const colorMap: Record<Color, string> = {
 		primary: 'bg-primary',
 		secondary: 'bg-secondary',
-		gray: 'bg-gray-100'
+		accent: 'bg-accent'
 	}
 
 	const classes = ['ui-sidebar h-full min-h-full flex flex-col px-4 overflow-hidden']
