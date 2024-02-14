@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { borderRadiusMap, justifyMap } from '@/constants/mapping'
+import { borderRadiusMap, justifyMap } from '@/constants'
 
 import type { BorderRadius, Color, Justify, Size, Variant } from '@/types/button'
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { paddingMap, variantMap } from '@/constants/mapping'
+import { paddingMap, variantMap } from '@/constants'
 
 import type { Color, Size, Variant } from '@/types/alert'
 

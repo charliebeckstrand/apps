@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { textSizeMap } from '@/constants/mapping'
+import { textSizeMap } from '@/constants'
 
 import type { Color, Size } from '@/types/progress'
 

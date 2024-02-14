@@ -10,8 +10,8 @@ import {
 	TransitionRoot
 } from '@headlessui/vue'
 
-import { paddingMap, textSizeMap } from '@/constants/mapping'
-import { variantMap } from '@/constants/mapping/form/input'
+import { paddingMap, textSizeMap } from '@/constants'
+import { variantMap } from '@/constants/form/input'
 
 type Item = {
 	value: string

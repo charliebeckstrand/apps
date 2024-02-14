@@ -3,7 +3,7 @@ import { computed } from 'vue'
 
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
-import { paddingMap } from '@/constants/mapping'
+import { paddingMap } from '@/constants'
 
 import type { Padding } from '@/types/base/padding'
 

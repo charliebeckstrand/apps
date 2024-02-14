@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { borderRadiusMap, paddingMap, variantMap } from '@/constants/mapping'
+import { borderRadiusMap, paddingMap, variantMap } from '@/constants'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/panel'
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { borderRadiusMap, paddingMap, textSizeMap } from '@/constants/mapping'
-import { variantMap } from '@/constants/mapping/form/input'
+import { borderRadiusMap, paddingMap, textSizeMap } from '@/constants'
+import { variantMap } from '@/constants/form/input'
 
 import type { BorderRadius, Size, Variant } from '@/types/form/input'
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { borderRadiusMap } from '@/constants/mapping'
+import { borderRadiusMap } from '@/constants'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/card'
 

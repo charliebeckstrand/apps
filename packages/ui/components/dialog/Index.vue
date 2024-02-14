@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
-import { paddingMap } from '@/constants/mapping'
+import { paddingMap } from '@/constants'
 
 import type { Padding, Size } from '@/types/dialog'
 

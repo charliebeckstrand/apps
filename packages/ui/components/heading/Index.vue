@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { fontWeightMap } from '@/constants/mapping'
+import { fontWeightMap } from '@/constants'
 
 import type { Size, Weight } from '@/types/heading'
 
