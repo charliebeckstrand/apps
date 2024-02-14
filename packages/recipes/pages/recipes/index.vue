@@ -58,6 +58,23 @@ onMounted(() => {
 		<UIPageContent>
 			<template v-if="loading"></template>
 			<template v-else>
+				<div class="w-[400px] space-y-4">
+					<UICard>
+						<template #title>Card Title</template>
+						<template #default>Card Body</template>
+					</UICard>
+
+					<div>
+						<UIPanel
+							padding="sm"
+							class="bg-primary/50 rounded-b-none text-white"
+						>
+							Card Title
+						</UIPanel>
+						<UIPanel class="rounded-t-none">Card Body</UIPanel>
+					</div>
+				</div>
+
 				<template v-if="recipes.length">
 					<UIFormInput
 						v-if="recipesWithNames.length"

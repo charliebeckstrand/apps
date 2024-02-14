@@ -36,13 +36,6 @@ const classes = computed<string>(() => {
 		none: 'rounded-none'
 	}
 
-	const paddingMap: Record<Padding, string> = {
-		sm: 'p-3',
-		md: 'p-4',
-		lg: 'p-5',
-		none: 'p-0'
-	}
-
 	const variantMap: Record<Variant, Record<Color, string>> = {
 		default: {
 			default: 'bg-gray-100 text-base',
@@ -88,7 +81,7 @@ const classes = computed<string>(() => {
 		}
 	}
 
-	const classes = ['interactive cursor-pointer']
+	const classes = ['ui-card interactive cursor-pointer']
 
 	if (props.rounded) {
 		classes.push(borderRadiusMap[props.rounded])
@@ -96,10 +89,6 @@ const classes = computed<string>(() => {
 
 	if (props.interactive) {
 		classes.push('interactive cursor-pointer')
-	}
-
-	if (props.padding) {
-		classes.push(paddingMap[props.padding])
 	}
 
 	if (props.to) {
@@ -128,9 +117,11 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 		:to="props.to"
 		:class="classes"
 	>
-		<div
+		<UIPanel
 			v-if="$slots['title'] || $slots['subtitle'] || $slots['header-append']"
-			class="flex items-center justify-between space-x-2"
+			:color="props.color"
+			:padding="props.padding"
+			class="flex items-center justify-between space-x-4"
 		>
 			<UIHeader>
 				<template #title>
@@ -140,22 +131,28 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 					<slot name="subtitle" />
 				</template>
 			</UIHeader>
-
 			<slot name="header-append" />
-		</div>
-
-		<div class="space-y-2">
+		</UIPanel>
+		<UIPanel
+			v-if="$slots['prepend'] || $slots['default'] || $slots['append']"
+			:color="props.color"
+			:padding="props.padding"
+			class="space-y-2"
+		>
 			<div v-if="$slots['append']">
 				<slot name="prepend" />
 			</div>
 
-			<div>
+			<div v-if="$slots['default'] || $slots['body']">
 				<slot />
+				<slot name="body" />
 			</div>
 
 			<div v-if="$slots['append']">
 				<slot name="append" />
 			</div>
-		</div>
+		</UIPanel>
 	</component>
 </template>
+
+<style scoped lang="scss"></style>
