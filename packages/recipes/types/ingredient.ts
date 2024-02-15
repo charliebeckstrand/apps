@@ -1,10 +1,10 @@
 interface Ingredient {
-	quantity: string | number
+	name: string
+	quantity: string | number | undefined
 	unit?: {
 		label: string
 		value: string
 	}
-	name: string
 }
 
 export type { Ingredient }

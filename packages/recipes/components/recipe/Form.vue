@@ -127,7 +127,7 @@ const handleFileUpload = (event: Event) => {
 				/>
 				<template #append>
 					<Button
-						v-tippy="{ content: 'Upload' }"
+						v-tippy="{ content: 'Upload File' }"
 						color="info"
 						variant="plain"
 						class="-mr-1"

@@ -2,7 +2,7 @@
 
 <template>
 	<div>
-		<UIHeader>
+		<UIHeader class="min-h-[40px]">
 			<template #prepend>
 				<slot name="prepend" />
 			</template>

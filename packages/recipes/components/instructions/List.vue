@@ -88,7 +88,8 @@ watch(
 						ref="instructionNameInputRef"
 						v-model="instruction.description"
 						:placeholder="`Instruction ${index + 1}`"
-						rows="2"
+						class="max-h-48"
+						resize="vertical"
 					/>
 				</UIFormGroup>
 
