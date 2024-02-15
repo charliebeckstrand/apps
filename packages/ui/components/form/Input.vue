@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useBorderRadius } from '@/composables/useBorderRadius'
+import { useInput } from '@/composables/useInput'
+import { usePadding } from '@/composables/usePadding'
+import { useTextSize } from '@/composables/useTextSize'
 
-import { borderRadiusMap, paddingMap, textSizeMap } from '@/constants'
-import { variantMap } from '@/constants/form/input'
+import { computed } from 'vue'
 
 import type { BorderRadius, Size, Variant } from '@/types/form/input'
 
@@ -16,7 +18,7 @@ interface Props {
 	modelValue?: ModelValue
 	variant?: Variant
 	size?: Size
-	borderRadius?: BorderRadius
+	rounded?: BorderRadius
 	autocomplete?: string
 }
 
@@ -26,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
 	modelValue: '',
 	variant: 'default',
 	size: 'md',
-	borderRadius: 'md',
+	rounded: 'md',
 	autocomplete: 'one-time-code'
 })
 
@@ -40,17 +42,17 @@ const inputValue = computed<ModelValue>({
 const classes = computed<string>(() => {
 	const classes = ['flex w-full']
 
-	if (props.borderRadius) {
-		classes.push(borderRadiusMap[props.borderRadius])
+	if (props.rounded) {
+		classes.push(useBorderRadius(props.rounded))
 	}
 
 	if (props.size) {
-		classes.push(paddingMap[props.size])
-		classes.push(textSizeMap[props.size])
+		classes.push(usePadding(props.size))
+		classes.push(useTextSize(props.size))
 	}
 
 	if (props.variant) {
-		classes.push(variantMap[props.variant])
+		classes.push(useInput(props.variant))
 	}
 
 	return classes.join(' ')

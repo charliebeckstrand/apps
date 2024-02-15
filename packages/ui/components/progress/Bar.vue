@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useBackgroundColor } from '@/composables/useBackgroundColor'
+import { useTextSize } from '@/composables/useTextSize'
 
-import { textSizeMap } from '@/constants'
+import { computed } from 'vue'
 
 import type { Color, Size } from '@/types/progress'
 
@@ -36,9 +37,7 @@ const adjustedValue = computed<number>(() => {
 
 const baseClasses = computed<string>(() => 'bg-gray-300 rounded-full text-center transition-width duration-300')
 
-const sizeClasses = computed<string | undefined>(() => {
-	const baseClasses = 'px-4'
-
+const classes = computed<string>(() => {
 	const sizes: Record<string, string> = {
 		sm: 'p-2',
 		md: 'p-2.5',
@@ -51,24 +50,22 @@ const sizeClasses = computed<string | undefined>(() => {
 		lg: 'py-2'
 	}
 
+	const classes = [...baseClasses.value, 'px-4']
+
+	if (props.color) {
+		classes.push(useBackgroundColor(props.color))
+	}
+
 	if (props.showLabel) {
-		return `${baseClasses} ${sizesWithText[props.size]}`
+		classes.push(sizesWithText[props.size])
+	} else {
+		classes.push(sizes[props.size])
 	}
 
-	return `${baseClasses} ${sizes[props.size]}`
+	return classes.join(' ')
 })
 
-const textSizeClasses = computed<string | undefined>(() => textSizeMap[props.size])
-
-const colorClasses = computed<string | undefined>(() => {
-	const colorMap: Partial<Record<Color, string>> = {
-		primary: 'bg-primary text-white',
-		secondary: 'bg-secondary text-white',
-		accent: 'bg-accent text-white'
-	}
-
-	return colorMap[props.color]
-})
+const textSizeClasses = computed<string | undefined>(() => useTextSize(props.size))
 </script>
 
 <template>
@@ -81,7 +78,7 @@ const colorClasses = computed<string | undefined>(() => {
 	>
 		<div
 			:style="{ width: `${adjustedValue}%`, minWidth: props.showLabel ? '2.5rem' : undefined }"
-			:class="[baseClasses, colorClasses, sizeClasses]"
+			:class="classes"
 		>
 			<span
 				v-if="props.showLabel"

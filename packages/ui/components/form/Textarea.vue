@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useBorderRadius } from '@/composables/useBorderRadius'
+import { useInput } from '@/composables/useInput'
+import { usePadding } from '@/composables/usePadding'
+import { useResize } from '@/composables/useResize'
+import { useTextSize } from '@/composables/useTextSize'
+
 import { computed } from 'vue'
 
-import { paddingMap, textSizeMap } from '@/constants'
-import { variantMap } from '@/constants/form/input'
-
-import type { Resize, Size, Variant } from '@/types/form/textarea'
+import type { BorderRadius, Resize, Size, Variant } from '@/types/form/textarea'
 
 type Emit = {
 	(event: 'update:modelValue', value: string): void
@@ -12,20 +15,22 @@ type Emit = {
 
 interface Props {
 	modelValue: string
-	variant?: Variant
-	size?: Size
-	rows?: number | string
+	rounded?: BorderRadius
 	resize?: Resize
+	rows?: number | string
+	size?: Size
+	variant?: Variant
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: '',
-	variant: 'default',
-	size: 'md',
+	rounded: 'md',
+	resize: 'none',
 	rows: 4,
-	resize: 'none'
+	size: 'md',
+	variant: 'default'
 })
 
 const inputValue = computed<string>({
@@ -36,26 +41,23 @@ const inputValue = computed<string>({
 })
 
 const classes = computed<string>(() => {
-	const classes = ['ui-textarea flex w-full rounded-md resize-none min-h-[48px]']
+	const classes = ['flex w-full rounded-md resize-none min-h-[48px]']
 
-	const resizeMap: Record<Resize, string> = {
-		none: 'resize-none',
-		vertical: 'resize-y',
-		horizontal: 'resize-x',
-		both: 'resize'
+	if (props.rounded) {
+		classes.push(useBorderRadius(props.rounded))
 	}
 
 	if (props.resize) {
-		classes.push(resizeMap[props.resize])
+		classes.push(useResize(props.resize))
 	}
 
 	if (props.size) {
-		classes.push(paddingMap[props.size])
-		classes.push(textSizeMap[props.size])
+		classes.push(usePadding(props.size))
+		classes.push(useTextSize(props.size))
 	}
 
 	if (props.variant) {
-		const variant = variantMap[props.variant]
+		const variant = useInput(props.variant)
 
 		if (variant) {
 			classes.push(variant)

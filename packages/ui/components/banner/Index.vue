@@ -3,46 +3,37 @@ import Heading from '@/components/heading/Index.vue'
 
 import { computed } from 'vue'
 
+import { useBackgroundColor } from '@/composables/useBackgroundColor'
 import { usePadding } from '@/composables/usePadding'
-import { useVariant } from '@/composables/useVariant'
+import { useTextColor } from '@/composables/useTextColor'
 
-import type { Color, Size, Variant } from '@/types/alert'
+import type { Color, Size } from '@/types/banner'
 
 interface Props {
 	color?: Color
 	padding?: Size
-	variant?: Variant
-	dark?: boolean
+	textColor?: Color
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	color: 'default',
+	color: 'primary',
 	padding: 'md',
-	variant: 'default',
-	dark: false
+	textColor: 'white'
 })
 
 const classes = computed<string>(() => {
-	const classes = ['rounded-md']
+	const classes = ['']
 
-	if (props.dark) {
-		classes.push('text-white')
+	if (props.color) {
+		classes.push(useBackgroundColor(props.color))
 	}
 
 	if (props.padding) {
 		classes.push(usePadding(props.padding))
 	}
 
-	if (props.variant) {
-		const variant = useVariant(props.variant)
-
-		if (variant) {
-			const color = variant[props.color]
-
-			if (color) {
-				classes.push(color)
-			}
-		}
+	if (props.textColor) {
+		classes.push(useTextColor(props.textColor))
 	}
 
 	return classes.join(' ')

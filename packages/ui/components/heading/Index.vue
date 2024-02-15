@@ -1,44 +1,39 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { fontWeightMap } from '@/constants'
+import { useFontWeight } from '@/composables/useFontWeight'
+import { useTextColor } from '@/composables/useTextColor'
+import { useTextSize } from '@/composables/useTextSize'
 
-import type { Size, Weight } from '@/types/heading'
-
-type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'span'
+import type { Color, FontWeight, Size, Tag } from '@/types/heading'
 
 interface Props {
-	tag?: Tag
+	color?: Color
 	size?: Size
-	weight?: Weight
+	tag?: Tag
+	weight?: FontWeight
 }
 
 const props = withDefaults(defineProps<Props>(), {
+	color: 'default',
 	tag: 'div',
 	size: 'md',
 	weight: 'normal'
 })
 
 const classes = computed(() => {
-	const textSizeMap: Record<Size, string> = {
-		xs: 'text-xs',
-		sm: 'text-sm',
-		md: 'text-md',
-		lg: 'text-lg',
-		xl: 'text-xl',
-		'2xl': 'text-2xl',
-		'3xl': 'text-3xl',
-		'4xl': 'text-4xl'
-	}
-
 	const classes = []
 
+	if (props.color) {
+		classes.push(useTextColor(props.color))
+	}
+
 	if (props.size) {
-		classes.push(textSizeMap[props.size])
+		classes.push(useTextSize(props.size))
 	}
 
 	if (props.weight) {
-		classes.push(fontWeightMap[props.weight])
+		classes.push(useFontWeight(props.weight))
 	}
 
 	return classes.join(' ')

@@ -1,4 +1,5 @@
 module.exports = {
+	presets: ['../../tailwind.config'],
 	theme: {
 		extend: {
 			colors: {
@@ -10,6 +11,5 @@ module.exports = {
 				danger: '#FC3C3C'
 			}
 		}
-	},
-	presets: ['../../tailwind.config']
+	}
 }

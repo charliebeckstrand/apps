@@ -1,4 +1,5 @@
 module.exports = {
+	presets: ['../../tailwind.config'],
 	theme: {
 		extend: {
 			colors: {
@@ -12,7 +13,5 @@ module.exports = {
 				info: '#03A9F4'
 			}
 		}
-	},
-	darkMode: 'media',
-	presets: ['../../tailwind.config']
+	}
 }

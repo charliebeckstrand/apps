@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { borderRadiusMap, textSizeMap, variantMap } from '@/constants'
+import { useBorderRadius } from '@/composables/useBorderRadius'
+import { useTextSize } from '@/composables/useTextSize'
+import { useVariant } from '@/composables/useVariant'
 
 import type { BorderRadius, Color, Size, Variant } from '@/types/badge'
 
@@ -23,15 +25,15 @@ const classes = computed<string>(() => {
 	const classes = ['ui-badge inline-flex space-x-1 items-center px-1.5 py-0.5 border']
 
 	if (props.rounded) {
-		classes.push(borderRadiusMap[props.rounded])
+		classes.push(useBorderRadius(props.rounded))
 	}
 
 	if (props.size) {
-		classes.push(textSizeMap[props.size])
+		classes.push(useTextSize(props.size))
 	}
 
 	if (props.variant) {
-		const variant = variantMap[props.variant]
+		const variant = useVariant(props.variant)
 
 		if (variant) {
 			const color = variant[props.color]

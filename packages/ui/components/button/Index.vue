@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { borderRadiusMap, justifyMap } from '@/constants'
+import { useBorderRadius } from '@/composables/useBorderRadius'
+import { useJustify } from '@/composables/useJustify'
 
 import type { BorderRadius, Color, Justify, Size, Variant } from '@/types/button'
 
@@ -172,7 +173,7 @@ const classes = computed<string>(() => {
 		classes.push('w-full')
 
 		if (props.justify) {
-			classes.push(justifyMap[props.justify])
+			classes.push(useJustify(props.justify))
 		} else {
 			classes.push('justify-center')
 		}
@@ -196,9 +197,9 @@ const classes = computed<string>(() => {
 		}
 	} else {
 		classes.push(
-			`${props.variant !== 'plain' ? sizeMap[props.size].padding : undefined} ${sizeMap[props.size].text} ${
-				borderRadiusMap[props.rounded]
-			}`
+			`${props.variant !== 'plain' ? sizeMap[props.size].padding : undefined} ${
+				sizeMap[props.size].text
+			} ${useBorderRadius(props.rounded)}`
 		)
 	}
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useTextSize } from '@/composables/useTextSize'
 
-import { textSizeMap } from '@/constants'
+import { computed } from 'vue'
 
 import type { Color, Size } from '@/types/form/checkbox'
 
@@ -66,7 +66,7 @@ const classes = computed<string>(() => {
 			classes.push(size)
 		}
 
-		classes.push(textSizeMap[props.size])
+		classes.push(useTextSize(props.size))
 	}
 
 	return classes.join(' ')

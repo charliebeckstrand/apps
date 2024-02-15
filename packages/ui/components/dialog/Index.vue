@@ -2,9 +2,9 @@
 import Heading from '@/components/heading/Index.vue'
 import Overlay from '@/components/overlay/Index.vue'
 
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { usePadding } from '@/composables/usePadding'
 
-import { paddingMap } from '@/constants'
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 import type { Padding, Size } from '@/types/dialog'
 
@@ -52,7 +52,7 @@ const classes = computed(() => {
 	]
 
 	if (props.padding) {
-		classes.push(paddingMap[props.padding])
+		classes.push(usePadding(props.padding))
 	}
 
 	if (props.size) {

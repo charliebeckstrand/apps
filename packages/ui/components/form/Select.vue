@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Icon from '@/components/icon/Index.vue'
 
+import { usePadding } from '@/composables/usePadding'
+
 import { computed } from 'vue'
 
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
-
-import { paddingMap } from '@/constants'
 
 import type { Padding } from '@/types/base/padding'
 
@@ -48,7 +48,7 @@ const classes = computed<string>(() => {
 	const classes = ['bg-gray-100 flex w-full rounded-md resize-none appearance-none pr-10']
 
 	if (props.padding) {
-		classes.push(paddingMap[props.padding])
+		classes.push(usePadding(props.padding))
 	}
 
 	return classes.join(' ')

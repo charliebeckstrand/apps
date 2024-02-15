@@ -3,6 +3,10 @@ import Button from '@/components/button/Index.vue'
 import ComboboxItem from '@/components/combobox/Item.vue'
 import Icon from '@/components/icon/Index.vue'
 
+import { useInput } from '@/composables/useInput'
+import { usePadding } from '@/composables/usePadding'
+import { useTextSize } from '@/composables/useTextSize'
+
 import { ref, computed } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import {
@@ -13,9 +17,6 @@ import {
 	ComboboxOption,
 	TransitionRoot
 } from '@headlessui/vue'
-
-import { paddingMap, textSizeMap } from '@/constants'
-import { variantMap } from '@/constants/form/input'
 
 type Item = {
 	value: string
@@ -76,12 +77,12 @@ const inputClasses = computed<string>(() => {
 	const classes = ['flex w-full rounded-md']
 
 	if (props.size) {
-		classes.push(paddingMap[props.size])
-		classes.push(textSizeMap[props.size])
+		classes.push(usePadding(props.size))
+		classes.push(useTextSize(props.size))
 	}
 
 	if (props.variant) {
-		classes.push(variantMap[props.variant])
+		classes.push(useInput(props.variant))
 	}
 
 	return classes.join(' ')

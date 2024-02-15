@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useTextSize } from '@/composables/useTextSize'
 
-import { textSizeMap } from '@/constants'
+import { computed } from 'vue'
 
 import type { Size } from '@/types/base/size'
 
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 	tag: 'div'
 })
 
-const classes = computed<string>(() => textSizeMap[props.size])
+const classes = computed<string>(() => useTextSize(props.size))
 
 const elementType = computed(() => (props.tag === 'label' ? 'label' : 'div'))
 </script>

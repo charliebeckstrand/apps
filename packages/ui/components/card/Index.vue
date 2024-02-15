@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import Header from '@/components/header/Index.vue'
 
-import { computed } from 'vue'
+import { useBorderRadius } from '@/composables/useBorderRadius'
+import { usePadding } from '@/composables/usePadding'
+import { useTextColor } from '@/composables/useTextColor'
 
-import { borderRadiusMap, paddingMap, textColorMap } from '@/constants'
+import { computed } from 'vue'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/card'
 
@@ -252,11 +254,11 @@ const classes = computed<string>(() => {
 	}
 
 	if (props.rounded) {
-		classes.push(borderRadiusMap[props.rounded])
+		classes.push(useBorderRadius(props.rounded))
 	}
 
 	if (props.textColor) {
-		classes.push(textColorMap[props.textColor])
+		classes.push(useTextColor(props.textColor))
 	}
 
 	if (props.to) {
@@ -280,7 +282,7 @@ const paddingClasses = computed<string>(() => {
 	const classes = []
 
 	if (props.padding) {
-		classes.push(paddingMap[props.padding])
+		classes.push(usePadding(props.padding))
 	}
 
 	return classes.join(' ')
