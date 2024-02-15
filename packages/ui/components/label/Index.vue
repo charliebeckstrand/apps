@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const classes = computed<string>(() => textSizeMap[props.size])
 
-const elementType = computed(() => (props.tag === 'label' ? resolveComponent('label') : 'div'))
+const elementType = computed(() => (props.tag === 'label' ? 'label' : 'div'))
 </script>
 
 <template>

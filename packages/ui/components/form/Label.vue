@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Label from '@/components/form/Label.vue'
+import Label from '@/components/label/Index.vue'
 </script>
 
 <template>

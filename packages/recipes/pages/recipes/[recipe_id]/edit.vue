@@ -113,40 +113,45 @@ useHead({
 		: 'Recipe not found'
 })
 </script>
+
 <template>
 	<div>
-		<template v-if="authStore.user?.id">
-			<UIBreadcrumbs
-				:items="[
-					{ label: 'Home', to: '/' },
-					{ label: 'Recipes', to: '/recipes' },
-					{
-						label: `${originalRecipe.name ? originalRecipe.name : 'Untitled Recipe'}`,
-						to: `/recipes/${editableRecipe.id}`
-					},
-					{ label: 'Edit', disabled: true }
-				]"
-			/>
+		<PageLayout v-if="authStore.user?.id">
+			<template #breadcrumbs>
+				<UIBreadcrumbs
+					:items="[
+						{ label: 'Home', to: '/' },
+						{ label: 'Recipes', to: '/recipes' },
+						{
+							label: `${originalRecipe.name ? originalRecipe.name : 'Untitled Recipe'}`,
+							to: `/recipes/${editableRecipe.id}`
+						},
+						{ label: 'Edit', disabled: true }
+					]"
+				/>
+			</template>
 
-			<UIPageHeader>
-				<template #title>
-					<div class="flex items-center space-x-1">
-						<span class="font-normal">Edit:</span>
-						<template v-if="originalRecipe.name">
-							<span>{{ originalRecipe.name }}</span>
-						</template>
-						<template v-else>
-							<span class="text-gray-400">Untitled Recipe</span>
-						</template>
-					</div>
-				</template>
-			</UIPageHeader>
+			<template #header>
+				<Header>
+					<template #title>
+						<div class="flex items-center space-x-1">
+							<span class="font-normal">Edit:</span>
+							<template v-if="originalRecipe.name">
+								<span>{{ originalRecipe.name }}</span>
+							</template>
+							<template v-else>
+								<span class="text-gray-400">Untitled Recipe</span>
+							</template>
+						</div>
+					</template>
+				</Header>
+			</template>
 
-			<UIPageContent>
+			<template #default>
 				<RecipeForm v-model="editableRecipe" />
-			</UIPageContent>
+			</template>
 
-			<UIPageFooter>
+			<template #footer>
 				<Button
 					color="info"
 					@click="saveChanges"
@@ -160,52 +165,40 @@ useHead({
 				>
 					Cancel
 				</Button>
-				<!-- <Button
-				v-if="isDifferences"
+			</template>
+		</PageLayout>
+		<div
+			v-else
+			class="m-4"
+		>
+			<UIAlert
 				color="danger"
 				variant="tonal"
-				@click="discardChanges"
 			>
-				<template #prepend>
-					<UIIcon :icon="BackspaceIcon" />
-				</template>
-				Discard Changes
-			</Button> -->
-			</UIPageFooter>
+				You are not authorized to edit this recipe
+			</UIAlert>
+		</div>
 
-			<UIDialog v-model="showConfirmDiscardChanges">
-				<div class="mb-4 mt-2 text-center text-lg">
-					Are you sure you want to discard changes to this recipe?
+		<UIDialog v-model="showConfirmDiscardChanges">
+			<div class="mb-4 mt-2 text-center text-lg">Are you sure you want to discard changes to this recipe?</div>
+			<template #actions>
+				<div class="flex items-center justify-center space-x-2">
+					<Button
+						color="danger"
+						variant="tonal"
+						@click="discardChanges"
+					>
+						Discard Changes
+					</Button>
+					<Button
+						color="primary"
+						variant="text"
+						@click="showConfirmDiscardChanges = false"
+					>
+						Cancel
+					</Button>
 				</div>
-				<template #actions>
-					<div class="flex items-center justify-center space-x-2">
-						<Button
-							color="danger"
-							variant="tonal"
-							@click="discardChanges"
-						>
-							Discard Changes
-						</Button>
-						<Button
-							color="primary"
-							variant="text"
-							@click="showConfirmDiscardChanges = false"
-						>
-							Cancel
-						</Button>
-					</div>
-				</template>
-			</UIDialog>
-		</template>
-		<template v-else>
-			<div class="m-4">
-				<UIAlert
-					color="danger"
-					variant="tonal"
-				>
-					You are not authorized to edit this recipe
-				</UIAlert>
-			</div>
-		</template>
+			</template>
+		</UIDialog>
 	</div>
 </template>

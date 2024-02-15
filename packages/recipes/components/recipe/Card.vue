@@ -30,6 +30,7 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 		:color="props.color"
 		:variant="props.variant"
 		:to="`/recipes/${recipe.id}`"
+		interactive
 	>
 		<div class="flex items-center space-x-5">
 			<UIThumbnail

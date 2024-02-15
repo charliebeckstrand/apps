@@ -37,25 +37,27 @@ onMounted(() => {
 })
 </script>
 <template>
-	<div class="h-full">
-		<UIPageHeader>
-			<template #title>Recipes</template>
+	<PageLayout>
+		<template #header>
+			<Header>
+				<template #title>Recipes</template>
+				<template #append>
+					<Button
+						v-if="authStore.user?.id"
+						to="/create"
+						color="success"
+						variant="tonal"
+					>
+						<template #prepend>
+							<UIIcon :icon="PlusIcon" />
+						</template>
+						Create Recipe
+					</Button>
+				</template>
+			</Header>
+		</template>
 
-			<template #append>
-				<Button
-					v-if="authStore.user?.id"
-					to="/create"
-					color="success"
-					variant="tonal"
-				>
-					<template #prepend>
-						<UIIcon :icon="PlusIcon" />
-					</template>
-					Create Recipe
-				</Button>
-			</template>
-		</UIPageHeader>
-		<UIPageContent>
+		<template #default>
 			<template v-if="loading"></template>
 			<template v-else>
 				<template v-if="recipes.length">
@@ -83,7 +85,6 @@ onMounted(() => {
 						No recipes found
 					</UIAlert>
 				</template>
-
 				<UIAlert
 					v-else
 					color="danger"
@@ -92,6 +93,6 @@ onMounted(() => {
 					No recipes added
 				</UIAlert>
 			</template>
-		</UIPageContent>
-	</div>
+		</template>
+	</PageLayout>
 </template>

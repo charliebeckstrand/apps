@@ -89,104 +89,109 @@ useHead({
 	title: recipe.value?.name || 'Recipe not found'
 })
 </script>
+
 <template>
 	<div>
-		<template v-if="recipe">
-			<UIBreadcrumbs
-				:items="[
-					{ label: 'Home', to: '/' },
-					{ label: 'Recipes', to: '/recipes' },
-					{ label: `${recipe.name ? recipe.name : 'Untitled Recipe'}`, disabled: true }
-				]"
-			/>
+		<PageLayout v-if="recipe">
+			<template #breadcrumbs>
+				<UIBreadcrumbs
+					:items="[
+						{ label: 'Home', to: '/' },
+						{ label: 'Recipes', to: '/recipes' },
+						{ label: `${recipe.name ? recipe.name : 'Untitled Recipe'}`, disabled: true }
+					]"
+				/>
+			</template>
 
-			<UIPageHeader
-				:sticky="isHeaderSticky"
-				:class="isHeaderSticky && scrolledToTop ? 'border-b' : ''"
-			>
-				<template #prepend>
-					<UIThumbnail
-						v-if="recipe.thumbnail"
-						:src="recipe.thumbnail"
-						height="96"
-						width="96"
-						rounded="lg"
-					/>
-				</template>
-
-				<template #title>
-					<template v-if="recipe.name">
-						{{ recipe.name }}
+			<template #header>
+				<Header>
+					<template #prepend>
+						<UIThumbnail
+							v-if="recipe.thumbnail"
+							:src="recipe.thumbnail"
+							height="96"
+							width="96"
+							rounded="lg"
+						/>
 					</template>
-					<template v-else>
-						<span class="text-gray-400">Untitled Recipe</span>
-					</template>
-				</template>
-				<template #subtitle>
-					<div
-						ref="descriptionRef"
-						class="mb-2"
-						:class="{ 'line-clamp-2': !showDescription }"
-					>
-						{{ recipe.description }}
-					</div>
-					<Button
-						v-if="isTruncated"
-						color="info"
-						variant="plain"
-						size="sm"
-						class="px-0"
-						@click="showDescription = !showDescription"
-					>
-						{{ showDescription ? 'Show Less' : 'Show More' }}
 
-						<template #append>
-							<UIIcon
-								:icon="showDescription ? ChevronRightIcon : ChevronDownIcon"
-								size="xs"
-							/>
+					<template #title>
+						<template v-if="recipe.name">
+							{{ recipe.name }}
 						</template>
-					</Button>
-				</template>
-				<template #misc>
-					<div class="flex items-center space-x-1">
-						<Button
-							color="pink"
-							:variant="recipe.favorite ? 'default' : 'tonal'"
-							@click="recipe.favorite = !recipe.favorite"
-						>
-							<template #prepend>
-								<UIIcon :icon="recipe.favorite ? NoSymbolIcon : HeartIcon" />
-							</template>
+						<template v-else>
+							<span class="text-gray-400">Untitled Recipe</span>
+						</template>
+					</template>
 
-							{{ recipe.favorite ? 'Unfavorite' : 'Favorite' }}
-						</Button>
-						<Button
-							v-if="authStore.user?.id"
-							color="info"
-							variant="tonal"
-							:to="`/recipes/${recipe.id}/edit`"
+					<template #default>
+						<div
+							v-if="recipe.description"
+							class="mt-2 space-y-2 text-gray-500"
 						>
-							<template #prepend>
-								<UIIcon :icon="PencilIcon" />
-							</template>
-							Edit
-						</Button>
-						<Button
-							v-if="authStore.user?.id"
-							color="danger"
-							variant="tonal"
-						>
-							<template #prepend>
-								<UIIcon :icon="TrashIcon" />
-							</template>
-							Delete
-						</Button>
-					</div>
-				</template>
-			</UIPageHeader>
+							<div
+								ref="descriptionRef"
+								:class="{ 'line-clamp-2': !showDescription }"
+							>
+								{{ recipe.description }}
+							</div>
+							<Button
+								v-if="isTruncated"
+								color="info"
+								variant="plain"
+								size="sm"
+								class="px-0"
+								@click="showDescription = !showDescription"
+							>
+								{{ showDescription ? 'Show Less' : 'Show More' }}
 
-			<UIPageContent>
+								<template #append>
+									<UIIcon
+										:icon="showDescription ? ChevronRightIcon : ChevronDownIcon"
+										size="xs"
+									/>
+								</template>
+							</Button>
+						</div>
+						<div class="mt-4 flex items-center space-x-1">
+							<Button
+								color="pink"
+								:variant="recipe.favorite ? 'default' : 'tonal'"
+								@click="recipe.favorite = !recipe.favorite"
+							>
+								<template #prepend>
+									<UIIcon :icon="recipe.favorite ? NoSymbolIcon : HeartIcon" />
+								</template>
+
+								{{ recipe.favorite ? 'Unfavorite' : 'Favorite' }}
+							</Button>
+							<Button
+								v-if="authStore.user?.id"
+								color="info"
+								variant="tonal"
+								:to="`/recipes/${recipe.id}/edit`"
+							>
+								<template #prepend>
+									<UIIcon :icon="PencilIcon" />
+								</template>
+								Edit
+							</Button>
+							<Button
+								v-if="authStore.user?.id"
+								color="danger"
+								variant="tonal"
+							>
+								<template #prepend>
+									<UIIcon :icon="TrashIcon" />
+								</template>
+								Delete
+							</Button>
+						</div>
+					</template>
+				</Header>
+			</template>
+
+			<template #default>
 				<section id="ingredients">
 					<UIHeader>
 						<template #title>Ingredients</template>
@@ -221,7 +226,6 @@ useHead({
 					<UIHeader>
 						<template #title>Instructions</template>
 					</UIHeader>
-
 					<div v-if="instructions.length">
 						<div
 							v-for="(instruction, index) in instructions"
@@ -249,13 +253,15 @@ useHead({
 					<UIHeader>
 						<template #title>Notes</template>
 					</UIHeader>
-
 					<div>{{ recipe.notes }}</div>
 				</section>
-			</UIPageContent>
+			</template>
 
-			<UIPageFooter v-if="recipe.prepTime || recipe.cookTime || recipe.servings">
-				<div class="info mx-auto flex space-x-1 overflow-x-auto">
+			<template #footer>
+				<div
+					v-if="recipe.prepTime || recipe.cookTime || recipe.servings"
+					class="info mx-auto flex space-x-1 overflow-x-auto"
+				>
 					<UIBadge
 						color="primary"
 						variant="outlined"
@@ -285,16 +291,19 @@ useHead({
 						<div class="font-bold">{{ recipe.servings }}</div>
 					</UIBadge>
 				</div>
-			</UIPageFooter>
-		</template>
-		<UIPageContent v-else>
+			</template>
+		</PageLayout>
+		<div
+			v-else
+			class="p-4"
+		>
 			<UIAlert
 				color="danger"
 				variant="tonal"
 			>
 				Recipe not found
 			</UIAlert>
-		</UIPageContent>
+		</div>
 	</div>
 </template>
 

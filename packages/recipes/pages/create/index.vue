@@ -19,24 +19,28 @@ const createRecipe = () => {
 }
 </script>
 <template>
-	<div>
-		<UIBreadcrumbs
-			:items="[
-				{ label: 'Home', to: '/' },
-				{ label: 'Recipes', to: '/recipes' },
-				{ label: 'Create', disabled: true }
-			]"
-		/>
+	<PageLayout>
+		<template #breadcrumbs>
+			<UIBreadcrumbs
+				:items="[
+					{ label: 'Home', to: '/' },
+					{ label: 'Recipes', to: '/recipes' },
+					{ label: 'Create', disabled: true }
+				]"
+			/>
+		</template>
 
-		<UIPageHeader>
-			<template #title>Create Recipe</template>
-		</UIPageHeader>
+		<template #header>
+			<Header>
+				<template #title>Create Recipe</template>
+			</Header>
+		</template>
 
-		<UIPageContent>
+		<template #default>
 			<RecipeForm v-model="editableRecipe" />
-		</UIPageContent>
+		</template>
 
-		<UIPageFooter>
+		<template #footer>
 			<Button
 				color="success"
 				@click="createRecipe"
@@ -46,6 +50,6 @@ const createRecipe = () => {
 				</template>
 				Create
 			</Button>
-		</UIPageFooter>
-	</div>
+		</template>
+	</PageLayout>
 </template>

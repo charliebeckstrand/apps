@@ -82,6 +82,6 @@ onMounted(() => {
 			</template>
 		</UINavbar>
 
-		<NuxtPage />
+		<slot />
 	</div>
 </template>

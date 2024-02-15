@@ -20,7 +20,7 @@
 				<slot name="subtitle" />
 			</div>
 
-			<slot />
+			<slot name="default" />
 		</div>
 
 		<div

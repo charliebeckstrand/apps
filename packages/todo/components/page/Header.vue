@@ -8,7 +8,12 @@ const pageTitle = computed(() => {
 </script>
 
 <template>
-	<UIPageHeader>
-		<template #title>{{ pageTitle }}</template>
-	</UIPageHeader>
+	<UIHeader class="p-4">
+		<UIHeading
+			size="2xl"
+			weight="bold"
+		>
+			{{ pageTitle }}
+		</UIHeading>
+	</UIHeader>
 </template>

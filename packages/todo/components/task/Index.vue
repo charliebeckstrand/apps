@@ -96,14 +96,14 @@ const showTaskDialog = () => {
 
 <style scoped lang="scss">
 .task {
-	// .actions-menu {
-	// 	display: none;
-	// }
+	.actions-menu {
+		display: none;
+	}
 
-	// &:hover {
-	// 	.actions-menu {
-	// 		display: flex;
-	// 	}
-	// }
+	&:hover {
+		.actions-menu {
+			display: flex;
+		}
+	}
 }
 </style>

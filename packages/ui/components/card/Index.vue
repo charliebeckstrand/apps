@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import Panel from '@/components/panel/Index.vue'
 import Header from '@/components/header/Index.vue'
 
 import { computed } from 'vue'
 
-import { borderRadiusMap, textColorMap } from '@/constants'
+import { borderRadiusMap, paddingMap, textColorMap } from '@/constants'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/card'
 
@@ -36,44 +35,44 @@ const classes = computed<string>(() => {
 	const variantMap: Record<Variant, Record<Color, { default: string; hover?: string; active?: string }>> = {
 		default: {
 			default: {
-				default: 'bg-gray-100 text-white',
+				default: 'bg-gray-100 text-default',
 				hover: 'hover:bg-gray-200',
-				active: 'bg-gray-200'
+				active: 'bg-gray-200 hover:bg-gray-200'
 			},
 			primary: {
 				default: 'bg-primary text-white',
 				hover: 'hover:bg-primary/10',
-				active: 'bg-primary/10'
+				active: 'bg-primary/50 hover:bg-primary/50'
 			},
 			secondary: {
 				default: 'bg-secondary text-white',
 				hover: 'hover:bg-secondary/10',
-				active: 'bg-secondary/10'
+				active: 'bg-secondary/50 hover:bg-secondary/50'
 			},
 			accent: {
 				default: 'bg-accent text-white',
 				hover: 'hover:bg-accent/10',
-				active: 'bg-accent/10'
+				active: 'bg-accent/50 hover:bg-accent/50'
 			},
 			success: {
 				default: 'bg-success text-white',
 				hover: 'hover:bg-success/10',
-				active: 'bg-success/10'
+				active: 'bg-success/50 hover:bg-success/50'
 			},
 			warning: {
 				default: 'bg-warning text-default',
 				hover: 'hover:bg-warning/10',
-				active: 'bg-warning/10'
+				active: 'bg-warning/50 hover:bg-warning/50'
 			},
 			danger: {
 				default: 'bg-danger text-white',
 				hover: 'hover:bg-danger/10',
-				active: 'bg-danger/10'
+				active: 'bg-danger/50 hover:bg-danger/50'
 			},
 			info: {
 				default: 'bg-info text-white',
 				hover: 'hover:bg-info/10',
-				active: 'bg-info/10'
+				active: 'bg-info/50 hover:bg-info/50'
 			},
 			white: {
 				default: 'bg-white text-default',
@@ -132,94 +131,94 @@ const classes = computed<string>(() => {
 			default: {
 				default: 'bg-gray-50 text-default',
 				hover: 'hover:bg-gray-200',
-				active: 'bg-gray-200'
+				active: 'bg-gray-200 hover:bg-gray-200'
 			},
 			primary: {
 				default: 'bg-primary/10 text-primary',
 				hover: 'hover:bg-primary/20',
-				active: 'bg-primary/20'
+				active: 'bg-primary/50 hover:bg-primary/50'
 			},
 			secondary: {
 				default: 'bg-secondary/10 text-secondary',
 				hover: 'hover:bg-secondary/20',
-				active: 'bg-secondary/20'
+				active: 'bg-secondary/50 hover:bg-secondary/50'
 			},
 			accent: {
 				default: 'bg-accent/10 text-accent',
 				hover: 'hover:bg-accent/20',
-				active: 'bg-accent/20'
+				active: 'bg-accent/50 hover:bg-accent/50'
 			},
 			success: {
 				default: 'bg-success/10 text-success',
 				hover: 'hover:bg-success/20',
-				active: 'bg-success/20'
+				active: 'bg-success/50 hover:bg-success/50'
 			},
 			warning: {
 				default: 'bg-warning/10 text-default',
 				hover: 'hover:bg-warning/20',
-				active: 'bg-warning/20'
+				active: 'bg-warning/50 hover:bg-warning/50'
 			},
 			danger: {
 				default: 'bg-danger/10 text-danger',
 				hover: 'hover:bg-danger/20',
-				active: 'bg-danger/20'
+				active: 'bg-danger/50 hover:bg-danger/50'
 			},
 			info: {
 				default: 'bg-info/10 text-info',
 				hover: 'hover:bg-info/20',
-				active: 'bg-info/20'
+				active: 'bg-info/50 hover:bg-info/50'
 			},
 			white: {
 				default: 'bg-white text-default',
 				hover: 'hover:bg-gray-200',
-				active: 'bg-gray-200'
+				active: 'bg-gray-500 hover:bg-gray-500'
 			}
 		},
 		plain: {
 			default: {
 				default: 'transparent text-default',
 				hover: 'hover:bg-gray-200',
-				active: 'bg-gray-200'
+				active: 'bg-gray-200 hover:bg-gray-200'
 			},
 			primary: {
 				default: 'transparent text-primary',
 				hover: 'hover:bg-primary/10',
-				active: 'bg-primary/10'
+				active: 'bg-primary/20 hover:bg-primary/20'
 			},
 			secondary: {
 				default: 'transparent text-secondary',
 				hover: 'hover:bg-secondary/10',
-				active: 'bg-secondary/10'
+				active: 'bg-secondary/10 hover:bg-secondary/10'
 			},
 			accent: {
 				default: 'transparent text-accent',
 				hover: 'hover:bg-accent/10',
-				active: 'bg-accent/10'
+				active: 'bg-accent/20 hover:bg-accent/20'
 			},
 			success: {
 				default: 'transparent text-success',
 				hover: 'hover:bg-success/10',
-				active: 'bg-success/10'
+				active: 'bg-success/10 hover:bg-success/10'
 			},
 			warning: {
 				default: 'transparent text-default',
 				hover: 'hover:bg-warning/10',
-				active: 'bg-warning/10'
+				active: 'bg-warning/10 hover:bg-warning/10'
 			},
 			danger: {
 				default: 'transparent text-danger',
 				hover: 'hover:bg-danger/10',
-				active: 'bg-danger/10'
+				active: 'bg-danger/10 hover:bg-danger/10'
 			},
 			info: {
 				default: 'transparent text-info',
 				hover: 'hover:bg-info/10',
-				active: 'bg-info/10'
+				active: 'bg-info/10 hover:bg-info/10'
 			},
 			white: {
 				default: 'transparent text-default',
 				hover: 'hover:bg-gray-200',
-				active: 'bg-gray-200'
+				active: 'bg-gray-200 hover:bg-gray-200'
 			}
 		}
 	}
@@ -277,6 +276,16 @@ const classes = computed<string>(() => {
 	return classes.join(' ')
 })
 
+const paddingClasses = computed<string>(() => {
+	const classes = []
+
+	if (props.padding) {
+		classes.push(paddingMap[props.padding])
+	}
+
+	return classes.join(' ')
+})
+
 const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'div'))
 </script>
 
@@ -286,29 +295,23 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 		:to="props.to"
 		:class="classes"
 	>
-		<Panel
+		<Header
 			v-if="$slots['title'] || $slots['subtitle'] || $slots['header-append']"
-			class="flex items-center justify-between space-x-4"
-			:color="props.color"
-			:padding="props.padding"
-			:variant="props.variant"
+			:class="paddingClasses"
 		>
-			<Header>
-				<template #title>
-					<slot name="title" />
-				</template>
-				<template #subtitle>
-					<slot name="subtitle" />
-				</template>
-			</Header>
-			<slot name="header-append" />
-		</Panel>
-		<Panel
+			<template #title>
+				<slot name="title" />
+			</template>
+			<template #subtitle>
+				<slot name="subtitle" />
+			</template>
+			<template #append>
+				<slot name="header-append" />
+			</template>
+		</Header>
+		<div
 			v-if="$slots['prepend'] || $slots['default'] || $slots['append']"
-			class="space-y-2"
-			:color="props.color"
-			:padding="props.padding"
-			:variant="props.variant"
+			:class="paddingClasses"
 		>
 			<div v-if="$slots['append']">
 				<slot name="prepend" />
@@ -322,7 +325,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 			<div v-if="$slots['append']">
 				<slot name="append" />
 			</div>
-		</Panel>
+		</div>
 	</component>
 </template>
 

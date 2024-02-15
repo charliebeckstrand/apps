@@ -3,7 +3,7 @@ import type { Variant } from '@/types/base/variant'
 
 export const variantMap: Record<Variant, Record<Color, string>> = {
 	default: {
-		default: 'bg-gray-100 text-white',
+		default: 'bg-gray-100 text-default',
 		primary: 'bg-primary text-white',
 		secondary: 'bg-secondary text-white',
 		accent: 'bg-accent text-white',

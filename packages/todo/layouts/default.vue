@@ -17,7 +17,7 @@ onMounted(() => {
 
 			<div class="flex h-full flex-grow flex-col p-4 pt-0">
 				<div class="h-full flex-grow overflow-x-auto">
-					<NuxtPage />
+					<slot />
 				</div>
 			</div>
 		</div>
