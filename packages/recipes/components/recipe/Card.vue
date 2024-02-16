@@ -5,19 +5,13 @@ import { HeartIcon as SolidHeartIcon, PencilIcon, TrashIcon } from '@heroicons/v
 import { useAuthStore } from '@/stores/auth'
 
 import type { Recipe } from '@/types/recipe'
-import type { Color } from '@ui/types/base/color'
-import type { Variant } from '@ui/types/base/variant'
 
 interface Props {
 	recipe?: Recipe
-	color?: Color
-	variant?: Variant
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	recipe: undefined,
-	color: undefined,
-	variant: 'default'
+	recipe: undefined
 })
 
 const authStore = useAuthStore()
@@ -27,8 +21,6 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 
 <template>
 	<UICard
-		:color="props.color"
-		:variant="props.variant"
 		:to="`/recipes/${recipe.id}`"
 		interactive
 	>

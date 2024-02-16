@@ -1,4 +1,4 @@
-import { ICard } from '@/types/card'
+import type { Card } from '@/types/card'
 
 const cardHelpers = () => {
 	const generateIndexes = (maxIndex: number, count: number) => {
@@ -12,8 +12,8 @@ const cardHelpers = () => {
 		return Array.from(indexes)
 	}
 
-	const sortByRarity = (cards: ICard[]) => {
-		return cards.sort((a: ICard, b: ICard) => {
+	const sortByRarity = (cards: Card[]) => {
+		return cards.sort((a: Card, b: Card) => {
 			const rarityA = a.rarity
 			const rarityB = b.rarity
 
@@ -35,9 +35,9 @@ const cardHelpers = () => {
 		})
 	}
 
-	const groupByType = (cards: ICard[]) => {
+	const groupByType = (cards: Card[]) => {
 		return cards.reduce(
-			(acc: any, card: ICard) => {
+			(acc: any, card: Card) => {
 				const rarity = card.rarity
 				const type = card.type_line
 

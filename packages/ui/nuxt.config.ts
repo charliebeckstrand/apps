@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import path from 'path'
+
 export default defineNuxtConfig({
+	alias: {
+		'@ui': path.resolve(__dirname, './')
+	},
 	components: [
 		{
 			path: './components/',
@@ -8,9 +14,5 @@ export default defineNuxtConfig({
 			extensions: ['vue'],
 			ignore: ['**/*.test.*', '**/*.spec.*']
 		}
-	],
-	devtools: { enabled: true },
-	typescript: {
-		strict: true
-	}
+	]
 })

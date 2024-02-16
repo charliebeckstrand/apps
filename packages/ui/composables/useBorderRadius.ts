@@ -1,13 +1,9 @@
+import borderRadiusMap from '@/common/tailwind-class-maps/border-radius'
+
 import type { BorderRadius } from '@/types/base/border-radius'
 
-export const useBorderRadius = (value: BorderRadius) => {
-	const borderRadiusMap: Record<BorderRadius, string> = {
-		sm: 'rounded-sm',
-		md: 'rounded-md',
-		lg: 'rounded-lg',
-		full: 'rounded-full',
-		none: 'rounded-none'
-	}
+export const useBorderRadius = (borderRadius: BorderRadius) => {
+	const borderRadiuses: Record<BorderRadius, string> = borderRadiusMap
 
-	return borderRadiusMap[value]
+	return borderRadiuses[borderRadius]
 }

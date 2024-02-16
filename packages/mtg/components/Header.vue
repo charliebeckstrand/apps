@@ -29,7 +29,7 @@ const login = () => {
 			</UIButton>
 			<UIButton
 				v-else
-				class="text-white"
+				color="secondary"
 			>
 				<div class="text-right">
 					<div class="font-black leading-none">{{ randomName }}</div>

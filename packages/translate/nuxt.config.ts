@@ -1,12 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import path from 'path'
-
 export default defineNuxtConfig({
-	alias: {
-		'@base': path.resolve(__dirname, '../base'),
-		'@ui': path.resolve(__dirname, '../ui')
-	},
 	app: {
 		head: {
 			title: 'Translate',
@@ -17,6 +11,5 @@ export default defineNuxtConfig({
 	components: [{ path: '~/components', pathPrefix: true }],
 	css: ['~/assets/css/main.scss'],
 	devtools: { enabled: true },
-	extends: ['../base', '../ui'],
-	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt']
+	extends: ['../base', '../ui']
 })

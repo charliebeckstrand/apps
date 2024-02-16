@@ -34,192 +34,192 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const classes = computed<string>(() => {
-	const variantMap: Record<Variant, Record<Color, { default: string; hover?: string; active?: string }>> = {
+	const variantMap: Record<Variant, Record<Color, { default: string; interactive?: string; active?: string }>> = {
 		default: {
 			default: {
 				default: 'bg-gray-100 text-default',
-				hover: 'hover:bg-gray-200',
+				interactive: 'hover:bg-gray-200',
 				active: 'bg-gray-200 hover:bg-gray-200'
 			},
 			primary: {
 				default: 'bg-primary text-white',
-				hover: 'hover:bg-primary/10',
+				interactive: 'hover:bg-primary/90',
 				active: 'bg-primary/50 hover:bg-primary/50'
 			},
 			secondary: {
 				default: 'bg-secondary text-white',
-				hover: 'hover:bg-secondary/10',
+				interactive: 'hover:bg-secondary/90',
 				active: 'bg-secondary/50 hover:bg-secondary/50'
 			},
 			accent: {
 				default: 'bg-accent text-white',
-				hover: 'hover:bg-accent/10',
+				interactive: 'hover:bg-accent/90',
 				active: 'bg-accent/50 hover:bg-accent/50'
 			},
 			success: {
 				default: 'bg-success text-white',
-				hover: 'hover:bg-success/10',
+				interactive: 'hover:bg-success/90',
 				active: 'bg-success/50 hover:bg-success/50'
 			},
 			warning: {
 				default: 'bg-warning text-default',
-				hover: 'hover:bg-warning/10',
+				interactive: 'hover:bg-warning/90',
 				active: 'bg-warning/50 hover:bg-warning/50'
 			},
 			danger: {
 				default: 'bg-danger text-white',
-				hover: 'hover:bg-danger/10',
+				interactive: 'hover:bg-danger/90',
 				active: 'bg-danger/50 hover:bg-danger/50'
 			},
 			info: {
 				default: 'bg-info text-white',
-				hover: 'hover:bg-info/10',
+				interactive: 'hover:bg-info/90',
 				active: 'bg-info/50 hover:bg-info/50'
 			},
 			white: {
 				default: 'bg-white text-default',
-				hover: 'hover:bg-white',
+				interactive: 'hover:bg-gray-100',
 				active: 'bg-white'
 			}
 		},
 		outlined: {
 			default: {
 				default: 'bg-transparent border border-default text-default',
-				hover: 'hover:bg-gray-200',
+				interactive: 'hover:bg-gray-200',
 				active: 'bg-gray-200'
 			},
 			primary: {
 				default: 'bg-transparent border border-primary text-primary',
-				hover: 'hover:bg-primary/10',
+				interactive: 'hover:bg-primary/10',
 				active: 'bg-primary/10'
 			},
 			secondary: {
 				default: 'bg-transparent border border-secondary text-secondary',
-				hover: 'hover:bg-secondary/10',
+				interactive: 'hover:bg-secondary/10',
 				active: 'bg-secondary/10'
 			},
 			accent: {
 				default: 'bg-transparent border border-accent text-accent',
-				hover: 'hover:bg-accent/10',
+				interactive: 'hover:bg-accent/10',
 				active: 'bg-accent/10'
 			},
 			success: {
 				default: 'bg-transparent border border-success text-success',
-				hover: 'hover:bg-success/10',
+				interactive: 'hover:bg-success/10',
 				active: 'bg-success/10'
 			},
 			warning: {
 				default: 'bg-transparent border border-warning text-default',
-				hover: 'hover:bg-warning/10',
+				interactive: 'hover:bg-warning/10',
 				active: 'bg-warning/10'
 			},
 			danger: {
 				default: 'bg-transparent border border-danger text-danger',
-				hover: 'hover:bg-danger/10',
+				interactive: 'hover:bg-danger/10',
 				active: 'bg-danger/10'
 			},
 			info: {
 				default: 'bg-transparent border border-info text-info',
-				hover: 'hover:bg-info/10',
+				interactive: 'hover:bg-info/10',
 				active: 'bg-info/10'
 			},
 			white: {
-				default: 'bg-transparent border border-white text-default',
-				hover: 'hover:bg-white',
+				default: 'bg-white border border-white text-default',
+				interactive: 'hover:bg-white',
 				active: 'bg-white'
 			}
 		},
 		tonal: {
 			default: {
 				default: 'bg-gray-50 text-default',
-				hover: 'hover:bg-gray-200',
+				interactive: 'hover:bg-gray-200',
 				active: 'bg-gray-200 hover:bg-gray-200'
 			},
 			primary: {
 				default: 'bg-primary/10 text-primary',
-				hover: 'hover:bg-primary/20',
+				interactive: 'hover:bg-primary/20',
 				active: 'bg-primary/50 hover:bg-primary/50'
 			},
 			secondary: {
 				default: 'bg-secondary/10 text-secondary',
-				hover: 'hover:bg-secondary/20',
+				interactive: 'hover:bg-secondary/20',
 				active: 'bg-secondary/50 hover:bg-secondary/50'
 			},
 			accent: {
 				default: 'bg-accent/10 text-accent',
-				hover: 'hover:bg-accent/20',
+				interactive: 'hover:bg-accent/20',
 				active: 'bg-accent/50 hover:bg-accent/50'
 			},
 			success: {
 				default: 'bg-success/10 text-success',
-				hover: 'hover:bg-success/20',
+				interactive: 'hover:bg-success/20',
 				active: 'bg-success/50 hover:bg-success/50'
 			},
 			warning: {
 				default: 'bg-warning/10 text-default',
-				hover: 'hover:bg-warning/20',
+				interactive: 'hover:bg-warning/20',
 				active: 'bg-warning/50 hover:bg-warning/50'
 			},
 			danger: {
 				default: 'bg-danger/10 text-danger',
-				hover: 'hover:bg-danger/20',
+				interactive: 'hover:bg-danger/20',
 				active: 'bg-danger/50 hover:bg-danger/50'
 			},
 			info: {
 				default: 'bg-info/10 text-info',
-				hover: 'hover:bg-info/20',
+				interactive: 'hover:bg-info/20',
 				active: 'bg-info/50 hover:bg-info/50'
 			},
 			white: {
 				default: 'bg-white text-default',
-				hover: 'hover:bg-gray-200',
+				interactive: 'hover:bg-gray-200',
 				active: 'bg-gray-500 hover:bg-gray-500'
 			}
 		},
 		plain: {
 			default: {
 				default: 'transparent text-default',
-				hover: 'hover:bg-gray-200',
+				interactive: 'hover:bg-gray-200',
 				active: 'bg-gray-200 hover:bg-gray-200'
 			},
 			primary: {
 				default: 'transparent text-primary',
-				hover: 'hover:bg-primary/10',
+				interactive: 'hover:bg-primary/10',
 				active: 'bg-primary/20 hover:bg-primary/20'
 			},
 			secondary: {
 				default: 'transparent text-secondary',
-				hover: 'hover:bg-secondary/10',
+				interactive: 'hover:bg-secondary/10',
 				active: 'bg-secondary/10 hover:bg-secondary/10'
 			},
 			accent: {
 				default: 'transparent text-accent',
-				hover: 'hover:bg-accent/10',
+				interactive: 'hover:bg-accent/10',
 				active: 'bg-accent/20 hover:bg-accent/20'
 			},
 			success: {
 				default: 'transparent text-success',
-				hover: 'hover:bg-success/10',
+				interactive: 'hover:bg-success/10',
 				active: 'bg-success/10 hover:bg-success/10'
 			},
 			warning: {
 				default: 'transparent text-default',
-				hover: 'hover:bg-warning/10',
+				interactive: 'hover:bg-warning/10',
 				active: 'bg-warning/10 hover:bg-warning/10'
 			},
 			danger: {
 				default: 'transparent text-danger',
-				hover: 'hover:bg-danger/10',
+				interactive: 'hover:bg-danger/10',
 				active: 'bg-danger/10 hover:bg-danger/10'
 			},
 			info: {
 				default: 'transparent text-info',
-				hover: 'hover:bg-info/10',
+				interactive: 'hover:bg-info/10',
 				active: 'bg-info/10 hover:bg-info/10'
 			},
 			white: {
 				default: 'transparent text-default',
-				hover: 'hover:bg-gray-200',
+				interactive: 'hover:bg-gray-200',
 				active: 'bg-gray-200 hover:bg-gray-200'
 			}
 		}
@@ -243,7 +243,7 @@ const classes = computed<string>(() => {
 		const variant = variantMap[props.variant]
 
 		if (variant) {
-			const color = variant[props.color]?.hover
+			const color = variant[props.color]?.interactive
 
 			if (color) {
 				classes.push(color)

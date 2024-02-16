@@ -3,7 +3,7 @@ import Button from '@/components/button/Index.vue'
 import ComboboxItem from '@/components/combobox/Item.vue'
 import Icon from '@/components/icon/Index.vue'
 
-import { useInput } from '@/composables/useInput'
+import { useInputVariant } from '@/composables/useInputVariant'
 import { usePadding } from '@/composables/usePadding'
 import { useTextSize } from '@/composables/useTextSize'
 
@@ -82,7 +82,7 @@ const inputClasses = computed<string>(() => {
 	}
 
 	if (props.variant) {
-		classes.push(useInput(props.variant))
+		classes.push(useInputVariant(props.variant))
 	}
 
 	return classes.join(' ')

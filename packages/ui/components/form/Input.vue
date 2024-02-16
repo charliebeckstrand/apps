@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBorderRadius } from '@/composables/useBorderRadius'
-import { useInput } from '@/composables/useInput'
+import { useInputVariant } from '@/composables/useInputVariant'
 import { usePadding } from '@/composables/usePadding'
 import { useTextSize } from '@/composables/useTextSize'
 
@@ -52,7 +52,7 @@ const classes = computed<string>(() => {
 	}
 
 	if (props.variant) {
-		classes.push(useInput(props.variant))
+		classes.push(useInputVariant(props.variant))
 	}
 
 	return classes.join(' ')

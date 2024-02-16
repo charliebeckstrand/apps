@@ -1,17 +1,13 @@
-import path from 'path'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
-	alias: {
-		'@base': path.resolve(__dirname, '../base'),
-		'@ui': path.resolve(__dirname, '../ui')
+	app: {
+		head: {
+			title: 'MTG',
+			meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+		}
 	},
 	components: [{ path: '~/components', pathPrefix: true }],
 	css: ['~/assets/css/main.scss'],
-	extends: ['../base', '../ui'],
-	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
-	ssr: false,
-	typescript: {
-		strict: true
-	}
+	extends: ['../base', '../ui']
 })

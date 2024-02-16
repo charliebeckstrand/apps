@@ -1,3 +1,5 @@
 <template>
-	<NuxtPage />
+	<div class="bg-primary min-h-full">
+		<slot />
+	</div>
 </template>
