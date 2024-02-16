@@ -3,10 +3,6 @@
 import path from 'path'
 
 export default defineNuxtConfig({
-	alias: {
-		'@base': path.resolve(__dirname, '../base'),
-		'@ui': path.resolve(__dirname, '../ui')
-	},
 	app: {
 		head: {
 			title: 'Recipes',

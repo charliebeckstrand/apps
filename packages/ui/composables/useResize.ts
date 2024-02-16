@@ -1,9 +1,12 @@
-import resizeMap from '@/maps/resize'
-
 import type { Resize } from '@/types/base/resize'
 
-export const useResize = (value: Resize) => {
-	const resize: Record<Resize, string> = resizeMap
+export const useResize = (resize: Resize) => {
+	const resizeMap: Record<Resize, string> = {
+		none: 'resize-none',
+		vertical: 'resize-y',
+		horizontal: 'resize-x',
+		both: 'resize'
+	}
 
-	return resize[value]
+	return resizeMap[resize]
 }

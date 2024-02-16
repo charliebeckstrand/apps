@@ -4,5 +4,7 @@ definePageMeta({
 })
 </script>
 <template>
-	<Lanes />
+	<div class="h-full">
+		<Lanes />
+	</div>
 </template>

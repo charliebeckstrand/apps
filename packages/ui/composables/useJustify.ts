@@ -1,9 +1,14 @@
-import justifyMap from '@/maps/justify'
-
 import type { Justify } from '@/types/base/justify'
 
-export const useJustify = (value: Justify) => {
-	const justify: Record<Justify, string> = justifyMap
+export const useJustify = (justify: Justify) => {
+	const justifyMap: Record<Justify, string> = {
+		start: 'justify-start',
+		center: 'justify-center',
+		end: 'justify-end',
+		'space-around': 'justify-around',
+		'space-between': 'justify-between',
+		'space-evenly': 'justify-evenly'
+	}
 
-	return justify[value]
+	return justifyMap[justify]
 }

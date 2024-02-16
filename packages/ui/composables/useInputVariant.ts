@@ -1,9 +1,12 @@
-import inputVariantMap from '@/maps/input-variant'
-
 import type { Variant } from '@/types/form/input'
 
 export const useInputVariant = (variant: Variant) => {
-	const inputVariants: Record<Variant, string> = inputVariantMap
+	const inputVariantMap: Record<Variant, string> = {
+		default: 'bg-gray-100',
+		outlined: 'border border-gray-300',
+		tonal: 'bg-gray-50',
+		plain: 'bg-transparent'
+	}
 
-	return inputVariants[variant]
+	return inputVariantMap[variant]
 }

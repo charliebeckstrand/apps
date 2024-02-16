@@ -1,9 +1,13 @@
-import borderRadiusMap from '@/maps/border-radius'
-
 import type { BorderRadius } from '@/types/base/border-radius'
 
 export const useBorderRadius = (borderRadius: BorderRadius) => {
-	const borderRadiuses: Record<BorderRadius, string> = borderRadiusMap
+	const borderRadiusMap: Record<BorderRadius, string> = {
+		sm: 'rounded-sm',
+		md: 'rounded-md',
+		lg: 'rounded-lg',
+		full: 'rounded-full',
+		none: 'rounded-none'
+	}
 
-	return borderRadiuses[borderRadius]
+	return borderRadiusMap[borderRadius]
 }
