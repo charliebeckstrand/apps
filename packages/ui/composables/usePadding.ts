@@ -1,4 +1,4 @@
-import paddingMap from '@/common/maps/padding'
+import paddingMap from '@/maps/padding'
 
 import type { Padding } from '@/types/base/padding'
 

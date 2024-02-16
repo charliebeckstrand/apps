@@ -1,4 +1,4 @@
-import resizeMap from '@/common/maps/resize'
+import resizeMap from '@/maps/resize'
 
 import type { Resize } from '@/types/base/resize'
 

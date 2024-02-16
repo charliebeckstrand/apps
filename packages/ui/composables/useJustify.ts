@@ -1,4 +1,4 @@
-import justifyMap from '@/common/maps/justify'
+import justifyMap from '@/maps/justify'
 
 import type { Justify } from '@/types/base/justify'
 
