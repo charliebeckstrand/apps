@@ -4,7 +4,7 @@ import type { Justify } from './base/justify'
 import type { Size } from './base/size'
 import type { Variant } from './base/variant'
 
-type ExtendedColor = Color | 'pink' | 'white'
-type ExtendedVariant = Variant | 'text' | 'plain'
+type ExtendedColor = Color | 'pink'
+type ExtendedVariant = Variant | 'text'
 
 export type { BorderRadius, ExtendedColor as Color, Justify, Size, ExtendedVariant as Variant }

@@ -7035,16 +7035,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-app@workspace:packages/test":
-  version: 0.0.0-use.local
-  resolution: "nuxt-app@workspace:packages/test"
-  dependencies:
-    nuxt: "npm:^3.10.2"
-    vue: "npm:^3.4.19"
-    vue-router: "npm:^4.2.5"
-  languageName: unknown
-  linkType: soft
-
 "nuxt@npm:^3.10.0":
   version: 3.10.0
   resolution: "nuxt@npm:3.10.0"
