@@ -1,4 +1,4 @@
-import variantMap from '@/common/tailwind-class-maps/variant'
+import variantMap from '@/common/maps/variant'
 
 import type { Color } from '@/types/base/color'
 import type { Variant } from '@/types/base/variant'

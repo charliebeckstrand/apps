@@ -14,5 +14,8 @@ export default defineNuxtConfig({
 			extensions: ['vue'],
 			ignore: ['**/*.test.*', '**/*.spec.*']
 		}
-	]
+	],
+	typescript: {
+		strict: true
+	}
 })

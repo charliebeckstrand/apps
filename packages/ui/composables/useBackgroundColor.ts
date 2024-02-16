@@ -1,4 +1,4 @@
-import backgroundColorMap from '@/common/tailwind-class-maps/background-color'
+import backgroundColorMap from '@/common/maps/background-color'
 
 import type { Color } from '@/types/base/color'
 

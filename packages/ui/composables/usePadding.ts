@@ -1,4 +1,4 @@
-import paddingMap from '@/common/tailwind-class-maps/padding'
+import paddingMap from '@/common/maps/padding'
 
 import type { Padding } from '@/types/base/padding'
 

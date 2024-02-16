@@ -1,4 +1,4 @@
-import textColorMap from '@/common/tailwind-class-maps/text-color'
+import textColorMap from '@/common/maps/text-color'
 
 import type { Color } from '@/types/base/color'
 

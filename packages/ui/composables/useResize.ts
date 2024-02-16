@@ -1,4 +1,4 @@
-import resizeMap from '@/common/tailwind-class-maps/resize'
+import resizeMap from '@/common/maps/resize'
 
 import type { Resize } from '@/types/base/resize'
 

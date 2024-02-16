@@ -1,4 +1,4 @@
-import fontWeightMap from '@/common/tailwind-class-maps/font-weight'
+import fontWeightMap from '@/common/maps/font-weight'
 
 import type { FontWeight } from '@/types/base/font-weight'
 

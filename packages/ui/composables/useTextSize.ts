@@ -1,4 +1,4 @@
-import textSizeMap from '@/common/tailwind-class-maps/text-size'
+import textSizeMap from '@/common/maps/text-size'
 
 import type { TextSize } from '@/types/base/text-size'
 

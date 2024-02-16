@@ -1,4 +1,4 @@
-import borderRadiusMap from '@/common/tailwind-class-maps/border-radius'
+import borderRadiusMap from '@/common/maps/border-radius'
 
 import type { BorderRadius } from '@/types/base/border-radius'
 

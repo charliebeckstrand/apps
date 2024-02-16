@@ -1,4 +1,4 @@
-import inputVariantMap from '@/common/tailwind-class-maps/input-variant'
+import inputVariantMap from '@/common/maps/input-variant'
 
 import type { Variant } from '@/types/form/input'
 

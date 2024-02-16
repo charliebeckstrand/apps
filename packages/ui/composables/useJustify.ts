@@ -1,4 +1,4 @@
-import justifyMap from '@/common/tailwind-class-maps/justify'
+import justifyMap from '@/common/maps/justify'
 
 import type { Justify } from '@/types/base/justify'
 
