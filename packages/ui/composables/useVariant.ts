@@ -37,7 +37,7 @@ export const useVariant = (variant: Variant) => {
 			white: 'bg-white/10 text-default'
 		},
 		plain: {
-			default: 'bg-transparent text-default',
+			default: 'bg-transparent text-white',
 			primary: 'bg-transparent text-primary',
 			secondary: 'bg-transparent text-secondary',
 			accent: 'bg-transparent text-accent',

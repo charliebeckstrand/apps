@@ -1,0 +1,17 @@
+module.exports = {
+	presets: ['../../tailwind.config'],
+	theme: {
+		extend: {
+			colors: {
+				primary: '#393646',
+				secondary: '#4F4557',
+				accent: '#6D5D6E',
+				light: '#F4EEE0',
+				success: '#4CAF50',
+				warning: '#FFC107',
+				danger: '#FF5252',
+				info: '#2196F3'
+			}
+		}
+	}
+}

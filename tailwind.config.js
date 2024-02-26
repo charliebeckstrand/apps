@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import { colors } from 'tailwindcss/colors'
+
 module.exports = {
 	content: [
 		'./components/**/*.{js,vue,ts}',
@@ -11,6 +13,7 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+				...colors,
 				default: '#393646',
 				transparent: 'transparent',
 				current: 'currentColor'
