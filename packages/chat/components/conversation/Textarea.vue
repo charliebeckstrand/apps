@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import axios from 'axios'
+
 import { PaperClipIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 
 import { useConversationStore } from '@/stores/conversation'
+
+type ExtendedFile = File & { loading?: boolean }
 
 const conversationStore = useConversationStore()
 
@@ -11,7 +15,7 @@ const textareaEl = computed(() => {
 })
 
 const fileInput = ref<HTMLInputElement | null>(null)
-const files = ref<File[]>([])
+const files = ref<ExtendedFile[]>([])
 
 const message = ref('')
 
@@ -38,7 +42,9 @@ const focusTextarea = () => {
 }
 
 const sendMessage = async () => {
-	if (props.disabled || !message.value.trim()) {
+	let prompt = message.value.trim()
+
+	if (props.disabled || !prompt) {
 		focusTextarea()
 		return
 	}
@@ -47,23 +53,58 @@ const sendMessage = async () => {
 
 	conversationStore.addMessage({
 		type: 'user',
-		value: message.value.trim()
+		value: prompt
 	})
 
 	message.value = ''
 
 	conversationStore.loadingResponse = true
 
-	setTimeout(() => {
-		conversationStore.addMessage({
-			type: 'bot',
-			value: 'Hello, how can I help you?'
-		})
-		conversationStore.loadingResponse = false
-		files.value = [] // Reset the files
+	try {
+		const response = await axios.post(
+			'http://localhost:4000/chat',
+			{
+				message: prompt
+			},
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		)
 
-		nextTick(focusTextarea)
-	}, 2000)
+		if (conversationStore.selectedConversation && !conversationStore.selectedConversation.name) {
+			const generatedName = await axios.post(
+				'http://localhost:4000/generate-name',
+				{
+					message: prompt
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			)
+
+			conversationStore.selectedConversation.name = generatedName.data.conversationName
+		}
+
+		if (response.data) {
+			conversationStore.addMessage({
+				type: 'bot',
+				value: response.data.reply
+			})
+		}
+
+		conversationStore.loadingResponse = false
+	} catch (_) {
+		conversationStore.loadingResponse = false
+
+		conversationStore.addMessage({
+			type: 'system',
+			value: 'Error generating a response. Please try again.'
+		})
+	}
 }
 
 const handleKeydown = (event: any) => {
@@ -92,7 +133,7 @@ const handleFileInput = (event: Event) => {
 	const target = event.target as HTMLInputElement
 
 	if (target.files) {
-		Array.from(target.files).forEach((file: File) => {
+		Array.from(target.files).forEach((file: ExtendedFile) => {
 			if (!files.value.some((f) => f.name === file.name)) {
 				files.value.push(file)
 			}
@@ -118,7 +159,36 @@ watch(
 </script>
 
 <template>
-	<div class="p-4">
+	<div class="space-y-4 p-4">
+		<div
+			v-if="files?.length"
+			class="flex items-center gap-2 overflow-x-auto lg:max-w-[calc(100vw-320px-2rem)]"
+		>
+			<UIBadge
+				v-for="file in files"
+				:key="file.name"
+				rounded="full"
+				color="secondary"
+				variant="tonal"
+				class="whitespace-nowrap"
+			>
+				<div class="pl-2">{{ file.name }}</div>
+				<template #append>
+					<UIButton
+						v-if="!file.loading"
+						v-tippy="{ content: 'Remove file' }"
+						icon
+						color="danger"
+						variant="text"
+						size="sm"
+						:disabled="props.disabled"
+						@click="() => (files = files.filter((f) => f.name !== file.name))"
+					>
+						<UIIcon :icon="XMarkIcon" />
+					</UIButton>
+				</template>
+			</UIBadge>
+		</div>
 		<div class="flex items-center rounded-lg border bg-gray-50 pr-2">
 			<UIFormTextarea
 				ref="textarea"
@@ -132,26 +202,22 @@ watch(
 				@input="handleInput"
 			/>
 
-			<div
-				class="flex items-center"
-				:class="{ 'space-x-2': files.length, 'space-x-1': !files.length }"
-			>
+			<div class="flex items-center space-x-1">
 				<template v-if="!conversationStore.loadingResponse">
 					<UIButton
 						v-tippy="{ content: 'Attach a file' }"
 						icon
-						size="sm"
+						variant="text"
 						:disabled="props.disabled"
 						@click="addFile"
 					>
 						<UIIcon :icon="PaperClipIcon" />
 					</UIButton>
 
-					<UIButton
+					<!-- <UIButton
 						v-if="files.length"
 						v-tippy="{ content: 'Remove attached files' }"
 						icon
-						size="sm"
 						color="primary"
 						variant="tonal"
 						class="attached-files-button"
@@ -163,7 +229,7 @@ watch(
 						<span class="remove-icon">
 							<UIIcon :icon="XMarkIcon" />
 						</span>
-					</UIButton>
+					</UIButton> -->
 
 					<input
 						ref="fileInput"

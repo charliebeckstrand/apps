@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { useBorderRadius } from '@/composables/useBorderRadius'
-import { useInputVariant } from '@/composables/useInputVariant'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useTextSize } from '@/composables/useTextSize'
-
-import { computed } from 'vue'
+import { useVariant } from '@/composables/form/useVariant'
 
 import type { BorderRadius, Size, Variant } from '@/types/form/input'
 
@@ -38,31 +39,20 @@ const inputValue = computed<ModelValue>({
 		emit('update:modelValue', value)
 	}
 })
-
-const classes = computed<string>(() => {
-	const classes = ['flex w-full']
-
-	if (props.rounded) {
-		classes.push(useBorderRadius(props.rounded))
-	}
-
-	if (props.size) {
-		classes.push(usePadding(props.size))
-		classes.push(useTextSize(props.size))
-	}
-
-	if (props.variant) {
-		classes.push(useInputVariant(props.variant))
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
 	<input
 		v-model="inputValue"
-		:class="classes"
+		:class="[
+			useTailwindClasses([
+				useBorderRadius(props.rounded),
+				usePadding(props.size),
+				useTextSize(props.size),
+				useVariant(props.variant)
+			]),
+			'flex w-full'
+		]"
 		:autocomplete="props.autocomplete"
 	/>
 </template>

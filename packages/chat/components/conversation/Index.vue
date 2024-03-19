@@ -18,7 +18,7 @@ const conversationStore = useConversationStore()
 				:message="message"
 				:color="
 					message.type === 'bot' || message.type === 'system'
-						? 'gray'
+						? 'secondary'
 						: message.type === 'user'
 						? 'accent'
 						: undefined

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useBorderRadius } from '@/composables/useBorderRadius'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useTextColor } from '@/composables/useTextColor'
 import { useVariant } from '@/composables/useVariant'
@@ -21,40 +22,19 @@ const props = withDefaults(defineProps<Props>(), {
 	padding: 'md',
 	variant: 'default'
 })
-
-const classes = computed<string>(() => {
-	const classes = []
-
-	if (props.rounded) {
-		classes.push(useBorderRadius(props.rounded))
-	}
-
-	if (props.padding) {
-		classes.push(usePadding(props.padding))
-	}
-
-	if (props.textColor) {
-		classes.push(useTextColor(props.textColor))
-	}
-
-	if (props.variant) {
-		const variant = useVariant(props.variant)
-
-		if (variant) {
-			const color = variant[props.color]
-
-			if (color) {
-				classes.push(color)
-			}
-		}
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
-	<div :class="classes">
+	<div
+		:class="
+			useTailwindClasses([
+				useBorderRadius(props.rounded),
+				usePadding(props.padding),
+				useTextColor(props.textColor),
+				useVariant(props.variant, props.color)
+			])
+		"
+	>
 		<slot />
 	</div>
 </template>

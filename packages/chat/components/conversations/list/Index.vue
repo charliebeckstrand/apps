@@ -45,7 +45,7 @@ const filteredConversations = computed(() => {
 		const searchTerm = props.searchTerm.toLowerCase()
 
 		return conversations.filter((conversation: any) => {
-			const name = conversation.name.toLowerCase()
+			const name = conversation.name ? conversation.name.toLowerCase() : ''
 
 			return name.includes(searchTerm)
 		})
@@ -58,11 +58,7 @@ const filteredConversations = computed(() => {
 watch(
 	selectedConversation,
 	(selectedConversation) => {
-		if (selectedConversation) {
-			document.title = `Chat - ${selectedConversation.name}`
-		} else {
-			document.title = 'Chat'
-		}
+		document.title = `Chat${selectedConversation ? ` - ${selectedConversation.name ?? 'New Conversation'}` : ''}`
 	},
 	{ immediate: true }
 )

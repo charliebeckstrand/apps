@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useBackgroundColor } from '@/composables/useBackgroundColor'
-import { useTextSize } from '@/composables/useTextSize'
-
 import { computed } from 'vue'
+
+import { useBackgroundColor } from '@/composables/useBackgroundColor'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useTextSize } from '@/composables/useTextSize'
 
 import type { Color, Size } from '@/types/progress'
 
@@ -35,54 +36,41 @@ const adjustedValue = computed<number>(() => {
 	return props.value
 })
 
-const baseClasses = computed<string>(() => 'bg-gray-300 rounded-full text-center transition-width duration-300')
+const sizes: Record<string, string> = {
+	sm: 'p-2',
+	md: 'p-2.5',
+	lg: 'p-3'
+}
 
-const classes = computed<string>(() => {
-	const sizes: Record<string, string> = {
-		sm: 'p-2',
-		md: 'p-2.5',
-		lg: 'p-3'
-	}
-
-	const sizesWithText: Record<string, string> = {
-		sm: 'py-1',
-		md: 'py-1.5',
-		lg: 'py-2'
-	}
-
-	const classes = [...baseClasses.value, 'px-4']
-
-	if (props.color) {
-		classes.push(useBackgroundColor(props.color))
-	}
-
-	if (props.showLabel) {
-		classes.push(sizesWithText[props.size])
-	} else {
-		classes.push(sizes[props.size])
-	}
-
-	return classes.join(' ')
-})
-
-const textSizeClasses = computed<string | undefined>(() => useTextSize(props.size))
+const sizesWithText: Record<string, string> = {
+	sm: 'py-1',
+	md: 'py-1.5',
+	lg: 'py-2'
+}
 </script>
 
 <template>
 	<div
 		role="progressbar"
-		:class="baseClasses"
+		class="transition-width rounded-full bg-gray-300 text-center duration-300"
 		:aria-valuenow="adjustedValue"
 		:aria-valuemin="0"
 		:aria-valuemax="100"
 	>
 		<div
 			:style="{ width: `${adjustedValue}%`, minWidth: props.showLabel ? '2.5rem' : undefined }"
-			:class="classes"
+			:class="[
+				useTailwindClasses([
+					useBackgroundColor(props.color),
+					[props.showLabel, sizesWithText[props.size]],
+					[!props.showLabel, sizes[props.size]]
+				]),
+				'transition-width rounded-full bg-gray-300 px-4 text-center duration-300'
+			]"
 		>
 			<span
 				v-if="props.showLabel"
-				:class="textSizeClasses"
+				:class="useTailwindClasses([useTextSize(props.size)])"
 			>
 				{{ adjustedValue }}%
 			</span>

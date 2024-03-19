@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import Icon from '@/components/icon/Index.vue'
-
+import { computed, ref } from 'vue'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
+
+import Icon from '@/components/icon/Index.vue'
 
 import type { Sort } from '@/types/table'
 

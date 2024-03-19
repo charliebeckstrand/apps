@@ -1,12 +1,4 @@
 <script setup lang="ts">
-import Button from '@/components/button/Index.vue'
-import ComboboxItem from '@/components/combobox/Item.vue'
-import Icon from '@/components/icon/Index.vue'
-
-import { useInputVariant } from '@/composables/useInputVariant'
-import { usePadding } from '@/composables/usePadding'
-import { useTextSize } from '@/composables/useTextSize'
-
 import { ref, computed } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import {
@@ -17,6 +9,15 @@ import {
 	ComboboxOption,
 	TransitionRoot
 } from '@headlessui/vue'
+
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { usePadding } from '@/composables/usePadding'
+import { useTextSize } from '@/composables/useTextSize'
+import { useVariant } from '@/composables/form/useVariant'
+
+import Button from '@/components/button/Index.vue'
+import ComboboxItem from '@/components/combobox/Item.vue'
+import Icon from '@/components/icon/Index.vue'
 
 type Item = {
 	value: string
@@ -73,21 +74,6 @@ const filteredItems = computed(() =>
 	})
 )
 
-const inputClasses = computed<string>(() => {
-	const classes = ['flex w-full rounded-md']
-
-	if (props.size) {
-		classes.push(usePadding(props.size))
-		classes.push(useTextSize(props.size))
-	}
-
-	if (props.variant) {
-		classes.push(useInputVariant(props.variant))
-	}
-
-	return classes.join(' ')
-})
-
 const clear = () => {
 	inputValue.value = {} as Item
 	query.value = ''
@@ -107,7 +93,14 @@ const clear = () => {
 				>
 					<ComboboxInput
 						:id="props.id"
-						:class="inputClasses"
+						:class="[
+							useTailwindClasses([
+								usePadding(props.size),
+								useTextSize(props.size),
+								useVariant(props.variant)
+							]),
+							'flex w-full rounded-md'
+						]"
 						:displayValue="(item: any) => item.label"
 						autocomplete="one-time-code"
 						:placeholder="props.placeholder"

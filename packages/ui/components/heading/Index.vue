@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useFontWeight } from '@/composables/useFontWeight'
 import { useTextColor } from '@/composables/useTextColor'
 import { useTextSize } from '@/composables/useTextSize'
@@ -21,31 +22,13 @@ const props = withDefaults(defineProps<Props>(), {
 	weight: 'normal'
 })
 
-const classes = computed(() => {
-	const classes = []
-
-	if (props.color) {
-		classes.push(useTextColor(props.color))
-	}
-
-	if (props.size) {
-		classes.push(useTextSize(props.size))
-	}
-
-	if (props.weight) {
-		classes.push(useFontWeight(props.weight))
-	}
-
-	return classes.join(' ')
-})
-
 const elementType = computed(() => (props.tag as string).toLowerCase())
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:class="classes"
+		:class="useTailwindClasses([useTextColor(props.color), useTextSize(props.size), useFontWeight(props.weight)])"
 	>
 		<slot />
 	</component>

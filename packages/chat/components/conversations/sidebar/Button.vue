@@ -8,10 +8,9 @@ const layoutStore = useLayoutStore()
 
 <template>
 	<UIButton
-		color="primary"
+		v-tippy="{ content: 'Show Sidebar' }"
 		variant="text"
 		icon
-		class="lg:hidden"
 		@click="layoutStore.sidebarOpen = true"
 	>
 		<span class="sr-only">Open sidebar</span>

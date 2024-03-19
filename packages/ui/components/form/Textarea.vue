@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { useBorderRadius } from '@/composables/useBorderRadius'
-import { useInputVariant } from '@/composables/useInputVariant'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useResize } from '@/composables/useResize'
 import { useTextSize } from '@/composables/useTextSize'
-
-import { computed } from 'vue'
+import { useVariant } from '@/composables/form/useVariant'
 
 import type { BorderRadius, Resize, Size, Variant } from '@/types/form/textarea'
 
@@ -39,39 +40,21 @@ const inputValue = computed<string>({
 		emit('update:modelValue', value)
 	}
 })
-
-const classes = computed<string>(() => {
-	const classes = ['flex w-full rounded-md resize-none min-h-[48px]']
-
-	if (props.rounded) {
-		classes.push(useBorderRadius(props.rounded))
-	}
-
-	if (props.resize) {
-		classes.push(useResize(props.resize))
-	}
-
-	if (props.size) {
-		classes.push(usePadding(props.size))
-		classes.push(useTextSize(props.size))
-	}
-
-	if (props.variant) {
-		const variant = useInputVariant(props.variant)
-
-		if (variant) {
-			classes.push(variant)
-		}
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
 	<textarea
 		v-model="inputValue"
-		:class="classes"
+		:class="[
+			useTailwindClasses([
+				useBorderRadius(props.rounded),
+				useResize(props.resize),
+				usePadding(props.size),
+				useTextSize(props.size),
+				useVariant(props.variant)
+			]),
+			'flex min-h-[48px] w-full resize-none rounded-md'
+		]"
 		:rows="props.rows"
 	/>
 </template>

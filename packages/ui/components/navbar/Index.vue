@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useVariant } from '@/composables/navbar/useVariant'
 
 import type { Color, Variant } from '@/types/navbar'
 
@@ -12,36 +13,10 @@ const props = withDefaults(defineProps<Props>(), {
 	color: 'primary',
 	variant: 'default'
 })
-
-const classes = computed<string>(() => {
-	const variantMap: Record<Variant, Record<Color, string>> = {
-		default: {
-			primary: 'bg-primary text-white',
-			secondary: 'bg-secondary text-white',
-			transparent: 'bg-transparent text-primary'
-		}
-	}
-
-	const classes = ['flex items-center p-4 leading-tight']
-
-	if (props.variant) {
-		const variant = variantMap[props.variant]
-
-		if (variant) {
-			const color = variant[props.color]
-
-			if (color) {
-				classes.push(color)
-			}
-		}
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
-	<nav :class="classes">
+	<nav :class="[useTailwindClasses([useVariant(props.variant, props.color)]), 'flex items-center p-4 leading-tight']">
 		<div class="mr-auto">
 			<slot name="left" />
 		</div>

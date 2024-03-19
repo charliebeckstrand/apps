@@ -48,11 +48,13 @@ const getLatestResponse = (conversation: Conversation) => {
 			<div>
 				<UIHeader>
 					<template #title>
-						<span class="line-clamp-1 leading-tight">{{ props.conversation.name }}</span>
+						<span class="line-clamp-1 leading-tight text-white">
+							{{ props.conversation.name ?? 'New Conversation' }}
+						</span>
 					</template>
-					<!-- <template #subtitle>
-						<span class="line-clamp-1 text-gray-400">{{ props.conversation.id }}</span>
-					</template> -->
+					<template #subtitle>
+						<div class="text-accent font-extrabold">{{ props.conversation.model }}</div>
+					</template>
 				</UIHeader>
 
 				<span
@@ -64,10 +66,10 @@ const getLatestResponse = (conversation: Conversation) => {
 			</div>
 			<div class="remove">
 				<UIButton
-					color="white"
-					variant="text"
+					v-tippy="{ content: 'Remove conversation' }"
 					icon
 					dark
+					variant="text"
 					@click.stop="removeConversation(props.conversation)"
 				>
 					<UIIcon :icon="XMarkIcon" />

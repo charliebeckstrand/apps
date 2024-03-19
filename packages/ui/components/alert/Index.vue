@@ -1,56 +1,35 @@
 <script setup lang="ts">
-import Heading from '@/components/heading/Index.vue'
-
-import { computed } from 'vue'
-
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useVariant } from '@/composables/useVariant'
+
+import Heading from '@/components/heading/Index.vue'
 
 import type { Color, Size, Variant } from '@/types/alert'
 
 interface Props {
 	color?: Color
+	dark?: boolean
 	padding?: Size
 	variant?: Variant
-	dark?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
+	dark: false,
 	padding: 'md',
-	variant: 'default',
-	dark: false
-})
-
-const classes = computed<string>(() => {
-	const classes = ['rounded-md']
-
-	if (props.dark) {
-		classes.push('text-white')
-	}
-
-	if (props.padding) {
-		classes.push(usePadding(props.padding))
-	}
-
-	if (props.variant) {
-		const variant = useVariant(props.variant)
-
-		if (variant) {
-			const color = variant[props.color]
-
-			if (color) {
-				classes.push(color)
-			}
-		}
-	}
-
-	return classes.join(' ')
+	variant: 'default'
 })
 </script>
 
 <template>
-	<div :class="classes">
+	<div
+		:class="[
+			useTailwindClasses([usePadding(props.padding), useVariant(props.variant, props.color)]),
+			'rounded-md',
+			{ 'text-white': props.dark }
+		]"
+	>
 		<Heading
 			v-if="$slots['title']"
 			size="lg"

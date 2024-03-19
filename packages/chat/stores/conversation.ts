@@ -24,7 +24,8 @@ export const useConversationStore = defineStore('conversation', {
 			} else {
 				const conversation = {
 					id: randomIdGenerator(),
-					name: randomNameGenerator(),
+					model: 'gpt-3.5-turbo',
+					name: null,
 					messages: [
 						{
 							value: 'Hello, how can I help you?',

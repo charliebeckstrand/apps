@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextSize } from '@/composables/useTextSize'
 
 import { computed } from 'vue'
@@ -15,15 +16,13 @@ const props = withDefaults(defineProps<Props>(), {
 	tag: 'div'
 })
 
-const classes = computed<string>(() => useTextSize(props.size))
-
 const elementType = computed(() => (props.tag === 'label' ? 'label' : 'div'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:class="classes"
+		:class="useTailwindClasses([useTextSize(props.size)])"
 	>
 		<slot />
 	</component>

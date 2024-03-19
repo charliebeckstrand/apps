@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
+
 import Button from '@/components/button/Index.vue'
 import FormItem from '@/components/form/Item.vue'
 import FormInput from '@/components/form/Input.vue'
 import Icon from '@/components/icon/Index.vue'
-
-import { computed } from 'vue'
-
-import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 
 import type { BorderRadius, Size, Variant } from '@/types/form/input'
 

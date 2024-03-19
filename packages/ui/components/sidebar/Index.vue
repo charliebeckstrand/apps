@@ -1,5 +1,10 @@
 <script setup lang="ts">
-type Color = 'primary' | 'secondary' | 'accent' | 'transparent'
+import { computed } from 'vue'
+
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useColor } from '@/composables/sidebar/useColor'
+
+import type { Color } from '@/types/sidebar'
 
 interface Props {
 	color?: Color
@@ -11,33 +16,15 @@ const props = withDefaults(defineProps<Props>(), {
 	width: undefined
 })
 
-const classes = computed(() => {
-	const colorMap: Record<Color, string> = {
-		primary: 'bg-primary',
-		secondary: 'bg-secondary',
-		accent: 'bg-accent',
-		transparent: 'bg-transparent'
-	}
-
-	const classes = ['ui-sidebar h-full min-h-full flex flex-col px-4 overflow-hidden']
-
-	if (props.color) {
-		const color = colorMap[props.color]
-
-		if (color) {
-			classes.push(color)
-		}
-	}
-
-	return classes.join(' ')
-})
-
 const width = computed(() => props.width ?? '320px')
 </script>
 
 <template>
 	<div
-		:class="classes"
+		:class="[
+			useTailwindClasses([useColor(props.color)]),
+			'ui-sidebar flex h-full min-h-full flex-col overflow-hidden px-4'
+		]"
 		:style="{ width: width, minWidth: width }"
 	>
 		<slot name="prepend" />

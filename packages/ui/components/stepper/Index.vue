@@ -21,21 +21,21 @@ const props = withDefaults(defineProps<Props>(), {
 	modelValue: 1,
 	steps: () => []
 })
-
-const classes = computed<string>(() => 'flex items-center justify-between')
-const itemClasses = computed<string>(() => 'cursor-pointer select-none rounded-full p-4')
 </script>
 
 <template>
 	<nav aria-label="stepper">
-		<ol :class="classes">
+		<ol class="flex items-center justify-between">
 			<template
 				v-for="(step, index) in props.steps"
 				:key="index"
 			>
 				<li
 					class="whitespace-nowrap"
-					:class="[itemClasses, { 'bg-primary text-white': step.step === props.modelValue }]"
+					:class="[
+						{ 'bg-primary text-white': step.step === props.modelValue },
+						'cursor-pointer select-none rounded-full p-4'
+					]"
 					@click="emit('update:modelValue', step.step)"
 				>
 					{{ step.label }}

@@ -1,18 +1,16 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+import { CalendarIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import VueDatePicker from '@vuepic/vue-datepicker'
+
+import '@vuepic/vue-datepicker/dist/main.css'
+
 import Button from '@/components/button/Index.vue'
 import FormItem from '@/components/form/Item.vue'
 import FormInput from '@/components/form/Input.vue'
 import Icon from '@/components/icon/Index.vue'
 
-import { ref, computed } from 'vue'
-
-import { CalendarIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-import VueDatePicker from '@vuepic/vue-datepicker'
-
-import '@vuepic/vue-datepicker/dist/main.css'
-
-type Variant = 'default' | 'outlined' | 'plain'
+import type { Variant } from '@/types/form/input'
 
 type Emit = {
 	(event: 'update:modelValue', value: string): void

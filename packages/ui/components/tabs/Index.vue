@@ -1,15 +1,27 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useJustify } from '@/composables/useJustify'
+
+import type { Justify } from '@/types/base/justify'
+
 interface Props {
-	justified?: boolean
+	justify?: Justify
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	justified: false
+	justify: 'center'
 })
 </script>
 
 <template>
-	<ul class="flex flex-nowrap overflow-x-auto border-b border-gray-200 text-center font-medium text-gray-500">
+	<ul
+		:class="[
+			useTailwindClasses([[props.justify !== undefined, useJustify(props.justify)]]),
+			'flex flex-nowrap overflow-x-auto border-b border-gray-200 text-center font-medium text-gray-500'
+		]"
+	>
 		<slot />
 	</ul>
 </template>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { useTextSize } from '@/composables/useTextSize'
-
 import { computed } from 'vue'
+
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useColor } from '@/composables/form/checkbox/useColor'
+import { useSize } from '@/composables/form/checkbox/useSize'
+import { useTextSize } from '@/composables/useTextSize'
 
 import type { Color, Size } from '@/types/form/checkbox'
 
@@ -35,42 +38,6 @@ const inputValue = computed<boolean>({
 const toggleInput = () => {
 	emit('update:modelValue', !inputValue.value)
 }
-
-const classes = computed<string>(() => {
-	const classes = ['cursor-pointer rounded focus:outline-offset-0']
-
-	const colorMap: Record<string, string | undefined> = {
-		primary: 'accent-primary checked:bg-primary',
-		secondary: 'accent-secondary checked:bg-secondary',
-		accent: 'accent-accent checked:bg-accent'
-	}
-
-	const sizeMap: Record<string, string | undefined> = {
-		sm: 'h-4 w-4',
-		md: 'h-5 w-5',
-		lg: 'h-6 w-6'
-	}
-
-	if (props.color) {
-		const color = colorMap[props.color]
-
-		if (color) {
-			classes.push(color)
-		}
-	}
-
-	if (props.size) {
-		const size = sizeMap[props.size]
-
-		if (size) {
-			classes.push(size)
-		}
-
-		classes.push(useTextSize(props.size))
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
@@ -79,7 +46,10 @@ const classes = computed<string>(() => {
 			:id="props.id"
 			type="checkbox"
 			v-model="inputValue"
-			:class="classes"
+			:class="[
+				useTailwindClasses([useColor(props.color), useSize(props.size), useTextSize(props.size)]),
+				'cursor-pointer rounded focus:outline-offset-0'
+			]"
 			@keydown.enter="toggleInput"
 		/>
 		<label

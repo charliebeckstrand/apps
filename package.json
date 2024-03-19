@@ -3,8 +3,7 @@
 	"version": "1.0.0",
 	"scripts": {
 		"chat": "yarn workspace chat run dev",
-		"mtg": "yarn workspace mtg run dev",
-		"notes": "yarn workspace notes run dev",
+		"draw": "yarn workspace draw run dev",
 		"recipes": "yarn workspace recipes run dev",
 		"translate": "yarn workspace translate run dev",
 		"todo": "yarn workspace todo run dev"
@@ -49,9 +48,10 @@
 		"@vuelidate/validators": "^2.0.4",
 		"@vuepic/vue-datepicker": "^7.4.1",
 		"@vueuse/core": "^10.7.2",
+		"axios": "^1.6.7",
 		"prismjs": "^1.29.0"
 	},
-	"packageManager": "yarn@4.0.2",
+	"packageManager": "yarn@4.1.1",
 	"engines": {
 		"node": "^20.0.0"
 	}

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useColor } from '@/composables/list/useColor'
+
 import type { Color } from '@/types/list'
 
 interface Props {
@@ -13,34 +16,13 @@ const props = withDefaults(defineProps<Props>(), {
 	to: undefined
 })
 
-const classes = computed<string>(() => {
-	const colorMap: Partial<Record<Color, string>> = {
-		default: 'bg-transparent',
-		primary: 'text-primary',
-		secondary: 'text-secondary',
-		accent: 'text-accent'
-	}
-
-	const classes = ['flex items-center']
-
-	if (props.color) {
-		const color = colorMap[props.color]
-
-		if (color) {
-			classes.push(color)
-		}
-	}
-
-	return classes.join(' ')
-})
-
 const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'li'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:class="classes"
+		:class="[useTailwindClasses([useColor(props.color)]), 'flex items-center']"
 		:to="props.to"
 	>
 		<div class="prepend mr-1 empty:mr-0">

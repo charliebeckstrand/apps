@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { computed, ref, watch, onUnmounted } from 'vue'
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { usePadding } from '@/composables/usePadding'
+import { useSize } from '@/composables/dialog/useSize'
+
 import Heading from '@/components/heading/Index.vue'
 import Overlay from '@/components/overlay/Index.vue'
-
-import { usePadding } from '@/composables/usePadding'
-
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 import type { Padding, Size } from '@/types/dialog'
 
@@ -33,37 +36,6 @@ const isOpen = computed({
 	set: (value) => {
 		emit('update:modelValue', value)
 	}
-})
-
-const classes = computed(() => {
-	const sizeMap: Record<Size, string> = {
-		xs: 'max-w-xs',
-		sm: 'max-w-sm',
-		md: 'max-w-md',
-		lg: 'max-w-lg',
-		xl: 'max-w-xl',
-		'2xl': 'max-w-2xl',
-		'3xl': 'max-w-3xl',
-		'4xl': 'max-w-4xl'
-	}
-
-	const classes = [
-		'w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all'
-	]
-
-	if (props.padding) {
-		classes.push(usePadding(props.padding))
-	}
-
-	if (props.size) {
-		const size = sizeMap[props.size]
-
-		if (size) {
-			classes.push(size)
-		}
-	}
-
-	return classes.join(' ')
 })
 
 const closeDialog = () => {
@@ -136,7 +108,12 @@ onUnmounted(() => {
 							leave-from="opacity-100 scale-100"
 							leave-to="opacity-0 scale-95"
 						>
-							<DialogPanel :class="classes">
+							<DialogPanel
+								:class="[
+									useTailwindClasses([usePadding(props.padding), useSize(props.size)]),
+									'w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all'
+								]"
+							>
 								<Heading
 									size="lg"
 									weight="bold"

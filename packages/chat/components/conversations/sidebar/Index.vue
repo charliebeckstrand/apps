@@ -56,9 +56,8 @@ const cancelSearchIfNoValue = () => {
 					<template v-if="searching">
 						<UIButton
 							v-tippy="{ content: 'Cancel search' }"
-							color="white"
-							variant="text"
 							icon
+							variant="text"
 							dark
 							@click="cancelSearch"
 						>
@@ -72,9 +71,8 @@ const cancelSearchIfNoValue = () => {
 						<UIButton
 							v-if="conversationStore.conversations.length"
 							v-tippy="{ content: 'Search conversations' }"
-							color="white"
-							variant="text"
 							icon
+							variant="text"
 							dark
 							@click="searchConversations"
 						>
@@ -83,9 +81,8 @@ const cancelSearchIfNoValue = () => {
 
 						<UIButton
 							v-tippy="{ content: 'New conversation' }"
-							color="white"
-							variant="text"
 							icon
+							variant="text"
 							dark
 							@click="conversationStore.newConversation"
 						>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useVariant } from '@/composables/form/useVariant'
+
 import type { Variant } from '@/types/form/item'
 
 interface Props {
@@ -8,30 +11,21 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
-
-const variantClasses = computed<string>(() => {
-	const variantMap: Record<Variant, string> = {
-		default: 'bg-gray-100',
-		outlined: 'bg-white',
-		tonal: 'bg-gray-50',
-		plain: 'bg-white'
-	}
-
-	return variantMap[props.variant]
-})
 </script>
 
 <template>
 	<div
-		class="relative flex items-center"
-		:class="{
-			'has-prepend': $slots['prepend'],
-			'has-append': $slots['append']
-		}"
+		:class="[
+			'relative flex items-center',
+			{
+				'has-prepend': $slots['prepend'],
+				'has-append': $slots['append']
+			}
+		]"
 	>
 		<div
 			class="absolute left-4 z-20 pr-2"
-			:class="variantClasses"
+			:class="useTailwindClasses([useVariant(props.variant)])"
 		>
 			<slot name="prepend" />
 		</div>
@@ -42,7 +36,7 @@ const variantClasses = computed<string>(() => {
 
 		<div
 			class="absolute right-4 z-10 pl-2"
-			:class="variantClasses"
+			:class="useTailwindClasses([useVariant(props.variant)])"
 		>
 			<slot name="append" />
 		</div>

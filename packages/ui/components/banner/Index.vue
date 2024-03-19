@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import Heading from '@/components/heading/Index.vue'
-
-import { computed } from 'vue'
-
 import { useBackgroundColor } from '@/composables/useBackgroundColor'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useTextColor } from '@/composables/useTextColor'
+
+import Heading from '@/components/heading/Index.vue'
 
 import type { Color, Size } from '@/types/banner'
 
@@ -20,28 +19,18 @@ const props = withDefaults(defineProps<Props>(), {
 	padding: 'md',
 	textColor: 'white'
 })
-
-const classes = computed<string>(() => {
-	const classes = ['']
-
-	if (props.color) {
-		classes.push(useBackgroundColor(props.color))
-	}
-
-	if (props.padding) {
-		classes.push(usePadding(props.padding))
-	}
-
-	if (props.textColor) {
-		classes.push(useTextColor(props.textColor))
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
-	<div :class="classes">
+	<div
+		:class="
+			useTailwindClasses([
+				useBackgroundColor(props.color),
+				usePadding(props.padding),
+				useTextColor(props.textColor)
+			])
+		"
+	>
 		<Heading
 			v-if="$slots['title']"
 			size="lg"

@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useOrientation } from '@/composables/form/useOrientation'
+import { useValidation } from '@/composables/form/useValidation'
+
 import type { Orientation } from '@/types/base/orientation'
 
 type Props = {
@@ -10,39 +14,16 @@ const props = withDefaults(defineProps<Props>(), {
 	orientation: 'vertical',
 	validation: undefined
 })
-
-const classes = computed(() => {
-	const orientationMap: Record<Orientation, string> = {
-		horizontal: 'flex items-center flex-row horizontal',
-		vertical: 'flex flex-col vertical'
-	}
-
-	const validationMap: Record<string, string> = {
-		invalid: 'invalid',
-		valid: 'valid'
-	}
-
-	const classes = ['ui-form-group']
-
-	if (props.orientation) {
-		classes.push(orientationMap[props.orientation])
-	}
-
-	if (props.validation) {
-		if (props.validation?.$errors.length) {
-			classes.push(validationMap.invalid)
-		} else {
-			classes.push(validationMap.valid)
-		}
-	}
-
-	return classes.join(' ')
-})
 </script>
 
 <template>
 	<div>
-		<div :class="classes">
+		<div
+			:class="[
+				useTailwindClasses([useOrientation(props.orientation), useValidation(props.validation)]),
+				'ui-form-group'
+			]"
+		>
 			<slot />
 		</div>
 		<div

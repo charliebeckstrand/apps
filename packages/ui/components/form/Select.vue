@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import Icon from '@/components/icon/Index.vue'
-
-import { usePadding } from '@/composables/usePadding'
-
 import { computed } from 'vue'
-
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { usePadding } from '@/composables/usePadding'
+import { useVariant } from '@/composables/form/useVariant'
+
+import Icon from '@/components/icon/Index.vue'
+
 import type { Padding } from '@/types/base/padding'
+import type { Variant } from '@/types/form/input'
 
 type ModelValue = string | number | undefined
 
@@ -28,6 +30,7 @@ interface Props {
 	items: Item[]
 	placeholder?: string
 	padding?: Padding
+	variant?: Variant
 }
 
 const emit = defineEmits<Emit>()
@@ -36,22 +39,13 @@ const props = withDefaults(defineProps<Props>(), {
 	modelValue: undefined,
 	items: undefined,
 	placeholder: undefined,
-	padding: 'md'
+	padding: 'md',
+	variant: 'default'
 })
 
 const inputValue = computed<ModelValue>({
 	get: () => props.modelValue,
 	set: (value) => emit('update:modelValue', value)
-})
-
-const classes = computed<string>(() => {
-	const classes = ['bg-gray-100 flex w-full rounded-md resize-none appearance-none pr-10']
-
-	if (props.padding) {
-		classes.push(usePadding(props.padding))
-	}
-
-	return classes.join(' ')
 })
 </script>
 
@@ -60,7 +54,10 @@ const classes = computed<string>(() => {
 		<select
 			:id="props.id"
 			v-model="inputValue"
-			:class="classes"
+			:class="[
+				useTailwindClasses([usePadding(props.padding), useVariant(props.variant)]),
+				'flex w-full resize-none appearance-none rounded-md pr-10'
+			]"
 			@change="$emit('change')"
 		>
 			<option

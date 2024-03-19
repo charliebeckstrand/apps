@@ -24,10 +24,11 @@ const tools = [
 
 const activeTool = ref()
 
-const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'pink']
+const colors = ['black', 'red', 'blue', 'green', 'yellow', 'purple', 'pink']
 
 const getBackgroundColor = (color: string) => {
 	const colorMap: Record<string, string> = {
+		black: 'bg-black',
 		red: 'bg-red-500',
 		blue: 'bg-blue-500',
 		green: 'bg-green-500',
@@ -41,6 +42,7 @@ const getBackgroundColor = (color: string) => {
 
 const getBorderColor = (color: string) => {
 	const colorMap: Record<string, string> = {
+		black: 'border-black',
 		red: 'border-red-500',
 		blue: 'border-blue-500',
 		green: 'border-green-500',
@@ -80,12 +82,13 @@ const drawingAreaRef = ref<HTMLElement | null>(null)
 					<div
 						v-for="(color, index) in colors"
 						:key="index"
-						class="cursor-pointer"
+						class="color cursor-pointer"
+						:class="{ active: activeColor === color }"
 						@click="activeColor = color"
 					>
 						<div
-							class="rounded-full border p-0.5"
-							:class="activeColor === color ? getBorderColor(color) : `hover:${getBorderColor(color)}`"
+							class="rounded-full border-2 p-0.5"
+							:class="activeColor === color ? getBorderColor(color) : `border-transparent`"
 						>
 							<div
 								class="h-5 w-5 rounded-full"
@@ -104,3 +107,19 @@ const drawingAreaRef = ref<HTMLElement | null>(null)
 		</div>
 	</div>
 </template>
+
+<style scoped lang="scss">
+.drawing-colors {
+	// .color {
+	// 	transition: ease 0.25s;
+	// }
+	// &:hover {
+	// 	.color {
+	// 		opacity: 0.5;
+	// 	}
+	// 	.color.active {
+	// 		opacity: 1;
+	// 	}
+	// }
+}
+</style>
