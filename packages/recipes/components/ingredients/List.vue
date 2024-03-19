@@ -108,26 +108,10 @@ watch(
 							v-model="ingredient.quantity"
 						/>
 					</UIFormGroup>
-					<!-- <UIFormGroup>
-						<UIFormLabel
-							:for="`ingredient-unit-${index}`"
-							size="sm"
-							class="sr-only"
-						>
-							Measurement
-						</UIFormLabel>
-						<UICombobox
-							:id="`ingredient-unit-${index}`"
-							v-model="ingredient.unit"
-							placeholder="Measurement"
-							:items="measurements"
-							clearable
-						/>
-					</UIFormGroup> -->
 				</div>
 				<Button
 					color="danger"
-					variant="plain"
+					variant="text"
 					icon
 					v-tippy="{ content: 'Remove' }"
 					@click="() => ingredients.splice(index, 1)"

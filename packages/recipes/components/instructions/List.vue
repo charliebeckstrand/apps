@@ -95,7 +95,7 @@ watch(
 
 				<Button
 					color="danger"
-					variant="plain"
+					variant="text"
 					icon
 					v-tippy="{ content: 'Remove' }"
 					@click="() => instructions.splice(index, 1)"

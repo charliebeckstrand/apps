@@ -23,12 +23,21 @@ const setUser = () => {
 		name: 'John Doe'
 	})
 }
+
+const logout = () => {
+	authStore.setUser(null)
+
+	navigateTo('/')
+}
+
 onMounted(() => {
 	items.value = [
 		{
 			value: 'Logout',
 			icon: PowerIcon,
-			onClick: () => authStore.setUser(null)
+			onClick: () => {
+				logout()
+			}
 		}
 	]
 })

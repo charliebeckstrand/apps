@@ -61,7 +61,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'b
 			{
 				'w-full': props.block,
 				'justify-center': props.block && props.justify === undefined,
-				'hover:bg-opacity-10': props.dark,
+				'text-white hover:bg-opacity-10': props.dark,
 				'pointer-events-none opacity-50': props.disabled,
 				'justify-center rounded-full': props.icon
 			}
