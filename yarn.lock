@@ -29,6 +29,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-browser@npm:^3.10.0":
+  version: 3.10.0
+  resolution: "@azure/msal-browser@npm:3.10.0"
+  dependencies:
+    "@azure/msal-common": "npm:14.7.1"
+  checksum: 0ceba9161598d9234508644eb78f6593df3aeb7dc1e1eb08eefe75e8424219b721fface76e903f06c6bef780cfe7756dd86c3ce14fd619f6f6f42d7b69dd3e2f
+  languageName: node
+  linkType: hard
+
+"@azure/msal-common@npm:14.7.1":
+  version: 14.7.1
+  resolution: "@azure/msal-common@npm:14.7.1"
+  checksum: e37cd3ef03de1d921cd06621f40b378dc655ed87e2e7cbee6529ca02c3fb9c88cbd7bbe2a199f7e96e98edcd0cbf3d094432aaafa51f27e83a432e8247dc3ea2
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.23.5, @babel/code-frame@npm:^7.8.3":
   version: 7.23.5
   resolution: "@babel/code-frame@npm:7.23.5"
@@ -3369,6 +3385,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bizops@workspace:packages/bizops":
+  version: 0.0.0-use.local
+  resolution: "bizops@workspace:packages/bizops"
+  dependencies:
+    "@azure/msal-browser": "npm:^3.10.0"
+    nuxt: "npm:^3.10.3"
+  languageName: unknown
+  linkType: soft
+
 "body-parser@npm:1.20.2, body-parser@npm:^1.20.2":
   version: 1.20.2
   resolution: "body-parser@npm:1.20.2"
@@ -4494,14 +4519,6 @@ __metadata:
   checksum: 776014c015d3c326a357d3e9a2d007ad771d0ba0a70156d21fcc09fb68f5dad5e318b4ecf5bfdf0daa2805c126e5dc20da6da66bcd56331376e95c6b051fe088
   languageName: node
   linkType: hard
-
-"embrace@workspace:packages/embrace":
-  version: 0.0.0-use.local
-  resolution: "embrace@workspace:packages/embrace"
-  dependencies:
-    nuxt: "npm:^3.10.3"
-  languageName: unknown
-  linkType: soft
 
 "emoji-regex@npm:^8.0.0":
   version: 8.0.0

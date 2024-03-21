@@ -10,17 +10,17 @@ import type { BorderRadius, Color, Size, Variant } from '@/types/badge'
 
 interface Props {
 	color?: Color
-	textColor?: Color
 	rounded?: BorderRadius
 	size?: Size
+	textColor?: Color
 	variant?: Variant
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
-	textColor: 'default',
 	rounded: 'md',
 	size: 'md',
+	textColor: 'default',
 	variant: 'default'
 })
 </script>
@@ -29,11 +29,11 @@ const props = withDefaults(defineProps<Props>(), {
 	<div
 		:class="[
 			useTailwindClasses([
+				[props.variant !== 'plain', useBorderColor(props.color) || ''],
 				useBorderRadius(props.rounded),
 				useTextSize(props.size),
 				useTextColor(props.textColor),
-				useVariant(props.variant, props.color),
-				[props.variant !== 'plain', useBorderColor(props.color) || '']
+				useVariant(props.variant, props.color)
 			]),
 			'inline-flex items-center space-x-1 border px-1.5 py-0.5'
 		]"

@@ -16,25 +16,25 @@ type Emit = {
 }
 
 interface Props {
+	autocomplete?: string
+	borderRadius?: BorderRadius
 	id: string
 	modelValue?: ModelValue
-	variant?: Variant
-	size?: Size
-	borderRadius?: BorderRadius
-	autocomplete?: string
 	placeholder?: string
+	size?: Size
+	variant?: Variant
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
+	autocomplete: 'one-time-code',
+	borderRadius: 'md',
 	id: '',
 	modelValue: '',
-	variant: 'default',
+	placeholder: 'Password',
 	size: 'md',
-	borderRadius: 'md',
-	autocomplete: 'one-time-code',
-	placeholder: 'Password'
+	variant: 'default'
 })
 
 const inputValue = computed<ModelValue>({

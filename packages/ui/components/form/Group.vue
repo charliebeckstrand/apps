@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useOrientation } from '@/composables/form/useOrientation'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useValidation } from '@/composables/form/useValidation'
 
 import type { Orientation } from '@/types/base/orientation'

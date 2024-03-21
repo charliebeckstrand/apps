@@ -3,8 +3,6 @@ import { SlickList, SlickItem, DragHandle } from 'vue-slicksort'
 
 import { TrashIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 
-import { measurements } from '@/common/measurements'
-
 import type { Ingredient } from '@/types/ingredient'
 
 type Emit = {
@@ -23,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const ingredients = computed({
 	get: () => props.modelValue,
-	set: (value) => {
+	set: (value: Ingredient[]) => {
 		emit('update:modelValue', value)
 	}
 })

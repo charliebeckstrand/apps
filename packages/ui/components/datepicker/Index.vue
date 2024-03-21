@@ -17,23 +17,23 @@ type Emit = {
 }
 
 interface Props {
-	id: string
-	modelValue?: string
-	min?: string
-	max?: string
-	variant?: Variant
 	disabled?: boolean
+	id: string
+	max?: string
+	min?: string
+	modelValue?: string
+	variant?: Variant
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
+	disabled: false,
 	id: '',
-	modelValue: '',
-	min: '',
 	max: '',
-	variant: 'default',
-	disabled: false
+	min: '',
+	modelValue: '',
+	variant: 'default'
 })
 
 const datepickerRef = ref()

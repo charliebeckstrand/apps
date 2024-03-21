@@ -5,17 +5,17 @@ import type { TextSize } from '@/types/base/text-size'
 import type { FontWeight } from '@/types/base/font-weight'
 
 interface Props {
-	titleSize?: TextSize
-	titleWeight?: FontWeight
 	subtitleSize?: TextSize
 	subtitleWeight?: FontWeight
+	titleSize?: TextSize
+	titleWeight?: FontWeight
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	titleSize: 'lg',
-	titleWeight: 'bold',
 	subtitleSize: 'md',
-	subtitleWeight: 'normal'
+	subtitleWeight: 'normal',
+	titleSize: 'lg',
+	titleWeight: 'bold'
 })
 </script>
 

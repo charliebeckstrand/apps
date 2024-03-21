@@ -4,28 +4,28 @@ import Icon from '@/components/icon/Index.vue'
 import { CameraIcon } from '@heroicons/vue/24/outline'
 
 interface Props {
-	src: string
-	height?: string
-	width?: string
 	editable?: boolean
+	height?: string
+	src: string
+	width?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	src: '',
+	editable: false,
 	height: '48',
-	width: '48',
-	editable: false
+	src: '',
+	width: '48'
 })
 </script>
 
 <template>
 	<div class="relative rounded-full">
 		<img
+			class="rounded-full shadow-lg"
 			:src="props.src"
 			:height="props.height"
 			:width="props.width"
 			:alt="props.src"
-			class="rounded-full shadow-lg"
 			:style="`min-width: ${props.width}px`"
 		/>
 		<div

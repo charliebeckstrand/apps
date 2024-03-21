@@ -10,15 +10,15 @@ import type { Color, Size } from '@/types/progress'
 interface Props {
 	color?: Color
 	size?: Size
-	value: number
 	showLabel?: boolean
+	value: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'primary',
 	size: 'md',
-	value: 0,
-	showLabel: false
+	showLabel: false,
+	value: 0
 })
 
 const minValue = 0
@@ -51,11 +51,11 @@ const sizesWithText: Record<string, string> = {
 
 <template>
 	<div
-		role="progressbar"
 		class="transition-width rounded-full bg-gray-300 text-center duration-300"
-		:aria-valuenow="adjustedValue"
-		:aria-valuemin="0"
+		role="progressbar"
 		:aria-valuemax="100"
+		:aria-valuemin="0"
+		:aria-valuenow="adjustedValue"
 	>
 		<div
 			:style="{ width: `${adjustedValue}%`, minWidth: props.showLabel ? '2.5rem' : undefined }"

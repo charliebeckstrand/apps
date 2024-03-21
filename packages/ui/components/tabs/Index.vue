@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useJustify } from '@/composables/useJustify'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 
 import type { Justify } from '@/types/base/justify'
 

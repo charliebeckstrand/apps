@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const instructions = computed({
 	get: () => props.modelValue,
-	set: (value) => {
+	set: (value: Instruction[]) => {
 		emit('update:modelValue', value)
 	}
 })

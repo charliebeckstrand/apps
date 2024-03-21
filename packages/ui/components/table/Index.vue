@@ -11,19 +11,19 @@ type Emit = {
 }
 
 interface Props {
-	striped?: boolean
-	sortable?: boolean
 	columns?: any[]
 	data?: any[]
+	sortable?: boolean
+	striped?: boolean
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
-	striped: false,
-	sortable: false,
 	columns: Array,
-	data: Array
+	data: Array,
+	sortable: false,
+	striped: false
 })
 
 const sorting = ref({

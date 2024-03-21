@@ -2,9 +2,9 @@
 import { computed } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useResize } from '@/composables/useResize'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextSize } from '@/composables/useTextSize'
 import { useVariant } from '@/composables/form/useVariant'
 
@@ -16,8 +16,8 @@ type Emit = {
 
 interface Props {
 	modelValue: string
-	rounded?: BorderRadius
 	resize?: Resize
+	rounded?: BorderRadius
 	rows?: number | string
 	size?: Size
 	variant?: Variant
@@ -27,8 +27,8 @@ const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: '',
-	rounded: 'md',
 	resize: 'none',
+	rounded: 'md',
 	rows: 4,
 	size: 'md',
 	variant: 'default'

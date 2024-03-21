@@ -1,3 +1,3 @@
-type Color = 'primary' | 'secondary' | 'accent' | 'transparent'
+import type { Color } from './base/color'
 
 export type { Color }

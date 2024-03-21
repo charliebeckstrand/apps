@@ -2,9 +2,9 @@
 import { computed, ref, watch, onUnmounted } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
 import { useSize } from '@/composables/dialog/useSize'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 
 import Heading from '@/components/heading/Index.vue'
 import Overlay from '@/components/overlay/Index.vue'
@@ -17,16 +17,16 @@ type Emit = {
 
 interface Props {
 	modelValue: boolean
-	size?: Size
 	padding?: Padding
+	size?: Size
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: false,
-	size: 'md',
-	padding: 'md'
+	padding: 'md',
+	size: 'md'
 })
 
 const dialogRef = ref<HTMLElement | null>(null)

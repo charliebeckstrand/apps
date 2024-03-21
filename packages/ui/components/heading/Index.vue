@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useFontWeight } from '@/composables/useFontWeight'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextColor } from '@/composables/useTextColor'
 import { useTextSize } from '@/composables/useTextSize'
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useColor } from '@/composables/list/useColor'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 
 import type { Color } from '@/types/list'
 

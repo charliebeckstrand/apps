@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useVariant } from '@/composables/form/useVariant'
 
 import Icon from '@/components/icon/Index.vue'
@@ -26,18 +26,19 @@ type Item = {
 
 interface Props {
 	id?: string
-	modelValue: ModelValue
 	items: Item[]
-	placeholder?: string
+	modelValue: ModelValue
 	padding?: Padding
+	placeholder?: string
 	variant?: Variant
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: undefined,
+	id: undefined,
 	items: undefined,
+	modelValue: undefined,
 	placeholder: undefined,
 	padding: 'md',
 	variant: 'default'

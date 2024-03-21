@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useColor } from '@/composables/form/checkbox/useColor'
 import { useSize } from '@/composables/form/checkbox/useSize'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextSize } from '@/composables/useTextSize'
 
 import type { Color, Size } from '@/types/form/checkbox'
@@ -13,18 +13,18 @@ type Emit = {
 }
 
 interface Props {
+	color?: Color
 	id: string
 	modelValue: boolean
-	color?: Color
 	size?: Size
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
+	color: 'primary',
 	id: undefined,
 	modelValue: undefined,
-	color: 'primary',
 	size: 'md'
 })
 

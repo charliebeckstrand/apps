@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextColor } from '@/composables/useTextColor'
 import { useVariant } from '@/composables/card/useVariant'
 
@@ -12,30 +12,30 @@ import Header from '@/components/header/Index.vue'
 import type { BorderRadius, Color, Padding, Variant } from '@/types/card'
 
 interface Props {
-	color?: Color
-	textColor?: Color
-	variant?: Variant
-	rounded?: BorderRadius
-	padding?: Padding
-	to?: string
-	href?: string
 	active?: boolean
+	color?: Color
+	href?: string
 	interactive?: boolean
+	padding?: Padding
+	rounded?: BorderRadius
+	textColor?: Color
+	to?: string
+	variant?: Variant
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	color: 'default',
-	textColor: 'default',
-	variant: 'default',
-	rounded: 'md',
-	padding: 'md',
-	to: undefined,
-	href: undefined,
 	active: false,
-	interactive: false
+	color: 'default',
+	href: undefined,
+	interactive: false,
+	padding: 'md',
+	rounded: 'md',
+	textColor: 'default',
+	to: undefined,
+	variant: 'default'
 })
 
-const paddingClasses = computed<string>(() => usePadding(props.padding))
+const isInteractive = computed<boolean>(() => props.interactive || props.to !== undefined)
 
 const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'div'))
 </script>
@@ -50,9 +50,9 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 				useTextColor(props.textColor),
 				useVariant(props.variant, props.color).defaultVariant,
 				[props.active, useVariant(props.variant, props.color).active || ''],
-				[props.interactive, useVariant(props.variant, props.color).interactive || '']
+				[isInteractive, useVariant(props.variant, props.color).interactive || '']
 			]),
-			{ block: props.to !== undefined, 'cursor-pointer': props.interactive }
+			{ block: props.to !== undefined, 'cursor-pointer': isInteractive }
 		]"
 	>
 		<Header
@@ -71,7 +71,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 		</Header>
 		<div
 			v-if="$slots['prepend'] || $slots['default'] || $slots['append']"
-			:class="paddingClasses"
+			:class="usePadding(props.padding)"
 		>
 			<div v-if="$slots['append']">
 				<slot name="prepend" />
@@ -88,5 +88,3 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 		</div>
 	</component>
 </template>
-
-<style scoped lang="scss"></style>

@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
+import { useBorderRadius } from '@/composables/useBorderRadius'
 import { usePadding } from '@/composables/usePadding'
 import { useVariant } from '@/composables/useVariant'
 
 import Heading from '@/components/heading/Index.vue'
 
-import type { Color, Size, Variant } from '@/types/alert'
+import type { BorderRadius, Color, Size, Variant } from '@/types/alert'
 
 interface Props {
 	color?: Color
 	dark?: boolean
 	padding?: Size
+	rounded?: BorderRadius
 	variant?: Variant
 }
 
@@ -18,6 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
 	dark: false,
 	padding: 'md',
+	rounded: 'md',
 	variant: 'default'
 })
 </script>
@@ -25,8 +28,11 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
 	<div
 		:class="[
-			useTailwindClasses([usePadding(props.padding), useVariant(props.variant, props.color)]),
-			'rounded-md',
+			useTailwindClasses([
+				useBorderRadius(props.rounded),
+				usePadding(props.padding),
+				useVariant(props.variant, props.color)
+			]),
 			{ 'text-white': props.dark }
 		]"
 	>

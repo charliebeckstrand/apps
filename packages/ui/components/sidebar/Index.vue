@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useColor } from '@/composables/useColor'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
-import { useColor } from '@/composables/sidebar/useColor'
 
 import type { Color } from '@/types/sidebar'
 

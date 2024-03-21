@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useDensity } from '@/composables/list/useDensity'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useVariant } from '@/composables/list/useVariant'
 
 import type { Color, Density, Variant } from '@/types/list'
 
 interface Props {
 	color?: Color
-	variant?: Variant
-	density?: Density
 	dark: boolean
+	density?: Density
+	variant?: Variant
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
-	variant: 'default',
+	dark: false,
 	density: 'default',
-	dark: false
+	variant: 'default'
 })
 </script>
 

@@ -10,8 +10,8 @@ import {
 	TransitionRoot
 } from '@headlessui/vue'
 
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextSize } from '@/composables/useTextSize'
 import { useVariant } from '@/composables/form/useVariant'
 
@@ -32,27 +32,27 @@ type Emit = {
 }
 
 interface Props {
+	clearable?: boolean
 	id: string
-	modelValue: ModelValue | undefined
 	items: Item[]
+	modelValue: ModelValue | undefined
+	multiple?: boolean
 	placeholder?: string
 	size?: Size
 	variant?: Variant
-	multiple?: boolean
-	clearable?: boolean
 }
 
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
+	clearable: false,
 	id: undefined,
-	modelValue: undefined,
 	items: undefined,
+	modelValue: undefined,
+	multiple: false,
 	placeholder: 'Select an item',
 	size: 'md',
-	variant: 'default',
-	multiple: false,
-	clearable: false
+	variant: 'default'
 })
 
 const query = ref('')

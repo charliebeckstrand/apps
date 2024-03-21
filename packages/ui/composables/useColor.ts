@@ -1,10 +1,16 @@
 import type { Color } from '@/types/sidebar'
 
 const colorMap: Record<Color, string> = {
+	default: 'bg-default',
 	primary: 'bg-primary',
 	secondary: 'bg-secondary',
 	accent: 'bg-accent',
-	transparent: 'bg-transparent',
+	success: 'bg-success',
+	danger: 'bg-danger',
+	warning: 'bg-warning',
+	info: 'bg-info',
+	white: 'bg-white',
+	light: 'bg-light',
 	dark: 'bg-dark'
 }
 

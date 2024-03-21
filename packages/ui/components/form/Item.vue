@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
 			<slot name="prepend" />
 		</div>
 
-		<div class="flex-grow">
+		<div class="flex-grow space-y-1">
 			<slot />
 		</div>
 

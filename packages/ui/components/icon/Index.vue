@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useSize } from '@/composables/icon/useSize'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 
 import type { Size } from '@/types/icon'
 
 interface Props {
-	size?: Size
 	icon: any
+	size?: Size
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	size: 'md',
-	icon: undefined
+	icon: undefined,
+	size: 'md'
 })
 </script>
 

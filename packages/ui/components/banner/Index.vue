@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useBackgroundColor } from '@/composables/useBackgroundColor'
-import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { usePadding } from '@/composables/usePadding'
+import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextColor } from '@/composables/useTextColor'
 
 import Heading from '@/components/heading/Index.vue'

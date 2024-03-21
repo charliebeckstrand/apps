@@ -1,6 +1,6 @@
 import type { BorderRadius } from './base/border-radius'
 import type { Color } from './base/color'
-import type { Size } from './base/size'
+import type { Padding } from './base/padding'
 import type { Variant } from './base/variant'
 
-export type { BorderRadius, Color, Size, Variant }
+export type { BorderRadius, Color, Padding, Variant }
