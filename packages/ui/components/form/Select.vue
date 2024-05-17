@@ -64,6 +64,13 @@ const getItemDisabled = (item: number | string | Item): boolean => {
 	}
 	return false
 }
+
+const getItemLabel = (item: number | string | Item): number | string => {
+	if (typeof item === 'object') {
+		return item.label
+	}
+	return item
+}
 </script>
 
 <template>
@@ -90,7 +97,7 @@ const getItemDisabled = (item: number | string | Item): boolean => {
 				:value="getItemValue(item)"
 				:disabled="getItemDisabled(item)"
 			>
-				{{ typeof item === 'object' ? item.label : item.valueOf() }}
+				{{ getItemLabel(item) }}
 			</option>
 		</select>
 
