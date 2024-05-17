@@ -26,7 +26,7 @@ type Item = {
 
 interface Props {
 	id?: string
-	items: Item[] | string[] | number[]
+	items: number[] | string[] | Item[]
 	modelValue: ModelValue
 	padding?: Padding
 	placeholder?: string
