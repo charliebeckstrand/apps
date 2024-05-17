@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
+
 import { useBorderRadius } from '@/composables/useBorderRadius'
 import { usePadding } from '@/composables/usePadding'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'

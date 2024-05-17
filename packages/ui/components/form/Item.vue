@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
+
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useVariant } from '@/composables/form/useVariant'
 

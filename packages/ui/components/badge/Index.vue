@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
+
 import { useBorderColor } from '@/composables/useBorderColor'
 import { useBorderRadius } from '@/composables/useBorderRadius'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
@@ -32,8 +34,8 @@ const { color, rounded, size, textColor, variant } = toRefs(props)
 		:class="[
 			'inline-flex items-center space-x-1 border px-1.5 py-0.5',
 			useTailwindClasses([
-				[variant !== 'plain', useBorderRadius(rounded)],
 				[variant === 'outlined', useBorderColor(color)],
+				[variant !== 'plain', useBorderRadius(rounded)],
 				useTextSize(size),
 				useTextColor(textColor),
 				useVariant(variant, color)

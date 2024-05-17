@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRefs } from 'vue'
 
 import { useColor } from '@/composables/form/checkbox/useColor'
 import { useSize } from '@/composables/form/checkbox/useSize'

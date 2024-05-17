@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
+
 import { useJustify } from '@/composables/useJustify'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 

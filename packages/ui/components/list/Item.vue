@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, resolveComponent } from 'vue'
+import { computed, resolveComponent, toRefs } from 'vue'
 
 import { useColor } from '@/composables/list/useColor'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'

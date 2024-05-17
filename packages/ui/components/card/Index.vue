@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, resolveComponent } from 'vue'
+import { computed, resolveComponent, toRefs } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
 import { usePadding } from '@/composables/usePadding'

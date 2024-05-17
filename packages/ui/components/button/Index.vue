@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRefs } from 'vue'
 
 import { useBackgroundVariant } from '@/composables/button/useBackgroundVariant'
 import { useBorderRadius } from '@/composables/useBorderRadius'
@@ -56,11 +56,9 @@ const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'b
 			],
 			useTailwindClasses([
 				useBackgroundVariant(variant, color),
-				[!icon, useBorderRadius(rounded)],
 				[block && justify !== undefined, useJustify(justify)],
 				[icon, useSize(size).icon],
-				[!icon, useSize(size).padding],
-				[!icon, useSize(size).text],
+				[!icon, `${useBorderRadius(rounded)} ${(useSize(size).padding, useSize(size).text)}`],
 				[textColor !== undefined, useTextVariant(variant, color)]
 			])
 		]"
