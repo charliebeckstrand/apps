@@ -9,18 +9,11 @@ const searchInput = ref<HTMLInputElement | null>(null)
 const searching = ref(false)
 const searchTerm = ref('')
 
-const setRef = (component: any) => {
-	if (component?.$el) {
-		// Set the input element
-		searchInput.value = component.$el as HTMLInputElement
-
-		// Focus the input
-		searchInput.value?.focus()
-	}
-}
-
 const searchConversations = () => {
 	searching.value = true
+	nextTick(() => {
+		searchInput.value?.focus()
+	})
 }
 
 const cancelSearch = () => {
@@ -42,7 +35,7 @@ const cancelSearchIfNoValue = () => {
 				<template #title>
 					<template v-if="searching">
 						<UIFormInput
-							:ref="setRef"
+							ref="searchInput"
 							v-model="searchTerm"
 							class="bg-transparent px-0 text-lg placeholder:text-gray-300 focus:outline-none focus:ring-0"
 							:class="{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }"

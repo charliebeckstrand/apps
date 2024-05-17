@@ -46,7 +46,12 @@ const inputValue = computed<ModelValue>({
 	}
 })
 
+const inputRef = ref<HTMLInputElement | null>(null)
 const id = props.id ? props.id : `input-${useId()}`
+
+defineExpose({
+	focus: () => inputRef.value?.focus()
+})
 </script>
 
 <template>
@@ -58,6 +63,7 @@ const id = props.id ? props.id : `input-${useId()}`
 			<slot name="label" />
 		</Label>
 		<input
+			ref="inputRef"
 			v-model="inputValue"
 			v-bind="$attrs"
 			:class="[

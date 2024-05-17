@@ -77,8 +77,8 @@ watch(
 		<template v-if="props.searchTerm && !filteredConversations.length">
 			<UIAlert
 				color="warning"
+				text-color="white"
 				variant="tonal"
-				dark
 			>
 				No conversations match your search term
 			</UIAlert>
