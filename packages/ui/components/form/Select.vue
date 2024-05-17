@@ -44,8 +44,10 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
+const { id, items, modelValue, padding, placeholder, variant } = toRefs(props)
+
 const inputValue = computed<ModelValue>({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => emit('update:modelValue', value)
 })
 </script>
@@ -53,11 +55,11 @@ const inputValue = computed<ModelValue>({
 <template>
 	<div class="relative">
 		<select
-			:id="props.id"
+			:id="id"
 			v-model="inputValue"
 			:class="[
-				useTailwindClasses([usePadding(props.padding), useVariant(props.variant)]),
-				'flex w-full resize-none appearance-none rounded-md pr-10'
+				'flex w-full resize-none appearance-none rounded-md pr-10',
+				useTailwindClasses([usePadding(padding), useVariant(variant)])
 			]"
 			@change="$emit('change')"
 		>
@@ -66,10 +68,10 @@ const inputValue = computed<ModelValue>({
 				disabled
 				selected
 			>
-				{{ props.placeholder ? props.placeholder : 'Select an option' }}
+				{{ placeholder ?? 'Select an option' }}
 			</option>
 			<option
-				v-for="(item, index) in props.items"
+				v-for="(item, index) in items"
 				:key="index"
 				:value="item.value"
 				:disabled="item.disabled"

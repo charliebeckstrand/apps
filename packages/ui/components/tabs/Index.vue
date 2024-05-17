@@ -11,13 +11,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	justify: 'center'
 })
+
+const { justify } = toRefs(props)
 </script>
 
 <template>
 	<ul
 		:class="[
-			useTailwindClasses([[props.justify !== undefined, useJustify(props.justify)]]),
-			'flex flex-nowrap overflow-x-auto border-b border-gray-200 text-center font-medium text-gray-500'
+			'flex flex-nowrap overflow-x-auto border-b border-gray-200 text-center font-medium text-gray-500',
+			useTailwindClasses([[justify !== undefined, useJustify(justify)]])
 		]"
 	>
 		<slot />

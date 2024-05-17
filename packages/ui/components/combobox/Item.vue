@@ -8,18 +8,20 @@ const props = withDefaults(defineProps<Props>(), {
 	active: false,
 	selected: false
 })
+
+const { active, selected } = toRefs(props)
 </script>
 
 <template>
 	<li
 		:class="[
 			'relative cursor-pointer select-none px-4 py-2',
-			{ 'bg-accent/75 text-white': props.active && !props.selected, 'bg-accent text-white': props.selected }
+			{ 'bg-accent/75 text-white': active && !selected, 'bg-accent text-white': selected }
 		]"
 	>
 		<span
 			class="block truncate"
-			:class="{ 'font-medium': props.selected, 'font-normal': !props.selected }"
+			:class="{ 'font-medium': selected, 'font-normal': !selected }"
 		>
 			<slot />
 		</span>

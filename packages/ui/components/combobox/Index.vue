@@ -55,17 +55,19 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
+const { clearable, id, items, modelValue, placeholder, size, variant } = toRefs(props)
+
 const query = ref('')
 
 const inputValue = computed({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (newValue: ModelValue) => {
 		emit('update:modelValue', newValue ? newValue : undefined)
 	}
 })
 
 const filteredItems = computed(() =>
-	props.items.filter((item: Item) => {
+	items.value.filter((item: Item) => {
 		const match =
 			item.label.toLowerCase().includes(query.value.toLowerCase()) ||
 			item.value.toLowerCase().includes(query.value.toLowerCase())
@@ -92,24 +94,20 @@ const clear = () => {
 					class="relative z-10 flex items-center border-none"
 				>
 					<ComboboxInput
-						:id="props.id"
+						:id="id"
 						:class="[
-							useTailwindClasses([
-								usePadding(props.size),
-								useTextSize(props.size),
-								useVariant(props.variant)
-							]),
-							'flex w-full rounded-md'
+							'flex w-full rounded-md',
+							useTailwindClasses([usePadding(size), useTextSize(size), useVariant(variant)])
 						]"
 						:displayValue="(item: any) => item.label"
 						autocomplete="one-time-code"
-						:placeholder="props.placeholder"
+						:placeholder="placeholder"
 						@change="query = $event.target.value"
 					/>
 
 					<div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
 						<Button
-							v-if="props.clearable && inputValue?.value"
+							v-if="clearable && inputValue?.value"
 							icon
 							size="sm"
 							@click.stop="clear"

@@ -13,17 +13,25 @@ const props = withDefaults(defineProps<Props>(), {
 	color: 'primary',
 	variant: 'default'
 })
+
+const { color, variant } = toRefs(props)
 </script>
 
 <template>
-	<nav :class="[useTailwindClasses([useVariant(props.variant, props.color)]), 'flex items-center p-4 leading-tight']">
-		<div class="mr-auto">
+	<nav :class="['flex items-center p-4 leading-tight', useTailwindClasses([useVariant(variant, color)])]">
+		<div
+			v-if="$slots.left"
+			class="mr-auto"
+		>
 			<slot name="left" />
 		</div>
 
 		<slot />
 
-		<div class="ml-auto space-x-4">
+		<div
+			v-if="$slots.right"
+			class="ml-auto space-x-4"
+		>
 			<slot name="right" />
 		</div>
 	</nav>

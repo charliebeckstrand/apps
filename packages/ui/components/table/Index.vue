@@ -26,26 +26,28 @@ const props = withDefaults(defineProps<Props>(), {
 	striped: false
 })
 
+const { columns, data, sortable, striped } = toRefs(props)
+
 const sorting = ref({
 	key: '',
 	order: 'asc' as Sort
 })
 
 const computedColumns = computed(() =>
-	props.columns.map((column) => ({
+	columns.value.map((column) => ({
 		...column,
 		sortable: column.sortable !== false
 	}))
 )
 
 const sortedData = computed(() => {
-	if (!props.sortable || !props.columns || !props.data || sorting.value.order === 'none') return props.data
+	if (!sortable || !columns.value || !data.value || sorting.value.order === 'none') return data.value
 
-	const column = props.columns.find((column) => column.field === sorting.value.key)
+	const column = columns.value.find((column) => column.field === sorting.value.key)
 
-	if (!column) return props.data
+	if (!column) return data.value
 
-	const sortedData = [...props.data]
+	const sortedData = [...data.value]
 
 	sortedData.sort((a, b) => {
 		const valueA = a[column.field]
@@ -64,7 +66,7 @@ const sortedData = computed(() => {
 })
 
 const handleSort = (column: any) => {
-	const isColumnSortable = !props.sortable && !column.sortable
+	const isColumnSortable = !sortable.value && !column.sortable
 
 	if (isColumnSortable) return
 
@@ -87,14 +89,14 @@ const handleSort = (column: any) => {
 	<div class="relative w-full overflow-x-auto">
 		<table
 			class="table w-full overflow-hidden rounded-md"
-			:class="{ striped: props.striped }"
+			:class="{ striped: striped }"
 		>
 			<thead>
 				<tr>
 					<th
 						v-for="column in computedColumns"
 						:key="column.field"
-						:class="{ 'cursor-pointer select-none': props.sortable && column.sortable }"
+						:class="{ 'cursor-pointer select-none': sortable && column.sortable }"
 						@click="handleSort(column)"
 					>
 						<div class="flex items-center space-x-2">
@@ -103,8 +105,8 @@ const handleSort = (column: any) => {
 							{{ column.field }} -->
 							<div
 								:class="{
-									'opacity-100': props.sortable && column.sortable && sorting.key === column.field,
-									'opacity-0': !props.sortable || !column.sortable || sorting.key !== column.field
+									'opacity-100': sortable && column.sortable && sorting.key === column.field,
+									'opacity-0': !sortable || !column.sortable || sorting.key !== column.field
 								}"
 							>
 								<Icon

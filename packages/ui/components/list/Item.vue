@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, resolveComponent } from 'vue'
 
 import { useColor } from '@/composables/list/useColor'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
@@ -16,16 +16,21 @@ const props = withDefaults(defineProps<Props>(), {
 	to: undefined
 })
 
-const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'li'))
+const { color, to } = toRefs(props)
+
+const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'li'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:class="[useTailwindClasses([useColor(props.color)]), 'flex items-center']"
-		:to="props.to"
+		:class="['flex items-center', useTailwindClasses([useColor(color)])]"
+		:to="to"
 	>
-		<div class="prepend mr-1 empty:mr-0">
+		<div
+			v-if="$slots.prepend"
+			class="prepend mr-1 empty:mr-0"
+		>
 			<slot name="prepend" />
 		</div>
 
@@ -33,7 +38,10 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'l
 			<slot />
 		</div>
 
-		<div class="append ml-1 empty:ml-0">
+		<div
+			v-if="$slots.append"
+			class="append ml-1 empty:ml-0"
+		>
 			<slot name="append" />
 		</div>
 	</component>

@@ -17,12 +17,14 @@ const props = withDefaults(defineProps<Props>(), {
 	titleSize: 'lg',
 	titleWeight: 'bold'
 })
+
+const { subtitleSize, subtitleWeight, titleSize, titleWeight } = toRefs(props)
 </script>
 
 <template>
 	<div class="flex items-center">
 		<div
-			v-if="$slots['prepend']"
+			v-if="$slots.prepend"
 			class="mr-4 empty:mr-0"
 		>
 			<slot name="prepend" />
@@ -31,19 +33,19 @@ const props = withDefaults(defineProps<Props>(), {
 		<div>
 			<div class="line-clamp-1">
 				<Heading
-					:size="props.titleSize"
-					:weight="props.titleWeight"
+					:size="titleSize"
+					:weight="titleWeight"
 				>
 					<slot name="title" />
 				</Heading>
 			</div>
 			<div
-				v-if="$slots['subtitle']"
+				v-if="$slots.subtitle"
 				class="line-clamp-1 text-gray-500"
 			>
 				<Heading
-					:size="props.subtitleSize"
-					:weight="props.subtitleWeight"
+					:size="subtitleSize"
+					:weight="subtitleWeight"
 				>
 					<slot name="subtitle" />
 				</Heading>
@@ -53,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {
 		</div>
 
 		<div
-			v-if="$slots['append']"
+			v-if="$slots.append"
 			class="ml-auto empty:ml-0"
 		>
 			<slot name="append" />

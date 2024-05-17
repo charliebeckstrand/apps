@@ -23,22 +23,24 @@ const props = withDefaults(defineProps<Props>(), {
 	textColor: 'default',
 	variant: 'default'
 })
+
+const { color, rounded, size, textColor, variant } = toRefs(props)
 </script>
 
 <template>
 	<div
 		:class="[
+			'inline-flex items-center space-x-1 border px-1.5 py-0.5',
 			useTailwindClasses([
-				[props.variant !== 'plain', useBorderColor(props.color) || ''],
-				useBorderRadius(props.rounded),
-				useTextSize(props.size),
-				useTextColor(props.textColor),
-				useVariant(props.variant, props.color)
-			]),
-			'inline-flex items-center space-x-1 border px-1.5 py-0.5'
+				[variant !== 'plain', useBorderRadius(rounded)],
+				[variant === 'outlined', useBorderColor(color)],
+				useTextSize(size),
+				useTextColor(textColor),
+				useVariant(variant, color)
+			])
 		]"
 	>
-		<div v-if="$slots['prepend']">
+		<div v-if="$slots.prepend">
 			<slot name="prepend" />
 		</div>
 
@@ -46,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
 			<slot />
 		</div>
 
-		<div v-if="$slots['append']">
+		<div v-if="$slots.append">
 			<slot name="append" />
 		</div>
 	</div>

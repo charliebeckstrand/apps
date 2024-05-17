@@ -33,8 +33,10 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
+const { autocomplete, modelValue, rounded, size, variant } = toRefs(props)
+
 const inputValue = computed<ModelValue>({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => {
 		emit('update:modelValue', value)
 	}
@@ -45,14 +47,9 @@ const inputValue = computed<ModelValue>({
 	<input
 		v-model="inputValue"
 		:class="[
-			useTailwindClasses([
-				useBorderRadius(props.rounded),
-				usePadding(props.size),
-				useTextSize(props.size),
-				useVariant(props.variant)
-			]),
-			'flex w-full'
+			'flex w-full',
+			useTailwindClasses([useBorderRadius(rounded), usePadding(size), useTextSize(size), useVariant(variant)])
 		]"
-		:autocomplete="props.autocomplete"
+		:autocomplete="autocomplete"
 	/>
 </template>

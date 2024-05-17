@@ -6,6 +6,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	lines: 3
 })
+
+const { lines } = toRefs(props)
 </script>
 
 <template>
@@ -24,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
 			<div class="h-2.5 w-24 rounded-full bg-gray-300 dark:bg-gray-600"></div>
 		</div>
 		<div
-			v-if="props.lines >= 3"
+			v-if="lines >= 3"
 			class="flex w-full max-w-[400px] items-center space-x-2"
 		>
 			<div class="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
@@ -32,7 +34,7 @@ const props = withDefaults(defineProps<Props>(), {
 			<div class="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
 		</div>
 		<div
-			v-if="props.lines >= 4"
+			v-if="lines >= 4"
 			class="flex w-full max-w-[480px] items-center space-x-2"
 		>
 			<div class="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
@@ -40,7 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
 			<div class="h-2.5 w-24 rounded-full bg-gray-300 dark:bg-gray-600"></div>
 		</div>
 		<div
-			v-if="props.lines >= 5"
+			v-if="lines >= 5"
 			class="flex w-full max-w-[440px] items-center space-x-2"
 		>
 			<div class="h-2.5 w-32 rounded-full bg-gray-300 dark:bg-gray-600"></div>
@@ -48,7 +50,7 @@ const props = withDefaults(defineProps<Props>(), {
 			<div class="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
 		</div>
 		<div
-			v-if="props.lines >= 6"
+			v-if="lines >= 6"
 			class="flex w-full max-w-[360px] items-center space-x-2"
 		>
 			<div class="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>

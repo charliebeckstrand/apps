@@ -36,10 +36,12 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
+const { id, max, min, modelValue, variant } = toRefs(props)
+
 const datepickerRef = ref()
 
 const inputValue = computed({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => emit('update:modelValue', value)
 })
 
@@ -70,8 +72,8 @@ const clearDate = () => {
 			model-type="MM/dd/yyyy"
 			placeholder="Select Date"
 			auto-apply
-			:min-date="props.min"
-			:max-date="props.max"
+			:min-date="min"
+			:max-date="max"
 			:enable-time-picker="false"
 			:month-change-on-scroll="false"
 			class="eui-datepicker"
@@ -80,7 +82,7 @@ const clearDate = () => {
 			:action-row="{ showNow: true, showCancel: true }"
 		>
 			<template #dp-input="{ value, isMenuOpen, onEnter }">
-				<template v-if="$slots['trigger']">
+				<template v-if="$slots.trigger">
 					<slot name="trigger" />
 				</template>
 				<template v-else>
@@ -89,9 +91,9 @@ const clearDate = () => {
 							<Icon :icon="CalendarIcon" />
 						</template>
 						<FormInput
-							:id="props.id"
+							:id="id"
 							:value="value"
-							:variant="props.variant"
+							:variant="variant"
 							placeholder="Select Date"
 							:class="{ active: isMenuOpen }"
 							@keydown.enter="onEnter"

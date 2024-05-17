@@ -6,6 +6,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	active: false
 })
+
+const { active } = toRefs(props)
 </script>
 
 <template>
@@ -13,13 +15,13 @@ const props = withDefaults(defineProps<Props>(), {
 		:class="[
 			'relative flex w-full cursor-pointer items-center justify-center border-b-2 py-2 font-medium',
 			{
-				'bg-accent/75 text-white': props.active,
-				'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700': !props.active
+				'bg-accent/75 text-white': active,
+				'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700': !active
 			}
 		]"
 	>
 		<button class="flex items-center justify-between space-x-2">
-			<div v-if="$slots['prepend']">
+			<div v-if="$slots.prepend">
 				<slot name="prepend" />
 			</div>
 
@@ -27,7 +29,7 @@ const props = withDefaults(defineProps<Props>(), {
 				<slot />
 			</div>
 
-			<div v-if="$slots['append']">
+			<div v-if="$slots.append">
 				<slot name="append" />
 			</div>
 		</button>

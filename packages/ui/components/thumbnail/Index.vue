@@ -16,20 +16,22 @@ const props = withDefaults(defineProps<Props>(), {
 	src: '',
 	width: '48'
 })
+
+const { editable, height, src, width } = toRefs(props)
 </script>
 
 <template>
 	<div class="relative rounded-full">
 		<img
 			class="rounded-full shadow-lg"
-			:src="props.src"
-			:height="props.height"
-			:width="props.width"
-			:alt="props.src"
-			:style="`min-width: ${props.width}px`"
+			:src="src"
+			:height="height"
+			:width="width"
+			:alt="src"
+			:style="`min-width: ${width}px`"
 		/>
 		<div
-			v-if="props.editable"
+			v-if="editable"
 			class="overlay bg-accent/50 absolute inset-0 z-20 flex cursor-pointer items-center rounded-full opacity-0 hover:opacity-100"
 		>
 			<Icon

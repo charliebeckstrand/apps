@@ -86,6 +86,7 @@ watch(
 		<template v-else-if="!props.searchTerm && !filteredConversations.length">
 			<UIAlert
 				color="warning"
+				text-color="white"
 				variant="tonal"
 				dark
 			>

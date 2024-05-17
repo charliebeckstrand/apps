@@ -16,13 +16,15 @@ const props = withDefaults(defineProps<Props>(), {
 	tag: 'div'
 })
 
-const elementType = computed(() => (props.tag === 'label' ? 'label' : 'div'))
+const { tag, size } = toRefs(props)
+
+const elementType = computed(() => (tag.value === 'label' ? 'label' : 'div'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:class="useTailwindClasses([useTextSize(props.size)])"
+		:class="useTailwindClasses([useTextSize(size)])"
 	>
 		<slot />
 	</component>

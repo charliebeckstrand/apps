@@ -12,18 +12,20 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	items: undefined
 })
+
+const { items } = toRefs(props)
 </script>
 
 <template>
 	<nav aria-label="breadcrumb">
 		<template
-			v-for="(item, index) in props.items"
+			v-for="(item, index) in items"
 			:key="index"
 		>
 			<nuxt-link
 				:to="item.to"
 				:class="{
-					'text-gray-500 hover:text-gray-700': index !== props.items.length - 1
+					'text-gray-500 hover:text-gray-700': index !== items.length - 1
 				}"
 				aria-current="page"
 				:disabled="item.disabled"
@@ -31,7 +33,7 @@ const props = withDefaults(defineProps<Props>(), {
 				{{ item.label }}
 			</nuxt-link>
 
-			<template v-if="index !== props.items.length - 1">
+			<template v-if="index !== items.length - 1">
 				<span
 					aria-hidden="true"
 					class="px-2 text-gray-500"

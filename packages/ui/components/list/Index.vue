@@ -18,14 +18,16 @@ const props = withDefaults(defineProps<Props>(), {
 	density: 'default',
 	variant: 'default'
 })
+
+const { color, dark, density, variant } = toRefs(props)
 </script>
 
 <template>
 	<ul
 		:class="[
-			useTailwindClasses([useDensity(props.density), useVariant(props.variant, props.color)]),
-			{ 'text-white': props.dark },
-			'rounded-md'
+			'rounded-md',
+			{ 'text-white': dark },
+			useTailwindClasses([useDensity(density), useVariant(variant, color)])
 		]"
 	>
 		<slot />

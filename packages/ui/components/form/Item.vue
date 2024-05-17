@@ -11,6 +11,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
+
+const { variant } = toRefs(props)
 </script>
 
 <template>
@@ -18,14 +20,14 @@ const props = withDefaults(defineProps<Props>(), {
 		:class="[
 			'relative flex items-center',
 			{
-				'has-prepend': $slots['prepend'],
-				'has-append': $slots['append']
+				'has-prepend': $slots.prepend,
+				'has-append': $slots.append
 			}
 		]"
 	>
 		<div
 			class="absolute left-4 z-20 pr-2"
-			:class="useTailwindClasses([useVariant(props.variant)])"
+			:class="useTailwindClasses([useVariant(variant)])"
 		>
 			<slot name="prepend" />
 		</div>
@@ -36,7 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 		<div
 			class="absolute right-4 z-10 pl-2"
-			:class="useTailwindClasses([useVariant(props.variant)])"
+			:class="useTailwindClasses([useVariant(variant)])"
 		>
 			<slot name="append" />
 		</div>

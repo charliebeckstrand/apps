@@ -13,11 +13,13 @@ const props = withDefaults(defineProps<Props>(), {
 	icon: undefined,
 	size: 'md'
 })
+
+const { icon, size } = toRefs(props)
 </script>
 
 <template>
 	<component
-		:is="props.icon"
-		:class="useTailwindClasses([useSize(props.size)])"
+		:is="icon"
+		:class="useTailwindClasses([useSize(size)])"
 	/>
 </template>

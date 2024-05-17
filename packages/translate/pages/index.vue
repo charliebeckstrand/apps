@@ -168,7 +168,7 @@ onMounted(async () => {
 					</UIFormGroup>
 				</div>
 				<UIButton
-					v-tippy="{ content: 'Swap Language', animation: 'perspective' }"
+					v-tippy="{ content: 'Swap Language' }"
 					icon
 					color="white"
 					@click="swapLanguages"

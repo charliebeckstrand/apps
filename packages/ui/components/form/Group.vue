@@ -14,20 +14,17 @@ const props = withDefaults(defineProps<Props>(), {
 	orientation: 'vertical',
 	validation: undefined
 })
+
+const { orientation, validation } = toRefs(props)
 </script>
 
 <template>
 	<div>
-		<div
-			:class="[
-				useTailwindClasses([useOrientation(props.orientation), useValidation(props.validation)]),
-				'ui-form-group'
-			]"
-		>
+		<div :class="['ui-form-group', useTailwindClasses([useOrientation(orientation), useValidation(validation)])]">
 			<slot />
 		</div>
 		<div
-			v-for="error in props.validation?.$errors"
+			v-for="error in validation?.$errors"
 			:key="error.$uid"
 			class="text-danger"
 		>

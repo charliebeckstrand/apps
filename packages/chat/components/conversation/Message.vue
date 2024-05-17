@@ -42,9 +42,11 @@ const messageColor = computed(() => {
 	}
 })
 
-const setRef = (element: any) => {
+const setRef = (component: any) => {
 	nextTick(() => {
-		if (!element) return
+		if (!component || !component?.$el) return
+
+		const element = component.$el
 
 		element.scrollIntoViewIfNeeded()
 	})
@@ -82,8 +84,8 @@ const highlightMessage = (message: any) => {
 <template>
 	<UICard
 		:ref="setRef"
-		:variant="messageVariant"
 		:color="messageColor"
+		:variant="messageVariant"
 	>
 		<div v-html="highlightMessage(props.message.value)" />
 	</UICard>

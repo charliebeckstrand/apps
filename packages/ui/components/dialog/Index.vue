@@ -29,10 +29,12 @@ const props = withDefaults(defineProps<Props>(), {
 	size: 'md'
 })
 
+const { modelValue, padding, size } = toRefs(props)
+
 const dialogRef = ref<HTMLElement | null>(null)
 
 const isOpen = computed({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => {
 		emit('update:modelValue', value)
 	}
@@ -110,7 +112,7 @@ onUnmounted(() => {
 						>
 							<DialogPanel
 								:class="[
-									useTailwindClasses([usePadding(props.padding), useSize(props.size)]),
+									useTailwindClasses([usePadding(padding), useSize(size)]),
 									'w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all'
 								]"
 							>

@@ -16,16 +16,18 @@ const props = withDefaults(defineProps<Props>(), {
 	width: undefined
 })
 
-const width = computed(() => props.width ?? '320px')
+const { color, width } = toRefs(props)
+
+const maxWidth = computed(() => width.value ?? '320px')
 </script>
 
 <template>
 	<div
 		:class="[
-			useTailwindClasses([useColor(props.color)]),
+			useTailwindClasses([useColor(color)]),
 			'ui-sidebar flex h-full min-h-full flex-col overflow-hidden px-4'
 		]"
-		:style="{ width: width, minWidth: width }"
+		:style="{ width: maxWidth, minWidth: maxWidth }"
 	>
 		<slot name="prepend" />
 

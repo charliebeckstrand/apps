@@ -22,16 +22,18 @@ const props = withDefaults(defineProps<Props>(), {
 	textColor: 'default',
 	variant: 'default'
 })
+
+const { color, padding, rounded, textColor, variant } = toRefs(props)
 </script>
 
 <template>
 	<div
 		:class="
 			useTailwindClasses([
-				useBorderRadius(props.rounded),
-				usePadding(props.padding),
-				useTextColor(props.textColor),
-				useVariant(props.variant, props.color)
+				useBorderRadius(rounded),
+				usePadding(padding),
+				useTextColor(textColor),
+				useVariant(variant, color)
 			])
 		"
 	>

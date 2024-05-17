@@ -34,8 +34,10 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
+const { modelValue, resize, rounded, rows, size, variant } = toRefs(props)
+
 const inputValue = computed<string>({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => {
 		emit('update:modelValue', value)
 	}
@@ -46,17 +48,15 @@ const inputValue = computed<string>({
 	<textarea
 		v-model="inputValue"
 		:class="[
+			'flex min-h-[48px] w-full resize-none rounded-md',
 			useTailwindClasses([
-				useBorderRadius(props.rounded),
-				useResize(props.resize),
-				usePadding(props.size),
-				useTextSize(props.size),
-				useVariant(props.variant)
-			]),
-			'flex min-h-[48px] w-full resize-none rounded-md'
+				useBorderRadius(rounded),
+				useResize(resize),
+				usePadding(size),
+				useTextSize(size),
+				useVariant(variant)
+			])
 		]"
-		:rows="props.rows"
+		:rows="rows"
 	/>
 </template>
-
-<style lang="scss" scoped></style>

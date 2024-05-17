@@ -21,20 +21,12 @@ const props = withDefaults(defineProps<Props>(), {
 	value: 0
 })
 
+const { color, size, showLabel, value } = toRefs(props)
+
 const minValue = 0
 const maxValue = 100
 
-const adjustedValue = computed<number>(() => {
-	if (props.value < minValue) {
-		return minValue
-	}
-
-	if (props.value > maxValue) {
-		return maxValue
-	}
-
-	return props.value
-})
+const adjustedValue = computed<number>(() => Math.min(Math.max(value.value, minValue), maxValue))
 
 const sizes: Record<string, string> = {
 	sm: 'p-2',
@@ -58,19 +50,19 @@ const sizesWithText: Record<string, string> = {
 		:aria-valuenow="adjustedValue"
 	>
 		<div
-			:style="{ width: `${adjustedValue}%`, minWidth: props.showLabel ? '2.5rem' : undefined }"
+			:style="{ width: `${adjustedValue}%`, minWidth: showLabel ? '2.5rem' : undefined }"
 			:class="[
+				'transition-width rounded-full bg-gray-300 px-4 text-center duration-300',
 				useTailwindClasses([
-					useBackgroundColor(props.color),
-					[props.showLabel, sizesWithText[props.size]],
-					[!props.showLabel, sizes[props.size]]
-				]),
-				'transition-width rounded-full bg-gray-300 px-4 text-center duration-300'
+					useBackgroundColor(color),
+					[showLabel, sizesWithText[size]],
+					[!showLabel, sizes[size]]
+				])
 			]"
 		>
 			<span
-				v-if="props.showLabel"
-				:class="useTailwindClasses([useTextSize(props.size)])"
+				v-if="showLabel"
+				:class="useTailwindClasses([useTextSize(size)])"
 			>
 				{{ adjustedValue }}%
 			</span>

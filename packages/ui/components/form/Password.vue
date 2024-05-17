@@ -37,8 +37,10 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
+const { autocomplete, borderRadius, id, modelValue, placeholder, size, variant } = toRefs(props)
+
 const inputValue = computed<ModelValue>({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => {
 		emit('update:modelValue', value)
 	}
@@ -52,16 +54,16 @@ const toggleInputType = () => {
 </script>
 
 <template>
-	<FormItem :variant="props.variant">
+	<FormItem :variant="variant">
 		<FormInput
-			:id="props.id"
+			:id="id"
 			:type="inputType"
 			v-model="inputValue"
-			:placeholder="props.placeholder"
-			:autocomplete="props.autocomplete"
-			:variant="props.variant"
-			:border-radius="props.borderRadius"
-			:size="props.size"
+			:placeholder="placeholder"
+			:autocomplete="autocomplete"
+			:variant="variant"
+			:border-radius="borderRadius"
+			:size="size"
 		/>
 		<template #append>
 			<Button

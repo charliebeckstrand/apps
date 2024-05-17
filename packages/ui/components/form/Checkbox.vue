@@ -28,8 +28,10 @@ const props = withDefaults(defineProps<Props>(), {
 	size: 'md'
 })
 
+const { color, id, modelValue, size } = toRefs(props)
+
 const inputValue = computed<boolean>({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value: boolean) => {
 		emit('update:modelValue', value)
 	}
@@ -43,17 +45,17 @@ const toggleInput = () => {
 <template>
 	<div class="flex items-center space-x-2">
 		<input
-			:id="props.id"
+			:id="id"
 			type="checkbox"
 			v-model="inputValue"
 			:class="[
-				useTailwindClasses([useColor(props.color), useSize(props.size), useTextSize(props.size)]),
-				'cursor-pointer rounded focus:outline-offset-0'
+				'cursor-pointer rounded focus:outline-offset-0',
+				useTailwindClasses([useColor(color), useSize(size), useTextSize(size)])
 			]"
 			@keydown.enter="toggleInput"
 		/>
 		<label
-			:for="props.id"
+			:for="id"
 			class="cursor-pointer select-none"
 		>
 			<slot />

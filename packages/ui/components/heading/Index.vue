@@ -22,13 +22,15 @@ const props = withDefaults(defineProps<Props>(), {
 	weight: 'normal'
 })
 
-const elementType = computed(() => (props.tag as string).toLowerCase())
+const { color, size, tag, weight } = toRefs(props)
+
+const elementType = computed(() => (tag.value as string).toLowerCase())
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:class="useTailwindClasses([useTextColor(props.color), useTextSize(props.size), useFontWeight(props.weight)])"
+		:class="useTailwindClasses([useTextColor(color), useTextSize(size), useFontWeight(weight)])"
 	>
 		<slot />
 	</component>

@@ -19,20 +19,14 @@ const props = withDefaults(defineProps<Props>(), {
 	padding: 'md',
 	textColor: 'white'
 })
+
+const { color, padding, textColor } = toRefs(props)
 </script>
 
 <template>
-	<div
-		:class="
-			useTailwindClasses([
-				useBackgroundColor(props.color),
-				usePadding(props.padding),
-				useTextColor(props.textColor)
-			])
-		"
-	>
+	<div :class="useTailwindClasses([useBackgroundColor(color), usePadding(padding), useTextColor(textColor)])">
 		<Heading
-			v-if="$slots['title']"
+			v-if="$slots.title"
 			size="lg"
 			weight="bold"
 		>

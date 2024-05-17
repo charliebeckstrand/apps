@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, resolveComponent } from 'vue'
+
 import { useBorderRadius } from '@/composables/useBorderRadius'
 import { usePadding } from '@/composables/usePadding'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
@@ -21,20 +23,25 @@ const props = withDefaults(defineProps<Props>(), {
 	to: undefined
 })
 
-const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'li'))
+const { rounded, padding, to } = toRefs(props)
+
+const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'li'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:to="props.to"
+		:to="to"
 		:class="[
-			useBorderRadius(props.rounded),
-			useTailwindClasses([usePadding(props.padding)]),
-			'nav-item flex cursor-pointer items-center space-x-4 leading-tight'
+			'nav-item flex cursor-pointer items-center space-x-4 leading-tight',
+			{
+				'text-white hover:text-default': to !== $route.path
+			},
+			useBorderRadius(rounded),
+			useTailwindClasses([usePadding(padding)])
 		]"
 	>
-		<div>
+		<div v-if="$slots.prepend">
 			<slot name="prepend" />
 		</div>
 
@@ -42,7 +49,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'l
 			<slot />
 		</div>
 
-		<div>
+		<div v-if="$slots.append">
 			<slot name="append" />
 		</div>
 	</component>

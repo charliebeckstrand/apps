@@ -15,6 +15,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { items } = toRefs(props)
 </script>
 
 <template>
@@ -43,10 +45,10 @@ const props = defineProps<Props>()
 				class="focus:outline-primary absolute right-0 z-30 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border border-gray-300 bg-white shadow-lg"
 			>
 				<div class="px-1 py-2">
-					<template v-if="props.items">
+					<template v-if="items">
 						<MenuItem
 							v-slot="{ active }"
-							v-for="(item, index) in props.items"
+							v-for="(item, index) in items"
 							:key="index"
 							@click.stop="item.onClick && item.onClick()"
 						>
@@ -66,7 +68,7 @@ const props = defineProps<Props>()
 							</Button>
 						</MenuItem>
 					</template>
-					<template v-else-if="$slots['items']">
+					<template v-else-if="$slots.items">
 						<slot name="items" />
 					</template>
 				</div>

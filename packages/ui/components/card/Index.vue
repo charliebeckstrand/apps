@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, resolveComponent } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
 import { usePadding } from '@/composables/usePadding'
@@ -35,29 +35,31 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
-const isInteractive = computed<boolean>(() => props.interactive || props.to !== undefined)
+const { active, color, interactive, rounded, textColor, to, variant } = toRefs(props)
 
-const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'div'))
+const isInteractive = computed<boolean>(() => interactive.value || to.value !== undefined)
+
+const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'div'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
-		:to="props.to"
+		:to="to"
 		:class="[
+			{ 'cursor-pointer': isInteractive, block: to !== undefined },
 			useTailwindClasses([
-				useBorderRadius(props.rounded),
-				useTextColor(props.textColor),
-				useVariant(props.variant, props.color).defaultVariant,
-				[props.active, useVariant(props.variant, props.color).active || ''],
-				[isInteractive, useVariant(props.variant, props.color).interactive || '']
-			]),
-			{ block: props.to !== undefined, 'cursor-pointer': isInteractive }
+				useBorderRadius(rounded),
+				useTextColor(textColor),
+				useVariant(variant, color).defaultVariant,
+				[active, useVariant(variant, color).active || ''],
+				[isInteractive, useVariant(variant, color).interactive || '']
+			])
 		]"
 	>
 		<Header
-			v-if="$slots['title'] || $slots['subtitle'] || $slots['header-append']"
-			:class="usePadding(props.padding)"
+			v-if="$slots.title || $slots.subtitle || $slots['header-append']"
+			:class="usePadding(padding)"
 		>
 			<template #title>
 				<slot name="title" />
@@ -70,19 +72,19 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'd
 			</template>
 		</Header>
 		<div
-			v-if="$slots['prepend'] || $slots['default'] || $slots['append']"
-			:class="usePadding(props.padding)"
+			v-if="$slots.prepend || $slots.default || $slots.append"
+			:class="usePadding(padding)"
 		>
-			<div v-if="$slots['append']">
+			<div v-if="$slots.append">
 				<slot name="prepend" />
 			</div>
 
-			<div v-if="$slots['default'] || $slots['body']">
+			<div v-if="$slots.default || $slots.body">
 				<slot />
 				<slot name="body" />
 			</div>
 
-			<div v-if="$slots['append']">
+			<div v-if="$slots.append">
 				<slot name="append" />
 			</div>
 		</div>

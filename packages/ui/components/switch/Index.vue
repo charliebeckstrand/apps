@@ -4,7 +4,6 @@ import { computed } from 'vue'
 import { Switch } from '@headlessui/vue'
 
 import { useColor } from '@/composables/useColor'
-import { useSize } from '@/composables/useSize'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 
 import type { Color, Size } from '@/types/switch'
@@ -23,10 +22,12 @@ const props = withDefaults(defineProps<Props>(), {
 	size: 'md'
 })
 
+const { color, modelValue } = toRefs(props)
+
 const emit = defineEmits<Emit>()
 
 const value = computed({
-	get: () => props.modelValue,
+	get: () => modelValue.value,
 	set: (value) => emit('update:modelValue', value)
 })
 </script>
@@ -35,16 +36,16 @@ const value = computed({
 	<Switch
 		v-model="value"
 		:class="[
-			value ? useTailwindClasses([useColor(props.color)]) : 'bg-gray-200',
-			'focus:outline-blue relative flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-offset-4'
+			'focus:outline-blue relative flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-offset-4',
+			value ? useTailwindClasses([useColor(color)]) : 'bg-gray-200'
 		]"
 		@keydown.enter.stop
 	>
 		<span
 			aria-hidden="true"
 			:class="[
-				value ? 'translate-x-5' : 'translate-x-0',
-				'pointer-events-none block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+				'pointer-events-none block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+				value ? 'translate-x-5' : 'translate-x-0'
 			]"
 		/>
 	</Switch>

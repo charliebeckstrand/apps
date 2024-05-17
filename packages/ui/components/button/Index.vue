@@ -38,38 +38,36 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
-const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'button'))
+const { block, color, dark, disabled, icon, justify, rounded, size, textColor, to, variant } = toRefs(props)
+
+const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'button'))
 </script>
 
 <template>
 	<component
 		:is="elementType"
 		:class="[
+			'flex cursor-pointer items-center space-x-1 focus:outline-offset-2',
+			[
+				block && 'w-full',
+				dark && 'text-white hover:bg-opacity-10',
+				disabled && 'pointer-events-none opacity-50',
+				icon && 'justify-center rounded-full'
+			],
 			useTailwindClasses([
-				useBackgroundVariant(props.variant, props.color),
-				[props.block && props.justify !== undefined, useJustify(props.justify)],
-				[props.icon, useSize(props.size).icon],
-				[
-					!props.icon,
-					`${props.variant !== 'plain' ? useSize(props.size).padding : undefined} ${
-						useSize(props.size).text
-					} ${useBorderRadius(props.rounded)}`
-				],
-				[props.textColor !== undefined, useTextVariant(props.variant, props.color)]
-			]),
-			'flex items-center space-x-1 focus:outline-offset-2',
-			{
-				'justify-center rounded-full': props.icon,
-				'justify-center': props.block && props.justify === undefined,
-				'pointer-events-none opacity-50': props.disabled,
-				'text-white hover:bg-opacity-10': props.dark,
-				'w-full': props.block
-			}
+				useBackgroundVariant(variant, color),
+				[!icon, useBorderRadius(rounded)],
+				[block && justify !== undefined, useJustify(justify)],
+				[icon, useSize(size).icon],
+				[!icon, useSize(size).padding],
+				[!icon, useSize(size).text],
+				[textColor !== undefined, useTextVariant(variant, color)]
+			])
 		]"
 		:disabled="disabled"
-		:to="props.to || undefined"
+		:to="to || undefined"
 	>
-		<div v-if="$slots['prepend']">
+		<div v-if="$slots.prepend">
 			<slot name="prepend" />
 		</div>
 
@@ -77,7 +75,7 @@ const elementType = computed(() => (props.to ? resolveComponent('NuxtLink') : 'b
 			<slot />
 		</div>
 
-		<div v-if="$slots['append']">
+		<div v-if="$slots.append">
 			<slot name="append" />
 		</div>
 	</component>
