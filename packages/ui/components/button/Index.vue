@@ -56,12 +56,12 @@ const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'b
 			],
 			useTailwindClasses([
 				useBackgroundVariant(variant, color),
+				[textColor !== undefined, useTextVariant(variant, color)],
 				[block && justify !== undefined, useJustify(justify)],
-				[icon, useSize(size).icon],
+				[!icon, useBorderRadius(rounded)],
 				[!icon, useSize(size).padding],
 				[!icon, useSize(size).text],
-				[!icon, useBorderRadius(rounded)],
-				[textColor !== undefined, useTextVariant(variant, color)]
+				[icon, useSize(size).icon]
 			])
 		]"
 		:disabled="disabled"
