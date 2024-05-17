@@ -51,14 +51,14 @@ const inputValue = computed<ModelValue>({
 	set: (value) => emit('update:modelValue', value)
 })
 
-const getValue = (item: Item | string | number): string | number => {
+const getItemValue = (item: number | string | Item): string | number => {
 	if (typeof item === 'object') {
 		return item.value
 	}
 	return item
 }
 
-const getDisabled = (item: Item | string | number): boolean => {
+const getItemDisabled = (item: number | string | Item): boolean => {
 	if (typeof item === 'object') {
 		return item.disabled ?? false
 	}
@@ -87,8 +87,8 @@ const getDisabled = (item: Item | string | number): boolean => {
 			<option
 				v-for="(item, index) in items"
 				:key="index"
-				:value="getValue(item)"
-				:disabled="getDisabled(item)"
+				:value="getItemValue(item)"
+				:disabled="getItemDisabled(item)"
 			>
 				{{ typeof item === 'object' ? item.label : item.valueOf() }}
 			</option>
