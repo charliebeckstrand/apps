@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import Heading from '@/components/heading/Index.vue'
+
 import { toRefs } from 'vue'
 
 import { useBackgroundColor } from '@/composables/useBackgroundColor'
 import { usePadding } from '@/composables/usePadding'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextColor } from '@/composables/useTextColor'
-
-import Heading from '@/components/heading/Index.vue'
 
 import type { Color, Size } from '@/types/banner'
 

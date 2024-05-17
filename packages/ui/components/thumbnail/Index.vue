@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
-
 import Icon from '@/components/icon/Index.vue'
+
+import { toRefs } from 'vue'
 
 import { CameraIcon } from '@heroicons/vue/24/outline'
 

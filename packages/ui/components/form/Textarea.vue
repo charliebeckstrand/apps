@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Label from '@/components/form/Label.vue'
+
 import { computed, toRefs } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
@@ -15,6 +17,7 @@ type Emit = {
 }
 
 interface Props {
+	id?: string
 	modelValue: string
 	resize?: Resize
 	rounded?: BorderRadius
@@ -26,6 +29,7 @@ interface Props {
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
+	id: undefined,
 	modelValue: '',
 	resize: 'none',
 	rounded: 'md',
@@ -42,21 +46,33 @@ const inputValue = computed<string>({
 		emit('update:modelValue', value)
 	}
 })
+
+const id = props.id ? props.id : `textarea-${useId()}`
 </script>
 
 <template>
-	<textarea
-		v-model="inputValue"
-		:class="[
-			'flex min-h-[48px] w-full resize-none rounded-md',
-			useTailwindClasses([
-				useBorderRadius(rounded),
-				useResize(resize),
-				usePadding(size),
-				useTextSize(size),
-				useVariant(variant)
-			])
-		]"
-		:rows="rows"
-	/>
+	<div class="flex w-full flex-col">
+		<Label
+			:for="id"
+			:class="{ hidden: !$slots.label }"
+		>
+			<slot name="label" />
+		</Label>
+		<textarea
+			:id="id"
+			v-model="inputValue"
+			v-bind="$attrs"
+			:class="[
+				'flex min-h-[56px] w-full resize-none rounded-md',
+				useTailwindClasses([
+					useBorderRadius(rounded),
+					useResize(resize),
+					usePadding(size),
+					useTextSize(size),
+					useVariant(variant)
+				])
+			]"
+			:rows="rows"
+		/>
+	</div>
 </template>

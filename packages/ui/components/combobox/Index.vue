@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import Button from '@/components/button/Index.vue'
+import ComboboxItem from '@/components/combobox/Item.vue'
+import Icon from '@/components/icon/Index.vue'
+
 import { computed, ref, toRefs } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import {
@@ -14,10 +18,6 @@ import { usePadding } from '@/composables/usePadding'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextSize } from '@/composables/useTextSize'
 import { useVariant } from '@/composables/form/useVariant'
-
-import Button from '@/components/button/Index.vue'
-import ComboboxItem from '@/components/combobox/Item.vue'
-import Icon from '@/components/icon/Index.vue'
 
 type Item = {
 	value: string

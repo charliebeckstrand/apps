@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import Heading from '@/components/heading/Index.vue'
+import Overlay from '@/components/overlay/Index.vue'
+
 import { computed, onUnmounted, ref, watch, toRefs } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 import { usePadding } from '@/composables/usePadding'
 import { useSize } from '@/composables/dialog/useSize'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
-
-import Heading from '@/components/heading/Index.vue'
-import Overlay from '@/components/overlay/Index.vue'
 
 import type { Padding, Size } from '@/types/dialog'
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Label from '@/components/form/Label.vue'
+
 import { computed, toRefs } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
@@ -16,6 +18,7 @@ type Emit = {
 }
 
 interface Props {
+	id?: string
 	autocomplete?: string
 	modelValue?: ModelValue
 	rounded?: BorderRadius
@@ -26,6 +29,7 @@ interface Props {
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
+	id: undefined,
 	autocomplete: 'one-time-code',
 	modelValue: '',
 	rounded: 'md',
@@ -41,15 +45,26 @@ const inputValue = computed<ModelValue>({
 		emit('update:modelValue', value)
 	}
 })
+
+const id = props.id ? props.id : `input-${useId()}`
 </script>
 
 <template>
-	<input
-		v-model="inputValue"
-		:class="[
-			'flex w-full',
-			useTailwindClasses([useBorderRadius(rounded), usePadding(size), useTextSize(size), useVariant(variant)])
-		]"
-		:autocomplete="autocomplete"
-	/>
+	<div class="flex w-full flex-col">
+		<Label
+			:for="id"
+			:class="{ hidden: !$slots.label }"
+		>
+			<slot name="label" />
+		</Label>
+		<input
+			v-model="inputValue"
+			v-bind="$attrs"
+			:class="[
+				'flex w-full',
+				useTailwindClasses([useBorderRadius(rounded), usePadding(size), useTextSize(size), useVariant(variant)])
+			]"
+			:autocomplete="autocomplete"
+		/>
+	</div>
 </template>

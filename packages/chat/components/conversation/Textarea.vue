@@ -214,23 +214,6 @@ watch(
 						<UIIcon :icon="PaperClipIcon" />
 					</UIButton>
 
-					<!-- <UIButton
-						v-if="files.length"
-						v-tippy="{ content: 'Remove attached files' }"
-						icon
-						color="primary"
-						variant="tonal"
-						class="attached-files-button"
-						@click="removeFiles"
-					>
-						<span class="files-length">
-							{{ files.length }}
-						</span>
-						<span class="remove-icon">
-							<UIIcon :icon="XMarkIcon" />
-						</span>
-					</UIButton> -->
-
 					<input
 						ref="fileInput"
 						type="file"

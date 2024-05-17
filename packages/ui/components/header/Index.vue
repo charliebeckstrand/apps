@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
-
 import Heading from '@/components/heading/Index.vue'
+
+import { toRefs } from 'vue'
 
 import type { TextSize } from '@/types/base/text-size'
 import type { FontWeight } from '@/types/base/font-weight'

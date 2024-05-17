@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
-
 import Button from '@/components/button/Index.vue'
 import Icon from '@/components/icon/Index.vue'
+
+import { toRefs } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 

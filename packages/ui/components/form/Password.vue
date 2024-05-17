@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
-
 import Button from '@/components/button/Index.vue'
 import FormItem from '@/components/form/Item.vue'
 import FormInput from '@/components/form/Input.vue'
 import Icon from '@/components/icon/Index.vue'
+import Label from '@/components/form/Label.vue'
+
+import { computed, toRefs } from 'vue'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 
 import type { BorderRadius, Size, Variant } from '@/types/form/input'
 
@@ -37,7 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
-const { autocomplete, borderRadius, id, modelValue, placeholder, size, variant } = toRefs(props)
+const { autocomplete, borderRadius, modelValue, placeholder, size, variant } = toRefs(props)
 
 const inputValue = computed<ModelValue>({
 	get: () => modelValue.value,
@@ -51,10 +52,21 @@ const inputType = ref<'password' | 'text'>('password')
 const toggleInputType = () => {
 	inputType.value = inputType.value === 'password' ? 'text' : 'password'
 }
+
+const id = props.id ? props.id : `password-${useId()}`
 </script>
 
 <template>
-	<FormItem :variant="variant">
+	<FormItem
+		class="form-password"
+		:variant="variant"
+	>
+		<Label
+			:for="id"
+			:class="{ hidden: !$slots.label }"
+		>
+			<slot name="label" />
+		</Label>
 		<FormInput
 			:id="id"
 			:type="inputType"
@@ -70,6 +82,7 @@ const toggleInputType = () => {
 				v-tippy="{ content: inputType === 'password' ? 'Show password' : 'Hide password' }"
 				icon
 				size="sm"
+				class="hover:bg-gray-200"
 				@click="toggleInputType"
 			>
 				<Icon

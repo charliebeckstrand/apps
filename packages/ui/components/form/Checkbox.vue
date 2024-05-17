@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
 	size: 'md'
 })
 
-const { color, id, modelValue, size } = toRefs(props)
+const { color, modelValue, size } = toRefs(props)
 
 const inputValue = computed<boolean>({
 	get: () => modelValue.value,
@@ -40,6 +40,8 @@ const inputValue = computed<boolean>({
 const toggleInput = () => {
 	emit('update:modelValue', !inputValue.value)
 }
+
+const id = props.id ? props.id : `checkbox-${useId()}`
 </script>
 
 <template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Header from '@/components/header/Index.vue'
+
 import { computed, resolveComponent, toRefs } from 'vue'
 
 import { useBorderRadius } from '@/composables/useBorderRadius'
@@ -6,8 +8,6 @@ import { usePadding } from '@/composables/usePadding'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextColor } from '@/composables/useTextColor'
 import { useVariant } from '@/composables/card/useVariant'
-
-import Header from '@/components/header/Index.vue'
 
 import type { BorderRadius, Color, Padding, Variant } from '@/types/card'
 

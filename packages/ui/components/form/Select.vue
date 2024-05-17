@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import Icon from '@/components/icon/Index.vue'
+
 import { computed, toRefs } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
 import { usePadding } from '@/composables/usePadding'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useVariant } from '@/composables/form/useVariant'
-
-import Icon from '@/components/icon/Index.vue'
 
 import type { Padding } from '@/types/base/padding'
 import type { Variant } from '@/types/form/input'
@@ -19,14 +19,14 @@ type Emit = {
 }
 
 type Item = {
+	disabled?: boolean | undefined
 	label: string
 	value: string | number
-	disabled: boolean
 }
 
 interface Props {
 	id?: string
-	items: Item[]
+	items: Item[] | string[] | number[]
 	modelValue: ModelValue
 	padding?: Padding
 	placeholder?: string
@@ -50,6 +50,20 @@ const inputValue = computed<ModelValue>({
 	get: () => modelValue.value,
 	set: (value) => emit('update:modelValue', value)
 })
+
+const getValue = (item: Item | string | number): string | number => {
+	if (typeof item === 'object') {
+		return item.value
+	}
+	return item
+}
+
+const getDisabled = (item: Item | string | number): boolean => {
+	if (typeof item === 'object') {
+		return item.disabled ?? false
+	}
+	return false
+}
 </script>
 
 <template>
@@ -73,10 +87,10 @@ const inputValue = computed<ModelValue>({
 			<option
 				v-for="(item, index) in items"
 				:key="index"
-				:value="item.value"
-				:disabled="item.disabled"
+				:value="getValue(item)"
+				:disabled="getDisabled(item)"
 			>
-				{{ item.label ? item.label : item }}
+				{{ typeof item === 'object' ? item.label : item.valueOf() }}
 			</option>
 		</select>
 
