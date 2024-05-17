@@ -63,8 +63,7 @@ onMounted(() => {
 					<template #trigger>
 						<Button
 							color="accent"
-							variant="tonal"
-							rounded="full"
+							variant="text"
 							dark
 						>
 							{{ authStore.user?.name }}
@@ -80,9 +79,7 @@ onMounted(() => {
 				<Button
 					v-else
 					color="accent"
-					text-color="white"
-					variant="tonal"
-					rounded="full"
+					variant="text"
 					dark
 					@click="setUser"
 				>

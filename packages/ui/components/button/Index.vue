@@ -58,7 +58,9 @@ const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'b
 				useBackgroundVariant(variant, color),
 				[block && justify !== undefined, useJustify(justify)],
 				[icon, useSize(size).icon],
-				[!icon, `${useBorderRadius(rounded)} ${(useSize(size).padding, useSize(size).text)}`],
+				[!icon, useSize(size).padding],
+				[!icon, useSize(size).text],
+				[!icon, useBorderRadius(rounded)],
 				[textColor !== undefined, useTextVariant(variant, color)]
 			])
 		]"
