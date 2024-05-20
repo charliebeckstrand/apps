@@ -3,7 +3,6 @@ import { computed, toRefs } from 'vue'
 
 import { useBackgroundVariant } from '@/composables/button/useBackgroundVariant'
 import { useBorderRadius } from '@/composables/useBorderRadius'
-import { useJustify } from '@/composables/useJustify'
 import { useSize } from '@/composables/button/useSize'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextVariant } from '@/composables/button/useTextVariant'
@@ -16,7 +15,6 @@ interface Props {
 	dark?: boolean
 	disabled?: boolean
 	icon?: boolean
-	justify?: Justify
 	rounded?: BorderRadius
 	size?: Size
 	textColor?: Color
@@ -30,7 +28,6 @@ const props = withDefaults(defineProps<Props>(), {
 	dark: false,
 	disabled: false,
 	icon: false,
-	justify: 'center',
 	rounded: 'md',
 	size: 'md',
 	textColor: 'default',
@@ -38,7 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
-const { block, color, dark, disabled, icon, justify, rounded, size, textColor, to, variant } = toRefs(props)
+const { block, color, dark, disabled, icon, rounded, size, textColor, to, variant } = toRefs(props)
 
 const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'button'))
 </script>
