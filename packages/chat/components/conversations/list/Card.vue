@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, toRefs } from 'vue'
+
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { useConversationStore } from '@/stores/conversation'
@@ -13,6 +15,8 @@ const layoutStore = useLayoutStore()
 const props = defineProps<{
 	conversation: Conversation
 }>()
+
+const { conversation } = toRefs(props)
 
 const isActive = computed<boolean>(() => conversationStore.selectedConversation?.id === props.conversation.id)
 
@@ -49,19 +53,21 @@ const getLatestResponse = (conversation: Conversation) => {
 				<UIHeader>
 					<template #title>
 						<span class="line-clamp-1 leading-tight text-white">
-							{{ props.conversation.name ?? 'New Conversation' }}
+							{{ conversation.name ?? 'New Conversation' }}
 						</span>
 					</template>
 					<template #subtitle>
-						<div class="text-accent font-extrabold">{{ props.conversation.model }}</div>
+						<div class="mb-1 flex flex-col">
+							<div class="text-accent font-extrabold">{{ conversation.model }}</div>
+						</div>
 					</template>
 				</UIHeader>
 
 				<span
-					v-if="props.conversation.messages.length"
+					v-if="conversation.messages.length"
 					class="line-clamp-1 text-gray-300"
 				>
-					{{ getLatestResponse(props.conversation) }}
+					{{ getLatestResponse(conversation) }}
 				</span>
 			</div>
 			<div class="remove">
@@ -70,7 +76,7 @@ const getLatestResponse = (conversation: Conversation) => {
 					icon
 					dark
 					variant="text"
-					@click.stop="removeConversation(props.conversation)"
+					@click.stop="removeConversation(conversation)"
 				>
 					<UIIcon :icon="XMarkIcon" />
 				</UIButton>

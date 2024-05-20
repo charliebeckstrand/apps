@@ -10,9 +10,7 @@ type ExtendedFile = File & { loading?: boolean }
 const conversationStore = useConversationStore()
 
 const textarea = ref<ComponentPublicInstance | null>(null)
-const textareaEl = computed(() => {
-	return textarea.value?.$el as HTMLTextAreaElement
-})
+const textareaEl = computed(() => textarea.value?.$el as HTMLTextAreaElement)
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const files = ref<ExtendedFile[]>([])
@@ -111,15 +109,13 @@ const handleKeydown = (event: any) => {
 	// If the user presses enter and not shift, send the message
 	if (event.key === 'Enter' && !event.shiftKey) {
 		event.preventDefault()
-		// Send the message
+
 		sendMessage()
 	}
 }
 
 const handleInput = () => {
-	// Reset the height of the textarea
 	resetTextareaHeight()
-	// Set the height of the textarea to the scroll height
 	setTextareaHeight()
 }
 
@@ -138,14 +134,6 @@ const handleFileInput = (event: Event) => {
 				files.value.push(file)
 			}
 		})
-	}
-}
-
-const removeFiles = () => {
-	files.value = []
-
-	if (fileInput.value) {
-		fileInput.value.value = ''
 	}
 }
 

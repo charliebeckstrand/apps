@@ -6,7 +6,7 @@ type ExtendedVariant = Variant | 'text' | 'plain'
 
 const backgroundVariantMap: Record<ExtendedVariant, Record<ExtendedColor, string>> = {
 	default: {
-		default: 'bg-gray-100',
+		default: 'bg-gray-100 hover:bg-gray-200',
 		primary: 'bg-primary hover:bg-primary/90',
 		secondary: 'bg-secondary hover:bg-secondary/90',
 		accent: 'bg-accent hover:bg-accent/90',
@@ -77,5 +77,16 @@ const backgroundVariantMap: Record<ExtendedVariant, Record<ExtendedColor, string
 	}
 }
 
-export const useBackgroundVariant = (variant: ExtendedVariant, color: ExtendedColor): string =>
-	backgroundVariantMap[variant][color]
+export const useBackgroundVariant = (variant: ExtendedVariant, color: ExtendedColor): string => {
+	// Check if the variant exists in the map
+	if (!backgroundVariantMap[variant]) {
+		throw new Error(`variant "${variant}" does not exist`)
+	}
+
+	// Check if the color exists in the variant map
+	if (!backgroundVariantMap[variant][color]) {
+		throw new Error(`color "${color}" does not exist for variant "${variant}"`)
+	}
+
+	return backgroundVariantMap[variant][color]
+}

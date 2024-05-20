@@ -52,17 +52,13 @@ export const useConversationStore = defineStore('conversation', {
 				this.conversations.splice(index, 1)
 			}
 
-			const nextConversation = this.conversations[index] || this.conversations[index - 1]
+			const selectedConversationIndex = this.conversations.findIndex(
+				(c) => c.id === this.selectedConversation?.id
+			)
 
-			if (nextConversation) {
-				this.selectedConversation = nextConversation
-			} else {
-				this.selectedConversation = null
+			if (selectedConversationIndex === -1) {
+				this.selectedConversation = this.conversations[index] || null
 			}
-
-			// if (this.selectedConversation?.id === conversation.id) {
-			// 	this.selectedConversation = null
-			// }
 		},
 		addMessage(message: Message) {
 			if (this.selectedConversation?.id) {

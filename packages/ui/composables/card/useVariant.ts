@@ -234,11 +234,11 @@ const variantMap: Record<Variant, Record<Color, { default: string; interactive?:
 
 export const useVariant = (variant: Variant, color: Color) => {
 	if (!(variant in variantMap)) {
-		throw new Error(`Variant "${variant}" is not supported`)
+		throw new Error(`variant "${variant}" does not exist`)
 	}
 
 	if (!(color in variantMap[variant]!)) {
-		throw new Error(`Color "${color}" is not supported for variant "${variant}"`)
+		throw new Error(`color "${color}" does not exist for variant "${variant}"`)
 	}
 
 	const { default: defaultVariant, interactive, active } = variantMap[variant][color]

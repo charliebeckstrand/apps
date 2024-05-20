@@ -10,7 +10,7 @@ const colorMap: Partial<Record<Color, string>> = {
 export const useColor = (color: Color): string => {
 	// Check if the color exists in the map
 	if (!colorMap[color]) {
-		throw new Error(`The color ${color} does not exist`)
+		throw new Error(`color ${color} does not exist`)
 	}
 
 	return colorMap[color] || ''

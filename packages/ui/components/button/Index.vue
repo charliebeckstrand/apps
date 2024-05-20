@@ -47,17 +47,16 @@ const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'b
 	<component
 		:is="elementType"
 		:class="[
-			'flex cursor-pointer items-center space-x-1 focus:outline-offset-2',
+			'flex cursor-pointer items-center justify-center space-x-1 focus:outline-offset-2',
 			[
 				block && 'w-full',
 				dark && 'text-white hover:bg-opacity-10',
 				disabled && 'pointer-events-none opacity-50',
-				icon && 'justify-center rounded-full'
+				icon && 'rounded-full'
 			],
 			useTailwindClasses([
 				useBackgroundVariant(variant, color),
 				[textColor !== undefined, useTextVariant(variant, color)],
-				[block && justify !== undefined, useJustify(justify)],
 				[!icon, useBorderRadius(rounded)],
 				[!icon, useSize(size).padding],
 				[!icon, useSize(size).text],

@@ -46,17 +46,16 @@ const cancelSearchIfNoValue = () => {
 					<template v-else>Conversations</template>
 				</template>
 				<template #append>
-					<template v-if="searching">
-						<UIButton
-							v-tippy="{ content: 'Cancel search' }"
-							icon
-							variant="text"
-							dark
-							@click="cancelSearch"
-						>
-							<UIIcon :icon="XMarkIcon" />
-						</UIButton>
-					</template>
+					<UIButton
+						v-if="searching"
+						v-tippy="{ content: 'Cancel search' }"
+						icon
+						variant="text"
+						dark
+						@click="cancelSearch"
+					>
+						<UIIcon :icon="XMarkIcon" />
+					</UIButton>
 					<div
 						v-else
 						class="flex items-center"
@@ -71,7 +70,6 @@ const cancelSearchIfNoValue = () => {
 						>
 							<UIIcon :icon="MagnifyingGlassIcon" />
 						</UIButton>
-
 						<UIButton
 							v-tippy="{ content: 'New conversation' }"
 							icon

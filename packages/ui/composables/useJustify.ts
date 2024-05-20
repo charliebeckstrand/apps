@@ -11,7 +11,7 @@ const justifyMap: Record<Justify, string> = {
 
 export const useJustify = (justify: Justify) => {
 	if (!(justify in justifyMap)) {
-		throw new Error(`Justify "${justify}" is not supported`)
+		throw new Error(`justify "${justify}" does not exist`)
 	}
 
 	return justifyMap[justify]

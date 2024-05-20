@@ -1,4 +1,4 @@
-import type { Color } from '@/types/sidebar'
+import type { Color } from '@/types/base/color'
 
 const colorMap: Record<Color, string> = {
 	default: 'bg-default',
@@ -16,7 +16,7 @@ const colorMap: Record<Color, string> = {
 
 export const useColor = (color: Color): string => {
 	if (!(color in colorMap)) {
-		throw new Error(`Color "${color}" is not supported`)
+		throw new Error(`color "${color}" does not exist`)
 	}
 
 	return colorMap[color]
