@@ -14,7 +14,7 @@ const textVariantMap: Record<ExtendedVariant, Record<ExtendedColor, string>> = {
 		warning: 'text-default',
 		danger: 'text-white',
 		info: 'text-white',
-		white: 'text-default',
+		white: 'text-white',
 		light: 'text-default',
 		dark: 'text-white',
 		pink: 'text-white'
@@ -28,7 +28,7 @@ const textVariantMap: Record<ExtendedVariant, Record<ExtendedColor, string>> = {
 		warning: 'text-default',
 		danger: 'text-danger',
 		info: 'text-info',
-		white: 'text-default',
+		white: 'text-white',
 		light: 'text-default',
 		dark: 'text-default',
 		pink: 'text-pink'
@@ -42,7 +42,7 @@ const textVariantMap: Record<ExtendedVariant, Record<ExtendedColor, string>> = {
 		warning: 'text-default',
 		danger: 'text-danger',
 		info: 'text-info',
-		white: 'text-default',
+		white: 'text-white',
 		light: 'text-default',
 		dark: 'text-default',
 		pink: 'text-pink'

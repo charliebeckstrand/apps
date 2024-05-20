@@ -7,7 +7,7 @@ import { useSize } from '@/composables/button/useSize'
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextVariant } from '@/composables/button/useTextVariant'
 
-import type { BorderRadius, Color, Justify, Size, Variant } from '@/types/button'
+import type { BorderRadius, Color, Size, Variant } from '@/types/button'
 
 interface Props {
 	block?: boolean
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
 	icon: false,
 	rounded: 'md',
 	size: 'md',
-	textColor: 'default',
+	textColor: undefined,
 	to: undefined,
 	variant: 'default'
 })
@@ -53,11 +53,11 @@ const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'b
 			],
 			useTailwindClasses([
 				useBackgroundVariant(variant, color),
-				[textColor !== undefined, useTextVariant(variant, color)],
 				[!icon, useBorderRadius(rounded)],
 				[!icon, useSize(size).padding],
 				[!icon, useSize(size).text],
-				[icon, useSize(size).icon]
+				[icon, useSize(size).icon],
+				useTextVariant(variant, textColor ?? color)
 			])
 		]"
 		:disabled="disabled"
