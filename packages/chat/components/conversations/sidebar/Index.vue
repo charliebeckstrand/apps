@@ -41,6 +41,7 @@ const cancelSearchIfNoValue = () => {
 							:class="{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }"
 							placeholder="Search..."
 							@blur="cancelSearchIfNoValue"
+							@keydown.esc="cancelSearch"
 						/>
 					</template>
 					<template v-else>Conversations</template>
