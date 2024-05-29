@@ -32,9 +32,7 @@ const { color, modelValue, size } = toRefs(props)
 
 const inputValue = computed<boolean>({
 	get: () => modelValue.value,
-	set: (value: boolean) => {
-		emit('update:modelValue', value)
-	}
+	set: (value: boolean) => emit('update:modelValue', value)
 })
 
 const toggleInput = () => {

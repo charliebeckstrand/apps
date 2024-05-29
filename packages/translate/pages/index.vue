@@ -170,7 +170,6 @@ onMounted(async () => {
 				<UIButton
 					v-tippy="{ content: 'Swap Language' }"
 					icon
-					color="white"
 					@click="swapLanguages"
 					@keydown.space.prevent="swapLanguages"
 					@keydown.enter.prevent="swapLanguages"

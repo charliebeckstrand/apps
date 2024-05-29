@@ -42,9 +42,7 @@ const { modelValue, resize, rounded, rows, size, variant } = toRefs(props)
 
 const inputValue = computed<string>({
 	get: () => modelValue.value,
-	set: (value) => {
-		emit('update:modelValue', value)
-	}
+	set: (value) => emit('update:modelValue', value)
 })
 
 const id = props.id ? props.id : `textarea-${useId()}`

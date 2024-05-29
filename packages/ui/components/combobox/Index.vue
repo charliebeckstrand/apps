@@ -32,11 +32,11 @@ type Emit = {
 }
 
 interface Props {
-	clearable?: boolean
 	id: string
 	items: Item[]
 	modelValue: ModelValue | undefined
 	multiple?: boolean
+	clearable?: boolean
 	placeholder?: string
 	size?: Size
 	variant?: Variant
@@ -45,11 +45,11 @@ interface Props {
 const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
-	clearable: false,
 	id: undefined,
-	items: undefined,
 	modelValue: undefined,
+	items: undefined,
 	multiple: false,
+	clearable: false,
 	placeholder: 'Select an item',
 	size: 'md',
 	variant: 'default'
@@ -61,9 +61,7 @@ const query = ref('')
 
 const inputValue = computed({
 	get: () => modelValue.value,
-	set: (newValue: ModelValue) => {
-		emit('update:modelValue', newValue ? newValue : undefined)
-	}
+	set: (value: ModelValue) => emit('update:modelValue', value)
 })
 
 const filteredItems = computed(() =>

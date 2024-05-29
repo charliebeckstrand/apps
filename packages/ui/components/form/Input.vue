@@ -19,8 +19,8 @@ type Emit = {
 
 interface Props {
 	id?: string
-	autocomplete?: string
 	modelValue?: ModelValue
+	autocomplete?: string
 	rounded?: BorderRadius
 	size?: Size
 	variant?: Variant
@@ -30,8 +30,8 @@ const emit = defineEmits<Emit>()
 
 const props = withDefaults(defineProps<Props>(), {
 	id: undefined,
-	autocomplete: 'one-time-code',
 	modelValue: '',
+	autocomplete: 'off',
 	rounded: 'md',
 	size: 'md',
 	variant: 'default'
@@ -41,9 +41,7 @@ const { autocomplete, modelValue, rounded, size, variant } = toRefs(props)
 
 const inputValue = computed<ModelValue>({
 	get: () => modelValue.value,
-	set: (value) => {
-		emit('update:modelValue', value)
-	}
+	set: (value) => emit('update:modelValue', value)
 })
 
 const inputRef = ref<HTMLInputElement | null>(null)
