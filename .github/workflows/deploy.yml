@@ -36,12 +36,15 @@ jobs:
             git pull
             yarn install
             yarn build
-            if pm2 list | grep -q 'chat-app'; then
-              pm2 restart ecosystem.config.js --env production
+            if [ -f /var/www/html/ecosystem.config.js ]; then
+              if pm2 list | grep -q 'chat-app'; then
+                pm2 restart /var/www/html/ecosystem.config.js --env production
+              else
+                pm2 start /var/www/html/ecosystem.config.js --env production
+              fi
             else
-              pm2 start ecosystem.config.js --env production
+              echo "ecosystem.config.js not found!"
+              exit 1
             fi
+            rm -rf /var/www/html/node_modules /var/www/html/yarn.lock /var/www/html/.git # Clean up
             sudo service nginx reload  # Reload Nginx to apply new configuration
-
-      - name: Cleanup
-        run: rm -rf node_modules yarn.lock
