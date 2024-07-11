@@ -89,9 +89,12 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
             cd /var/www/ivoryimage.dev
+            pm2 list
+            pm2 describe chat || pm2 start packages/chat/.output/server/index.mjs --name chat
+            pm2 describe recipes || pm2 start packages/recipes/.output/server/index.mjs --name recipes
+            pm2 describe todo || pm2 start packages/todo/.output/server/index.mjs --name todo
+            pm2 describe translate || pm2 start packages/translate/.output/server/index.mjs --name translate
             pm2 restart all
 
       - name: Cleanup
         run: rm -rf node_modules yarn.lock
-
-      
