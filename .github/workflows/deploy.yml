@@ -22,18 +22,23 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build packages
-        run: yarn build
-
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_SSH_USER }}
-          key: ${{ secrets.DO_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
           script: |
             cd /var/www/html
-            git pull
+            if [ ! -d ".git" ]; then
+              git init
+              git remote add origin ${{ secrets.GIT_REPO_URL }}
+            else
+              git remote set-url origin ${{ secrets.GIT_REPO_URL }}
+            fi
+            git fetch origin
+            git reset --hard origin/main
             yarn install
             yarn build
             if [ -f /var/www/html/ecosystem.config.js ]; then
@@ -46,5 +51,5 @@ jobs:
               echo "ecosystem.config.js not found!"
               exit 1
             fi
-            rm -rf /var/www/html/node_modules /var/www/html/yarn.lock /var/www/html/.git # Clean up
-            sudo service nginx reload  # Reload Nginx to apply new configuration
+            rm -rf node_modules yarn.lock
+            sudo service nginx reload
