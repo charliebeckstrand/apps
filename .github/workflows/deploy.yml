@@ -22,79 +22,26 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build Chat Project
-        run: yarn workspace chat build
+      - name: Build packages
+        run: yarn build
 
-      - name: Build Recipes Project
-        run: yarn workspace recipes build
-
-      - name: Build Todo Project
-        run: yarn workspace todo build
-
-      - name: Build Translate Project
-        run: yarn workspace translate build
-
-      - name: Deploy to DigitalOcean Droplet
+      - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_USERNAME }}
-          key: ${{ secrets.DO_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/ivoryimage.dev
-            git pull origin main
+            cd /var/www/html
+            git pull
             yarn install
-
-      - name: Sync Chat Build Output
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_USERNAME }}
-          key: ${{ secrets.DO_SSH_KEY }}
-          source: "packages/chat/.output/public"
-          target: "/var/www/ivoryimage.dev/chat"
-
-      - name: Sync Recipes Build Output
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_USERNAME }}
-          key: ${{ secrets.DO_SSH_KEY }}
-          source: "packages/recipes/.output/public"
-          target: "/var/www/ivoryimage.dev/recipes"
-
-      - name: Sync Todo Build Output
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_USERNAME }}
-          key: ${{ secrets.DO_SSH_KEY }}
-          source: "packages/todo/.output/public"
-          target: "/var/www/ivoryimage.dev/todo"
-
-      - name: Sync Translate Build Output
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_USERNAME }}
-          key: ${{ secrets.DO_SSH_KEY }}
-          source: "packages/translate/.output/public"
-          target: "/var/www/ivoryimage.dev/translate"
-
-      - name: Restart Applications with PM2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DO_DROPLET_IP }}
-          username: ${{ secrets.DO_USERNAME }}
-          key: ${{ secrets.DO_SSH_KEY }}
-          script: |
-            cd /var/www/ivoryimage.dev
-            pm2 list
-            pm2 describe chat || pm2 start packages/chat/.output/server/index.mjs --name chat
-            pm2 describe recipes || pm2 start packages/recipes/.output/server/index.mjs --name recipes
-            pm2 describe todo || pm2 start packages/todo/.output/server/index.mjs --name todo
-            pm2 describe translate || pm2 start packages/translate/.output/server/index.mjs --name translate
-            pm2 restart all
+            yarn build
+            if pm2 list | grep -q 'chat-app'; then
+              pm2 restart ecosystem.config.js --env production
+            else
+              pm2 start ecosystem.config.js --env production
+            fi
+            sudo service nginx reload  # Reload Nginx to apply new configuration
 
       - name: Cleanup
         run: rm -rf node_modules yarn.lock

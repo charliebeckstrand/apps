@@ -1,7 +1,7 @@
 module.exports = {
 	apps: [
 		{
-			name: 'chat',
+			name: 'chat-app',
 			script: 'yarn',
 			args: 'start',
 			cwd: './packages/chat',
@@ -11,7 +11,7 @@ module.exports = {
 			}
 		},
 		{
-			name: 'recipes',
+			name: 'recipes-app',
 			script: 'yarn',
 			args: 'start',
 			cwd: './packages/recipes',
@@ -21,13 +21,23 @@ module.exports = {
 			}
 		},
 		{
-			name: 'translate',
+			name: 'todo-app',
+			script: 'yarn',
+			args: 'start',
+			cwd: './packages/todo',
+			env: {
+				NODE_ENV: 'production',
+				PORT: 3003
+			}
+		},
+		{
+			name: 'translate-app',
 			script: 'yarn',
 			args: 'start',
 			cwd: './packages/translate',
 			env: {
 				NODE_ENV: 'production',
-				PORT: 3003
+				PORT: 3004
 			}
 		}
 	]
