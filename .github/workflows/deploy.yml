@@ -23,19 +23,15 @@ jobs:
         run: yarn install
 
       - name: Build Chat Project
-        if: contains(env.CHANGED_FILES, 'packages/chat/') || github.event.inputs.build_chat == 'true' || env.BUILT_BEFORE == 'false'
         run: yarn workspace chat build
 
       - name: Build Recipes Project
-        if: contains(env.CHANGED_FILES, 'packages/recipes/') || github.event.inputs.build_recipes == 'true' || env.BUILT_BEFORE == 'false'
         run: yarn workspace recipes build
 
       - name: Build Todo Project
-        if: contains(env.CHANGED_FILES, 'packages/todo/') || github.event.inputs.build_todo == 'true' || env.BUILT_BEFORE == 'false'
         run: yarn workspace todo build
 
       - name: Build Translate Project
-        if: contains(env.CHANGED_FILES, 'packages/translate/') || github.event.inputs.build_translate == 'true' || env.BUILT_BEFORE == 'false'
         run: yarn workspace translate build
 
       - name: Deploy to DigitalOcean Droplet
@@ -50,7 +46,6 @@ jobs:
             yarn install
 
       - name: Sync Chat Build Output
-        if: contains(env.CHANGED_FILES, 'packages/chat/') || github.event.inputs.build_chat == 'true' || env.BUILT_BEFORE == 'false'
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DO_DROPLET_IP }}
@@ -60,7 +55,6 @@ jobs:
           target: "/var/www/html/ivoryimage.dev/chat"
 
       - name: Sync Recipes Build Output
-        if: contains(env.CHANGED_FILES, 'packages/recipes/') || github.event.inputs.build_recipes == 'true' || env.BUILT_BEFORE == 'false'
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DO_DROPLET_IP }}
@@ -70,7 +64,6 @@ jobs:
           target: "/var/www/html/ivoryimage.dev/recipes"
 
       - name: Sync Todo Build Output
-        if: contains(env.CHANGED_FILES, 'packages/todo/') || github.event.inputs.build_todo == 'true' || env.BUILT_BEFORE == 'false'
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DO_DROPLET_IP }}
@@ -80,7 +73,6 @@ jobs:
           target: "/var/www/html/ivoryimage.dev/todo"
 
       - name: Sync Translate Build Output
-        if: contains(env.CHANGED_FILES, 'packages/translate/') || github.event.inputs.build_translate == 'true' || env.BUILT_BEFORE == 'false'
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DO_DROPLET_IP }}
