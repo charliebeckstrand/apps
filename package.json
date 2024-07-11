@@ -2,11 +2,13 @@
 	"private": true,
 	"version": "1.0.0",
 	"scripts": {
+		"build": "yarn workspaces foreach --all run build",
 		"chat": "yarn workspace chat run dev",
 		"draw": "yarn workspace draw run dev",
 		"recipes": "yarn workspace recipes run dev",
 		"translate": "yarn workspace translate run dev",
-		"todo": "yarn workspace todo run dev"
+		"todo": "yarn workspace todo run dev",
+		"start": "yarn workspaces foreach --all run start"
 	},
 	"workspaces": [
 		"packages/*"
