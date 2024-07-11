@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-        - 'packages/chat/**'
-        - 'packages/recipes/**'
-        - 'packages/todo/**'
-        - 'packages/translate/**'
-        - 'yarn.lock'
-        - 'package.json'
 
   workflow_dispatch:
     inputs:
