@@ -20,7 +20,7 @@ jobs:
                   node-version: '18.19.1'
 
             - name: Install dependencies
-              run: yarn install --frozen-lockfile
+              run: yarn install
 
             - name: Build all projects
               run: yarn workspaces foreach --all run build
@@ -32,7 +32,7 @@ jobs:
                   username: ${{ secrets.DO_USERNAME }}
                   key: ${{ secrets.DO_SSH_KEY }}
                   script: |
-                      cd /var/www/html/ivoryimage.dev
+                      cd /var/www/ivoryimage.dev
                       git pull origin main
                       yarn install --mode update-lockfile
                       yarn workspaces foreach --all run build
@@ -44,7 +44,7 @@ jobs:
                   username: ${{ secrets.DO_USERNAME }}
                   key: ${{ secrets.DO_SSH_KEY }}
                   source: 'ecosystem.config.js'
-                  target: '/var/www/html/ivoryimage.dev'
+                  target: '/var/www/ivoryimage.dev'
 
             - name: Start applications with PM2
               uses: appleboy/ssh-action@master
@@ -53,6 +53,6 @@ jobs:
                   username: ${{ secrets.DO_USERNAME }}
                   key: ${{ secrets.DO_SSH_KEY }}
                   script: |
-                      cd /var/www/html/ivoryimage.dev
+                      cd /var/www/ivoryimage.dev
                       pm2 start ecosystem.config.js
                       pm2 save
