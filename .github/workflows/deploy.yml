@@ -1,0 +1,58 @@
+name: Deploy to DigitalOcean
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        name: Deploy
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '16'
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Build all projects
+              run: yarn workspaces foreach --all run build
+
+            - name: Deploy to DigitalOcean Droplet
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.DO_DROPLET_IP }}
+                  username: ${{ secrets.DO_USERNAME }}
+                  key: ${{ secrets.DO_SSH_KEY }}
+                  script: |
+                      cd /var/www/html/ivoryimage.dev
+                      git pull origin main
+                      yarn install
+                      yarn workspaces foreach --all run build
+
+            - name: Copy PM2 ecosystem file
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.DO_DROPLET_IP }}
+                  username: ${{ secrets.DO_USERNAME }}
+                  key: ${{ secrets.DO_SSH_KEY }}
+                  source: 'ecosystem.config.js'
+                  target: '/var/www/html/ivoryimage.dev'
+
+            - name: Start applications with PM2
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.DO_DROPLET_IP }}
+                  username: ${{ secrets.DO_USERNAME }}
+                  key: ${{ secrets.DO_SSH_KEY }}
+                  script: |
+                      cd /var/www/html/ivoryimage.dev
+                      pm2 start ecosystem.config.js
+                      pm2 save
