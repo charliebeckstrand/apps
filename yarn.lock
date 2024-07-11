@@ -4357,14 +4357,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docs@workspace:packages/docs":
-  version: 0.0.0-use.local
-  resolution: "docs@workspace:packages/docs"
-  dependencies:
-    nuxt: "npm:^3.10.3"
-  languageName: unknown
-  linkType: soft
-
 "dom-serializer@npm:^2.0.0":
   version: 2.0.0
   resolution: "dom-serializer@npm:2.0.0"
