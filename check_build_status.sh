@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_NAME=$1
-STATUS_FILE="/var/www/html/ivoryimage.dev/build_status.txt"
+STATUS_FILE="/var/www/ivoryimage.dev/build_status.txt"
 
 # Create the status file if it doesn't exist
 if [ ! -f "$STATUS_FILE" ]; then

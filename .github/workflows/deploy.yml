@@ -46,7 +46,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Check if Chat Project has been built before
         id: check_chat
