@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import axios from 'axios'
-
 import { PaperClipIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 
+import { useChatgpt } from '@/composables/useChatgpt'
 import { useConversationStore } from '@/stores/conversation'
 
 type ExtendedFile = File & { loading?: boolean }
@@ -16,6 +15,8 @@ const fileInput = ref<HTMLInputElement | null>(null)
 const files = ref<ExtendedFile[]>([])
 
 const message = ref('')
+
+const { sendMessage, generateName } = useChatgpt()
 
 const props = defineProps<{
 	disabled: boolean
@@ -39,8 +40,12 @@ const focusTextarea = () => {
 	}
 }
 
-const sendMessage = async () => {
+const handleSendMessage = async () => {
 	let prompt = message.value.trim()
+
+	if (!conversationStore.selectedConversation) {
+		return
+	}
 
 	if (props.disabled || !prompt) {
 		focusTextarea()
@@ -59,49 +64,38 @@ const sendMessage = async () => {
 	conversationStore.loadingResponse = true
 
 	try {
-		const response = await axios.post(
-			'http://localhost:4000/chat',
-			{
-				message: prompt
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			}
-		)
+		conversationStore.loadingResponse = true
 
-		if (conversationStore.selectedConversation && !conversationStore.selectedConversation.name) {
-			const generatedName = await axios.post(
-				'http://localhost:4000/generate-name',
-				{
-					message: prompt
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			)
+		// Send the message and get the response
+		const { error, data } = await sendMessage(prompt, conversationStore.selectedConversation)
 
-			conversationStore.selectedConversation.name = generatedName.data.conversationName
+		if (error) {
+			throw new Error(error)
 		}
 
-		if (response.data) {
+		// Check if the selected conversation exists and if it needs a name
+		if (conversationStore.selectedConversation && !conversationStore.selectedConversation.name) {
+			const response = await generateName(prompt)
+			if (response?.conversationName) {
+				conversationStore.selectedConversation.name = response?.conversationName
+			}
+		}
+
+		if (data?.reply) {
 			conversationStore.addMessage({
 				type: 'bot',
-				value: response.data.reply
+				value: data.reply
 			})
 		}
-
+	} catch (error: any) {
+		if (error.message) {
+			conversationStore.addMessage({
+				type: 'system',
+				value: error.message
+			})
+		}
+	} finally {
 		conversationStore.loadingResponse = false
-	} catch (_) {
-		conversationStore.loadingResponse = false
-
-		conversationStore.addMessage({
-			type: 'system',
-			value: 'Error generating a response. Please try again.'
-		})
 	}
 }
 
@@ -110,7 +104,7 @@ const handleKeydown = (event: any) => {
 	if (event.key === 'Enter' && !event.shiftKey) {
 		event.preventDefault()
 
-		sendMessage()
+		handleSendMessage()
 	}
 }
 
@@ -182,10 +176,10 @@ watch(
 				ref="textarea"
 				id="message-textarea"
 				v-model="message"
-				rows="1"
 				placeholder="Send Message"
 				:disabled="props.disabled"
-				class="textarea focus:ring-none bg-transparent focus:placeholder-black focus:outline-none"
+				:class="['textarea focus:ring-none max-h-40 bg-transparent focus:placeholder-black focus:outline-none']"
+				rows="1"
 				@keydown="handleKeydown"
 				@input="handleInput"
 			/>
@@ -239,7 +233,7 @@ watch(
 					v-tippy="{ content: 'Send message' }"
 					icon
 					:disabled="props.disabled || !message"
-					@click="sendMessage"
+					@click="handleSendMessage"
 				>
 					<UIIcon :icon="PaperAirplaneIcon" />
 				</UIButton>
@@ -250,8 +244,8 @@ watch(
 
 <style scoped lang="scss">
 .textarea {
-	min-height: 48px;
-	max-height: 128px;
+	// min-height: 48px;
+	// max-height: 128px;
 }
 
 .attached-files-button {

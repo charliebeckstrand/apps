@@ -52,33 +52,34 @@ const setRef = (component: any) => {
 	})
 }
 
-const highlightMessage = (message: any) => {
+const parseMarkdown = (markdown: string) => {
 	const md = new MarkdownIt({
 		html: true,
 		typographer: true,
 		linkify: true,
-		breaks: true,
-		highlight: (str: string, lang: string) => {
-			let value, languageName
-			if (lang && hljs.getLanguage(lang)) {
-				;({ value } = hljs.highlight(str, { language: lang }))
-				languageName = lang
-			} else {
-				;({ value, language: languageName } = hljs.highlightAuto(str))
-				languageName = languageName || 'plaintext'
-			}
+		breaks: true
+	})
 
-			return `<pre class="hljs language-${languageName} my-4 p-2 rounded-lg overflow-x-auto max-w-full"><code>${value}</code></pre>`
+	const tokens = md.parse(markdown, {})
+	const parsedContent: any = []
+	const codeBlocks: any = []
+
+	tokens.forEach((token, _) => {
+		if (token.type === 'fence') {
+			codeBlocks.push({
+				lang: token.info.trim(),
+				code: token.content
+			})
+			parsedContent.push({ type: 'code-block', index: codeBlocks.length - 1 })
+		} else {
+			parsedContent.push({ type: 'html', content: md.renderer.render([token], md.options, {}) })
 		}
 	})
 
-	const markdown = md.render(message)
-
-	const addTargetBlankToMarkdownLinks = (markdown: string) =>
-		markdown.replace(/<a href="(.*?)">(.*?)<\/a>/g, `<a href="$1" target="_blank">$2</a>`)
-
-	return addTargetBlankToMarkdownLinks(markdown)
+	return { parsedContent, codeBlocks }
 }
+
+const { parsedContent, codeBlocks } = parseMarkdown(props.message.value)
 </script>
 
 <template>
@@ -87,6 +88,19 @@ const highlightMessage = (message: any) => {
 		:color="messageColor"
 		:variant="messageVariant"
 	>
-		<div v-html="highlightMessage(props.message.value)" />
+		<div
+			v-for="content in parsedContent"
+			:key="content.index"
+		>
+			<template v-if="content.type === 'html'">
+				<div v-html="content.content"></div>
+			</template>
+			<template v-else-if="content.type === 'code-block'">
+				<CodeBlock
+					:code="codeBlocks[content.index].code"
+					:lang="codeBlocks[content.index].lang"
+				/>
+			</template>
+		</div>
 	</UICard>
 </template>

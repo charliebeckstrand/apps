@@ -201,7 +201,7 @@ useHead({
 						<div
 							v-for="(ingredient, index) in ingredients"
 							:key="index"
-							class="flex items-center space-x-5 border-l border-r border-t p-4 first:rounded-t last:rounded-b last:border-b"
+							class="flex items-center space-x-3 border-l border-r border-t p-4 first:rounded-t last:rounded-b last:border-b"
 						>
 							<div>{{ ingredient.name }}</div>
 							<UIBadge
@@ -230,7 +230,7 @@ useHead({
 						<div
 							v-for="(instruction, index) in instructions"
 							:key="index"
-							class="flex items-center space-x-5 border-l border-r border-t p-4 first:rounded-t last:rounded-b last:border-b"
+							class="flex items-center space-x-3 border-l border-r border-t p-4 first:rounded-t last:rounded-b last:border-b"
 						>
 							<div>{{ index + 1 }}.</div>
 							<div>{{ instruction.description }}</div>

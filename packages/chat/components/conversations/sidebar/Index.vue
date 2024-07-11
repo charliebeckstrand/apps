@@ -21,7 +21,7 @@ const cancelSearch = () => {
 	searchTerm.value = ''
 }
 
-const cancelSearchIfNoValue = () => {
+const cancelEmptySearch = () => {
 	if (!searchTerm.value) {
 		cancelSearch()
 	}
@@ -40,7 +40,7 @@ const cancelSearchIfNoValue = () => {
 							class="bg-transparent px-0 text-lg placeholder:text-gray-300 focus:outline-none focus:ring-0"
 							:class="{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }"
 							placeholder="Search..."
-							@blur="cancelSearchIfNoValue"
+							@blur="cancelEmptySearch"
 							@keydown.esc="cancelSearch"
 						/>
 					</template>

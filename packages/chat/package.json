@@ -20,6 +20,7 @@
 		"openai": "^4.28.4"
 	},
 	"devDependencies": {
-		"@types/markdown-it": "^13.0.7"
+		"@types/markdown-it": "^13.0.7",
+		"dotenv": "^16.4.5"
 	}
 }

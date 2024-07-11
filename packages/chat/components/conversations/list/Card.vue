@@ -30,10 +30,22 @@ const removeConversation = (conversation: Conversation) => {
 	conversationStore.removeConversation(conversation)
 }
 
+const conversationName = (name: string | null) => {
+	if (name?.includes('```')) {
+		return name.replace(/```[\s\S]*?```/g, '')
+	} else {
+		return name
+	}
+}
+
 const getLatestResponse = (conversation: Conversation) => {
 	const messagesByType = (type: Message['type']) => conversation.messages.filter((message) => message.type === type)
 
 	const latestResponse = messagesByType('system').pop() || messagesByType('bot').pop()
+
+	if (latestResponse?.value.includes('```')) {
+		return latestResponse?.value.replace(/```[\s\S]*?```/g, '')
+	}
 
 	return latestResponse?.value
 }
@@ -49,11 +61,11 @@ const getLatestResponse = (conversation: Conversation) => {
 		@click="selectConversation"
 	>
 		<div class="flex items-center justify-between">
-			<div>
+			<div class="flex-grow">
 				<UIHeader>
 					<template #title>
 						<span class="line-clamp-1 leading-tight text-white">
-							{{ conversation.name ?? 'New Conversation' }}
+							{{ conversationName(conversation.name) ?? 'New Conversation' }}
 						</span>
 					</template>
 					<template #subtitle>

@@ -5,15 +5,28 @@ const conversationStore = useConversationStore()
 </script>
 
 <template>
-	<div class="flex flex-col space-y-2 px-4">
+	<div class="flex flex-col space-y-4 px-4">
 		<div
 			v-for="(message, index) in conversationStore.selectedConversation?.messages"
 			:key="index"
-			:class="{
-				'ml-auto': message.type === 'bot' || message.type === 'system',
-				'mr-auto': message.type === 'user'
-			}"
+			:class="[
+				'relative',
+				{
+					'ml-auto pl-10': message.type === 'bot' || message.type === 'system',
+					'mr-auto pr-10': message.type === 'user'
+				}
+			]"
 		>
+			<!-- <div
+				:class="[
+					'absolute rounded-full bg-[#16CEAA] p-4',
+					{
+						'-right-4 -top-4': message.type === 'bot' || message.type === 'system',
+						'-left-4 -top-4': message.type === 'user'
+					}
+				]"
+			/> -->
+
 			<ConversationMessage
 				:message="message"
 				:color="
