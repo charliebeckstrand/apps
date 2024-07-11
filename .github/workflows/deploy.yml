@@ -17,10 +17,10 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v2
               with:
-                  node-version: '18.19.1'
+                  node-version: '16'
 
             - name: Install dependencies
-              run: yarn install
+              run: yarn install --mode update-lockfile
 
             - name: Build all projects
               run: yarn workspaces foreach --all run build
@@ -34,7 +34,7 @@ jobs:
                   script: |
                       cd /var/www/html/ivoryimage.dev
                       git pull origin main
-                      yarn install
+                      yarn install --mode update-lockfile
                       yarn workspaces foreach --all run build
 
             - name: Copy PM2 ecosystem file
