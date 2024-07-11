@@ -20,7 +20,7 @@ jobs:
                   node-version: '18.19.1'
 
             - name: Install dependencies
-              run: yarn install --mode update-lockfile
+              run: yarn install --frozen-lockfile
 
             - name: Build all projects
               run: yarn workspaces foreach --all run build
