@@ -4411,14 +4411,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"draw@workspace:packages/draw":
-  version: 0.0.0-use.local
-  resolution: "draw@workspace:packages/draw"
-  dependencies:
-    nuxt: "npm:^3.10.3"
-  languageName: unknown
-  linkType: soft
-
 "duplexer@npm:^0.1.2":
   version: 0.1.2
   resolution: "duplexer@npm:0.1.2"
@@ -7189,7 +7181,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt@npm:^3.10.0, nuxt@npm:^3.10.1, nuxt@npm:^3.10.2, nuxt@npm:^3.10.3":
+"nuxt@npm:^3.10.0, nuxt@npm:^3.10.1, nuxt@npm:^3.10.2":
   version: 3.12.3
   resolution: "nuxt@npm:3.12.3"
   dependencies:

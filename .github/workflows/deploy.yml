@@ -1,58 +1,140 @@
 name: Deploy to DigitalOcean
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+    paths:
+        - 'packages/chat/**'
+        - 'packages/recipes/**'
+        - 'packages/todo/**'
+        - 'packages/translate/**'
+        - 'yarn.lock'
+        - 'package.json'
+
+  workflow_dispatch:
+    inputs:
+      build_chat:
+        description: 'Build and deploy the chat project'
+        required: false
+        default: 'false'
+      build_recipes:
+        description: 'Build and deploy the recipes project'
+        required: false
+        default: 'false'
+      build_todo:
+        description: 'Build and deploy the todo project'
+        required: false
+        default: 'false'
+      build_translate:
+        description: 'Build and deploy the translate project'
+        required: false
+        default: 'false'
 
 jobs:
-    deploy:
-        name: Deploy
-        runs-on: ubuntu-latest
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v2
-              with:
-                  node-version: '18.19.1'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-            - name: Install dependencies
-              run: yarn install
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-            - name: Build all projects
-              run: yarn workspaces foreach --all run build
+      - name: Check if Chat Project has been built before
+        id: check_chat
+        run: |
+          chmod +x check_build_status.sh
+          ./check_build_status.sh chat
 
-            - name: Deploy to DigitalOcean Droplet
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.DO_DROPLET_IP }}
-                  username: ${{ secrets.DO_USERNAME }}
-                  key: ${{ secrets.DO_SSH_KEY }}
-                  script: |
-                      cd /var/www/ivoryimage.dev
-                      git pull origin main
-                      yarn install --mode update-lockfile
-                      yarn workspaces foreach --all run build
+      - name: Build Chat Project
+        if: contains(env.CHANGED_FILES, 'packages/chat/') || github.event.inputs.build_chat == 'true' || env.BUILT_BEFORE == 'false'
+        run: yarn workspace chat build
 
-            - name: Copy PM2 ecosystem file
-              uses: appleboy/scp-action@master
-              with:
-                  host: ${{ secrets.DO_DROPLET_IP }}
-                  username: ${{ secrets.DO_USERNAME }}
-                  key: ${{ secrets.DO_SSH_KEY }}
-                  source: 'ecosystem.config.js'
-                  target: '/var/www/ivoryimage.dev'
+      - name: Check if Recipes Project has been built before
+        id: check_recipes
+        run: |
+          chmod +x check_build_status.sh
+          ./check_build_status.sh recipes
 
-            - name: Start applications with PM2
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.DO_DROPLET_IP }}
-                  username: ${{ secrets.DO_USERNAME }}
-                  key: ${{ secrets.DO_SSH_KEY }}
-                  script: |
-                      cd /var/www/ivoryimage.dev
-                      pm2 start ecosystem.config.js
-                      pm2 save
+      - name: Build Recipes Project
+        if: contains(env.CHANGED_FILES, 'packages/recipes/') || github.event.inputs.build_recipes == 'true' || env.BUILT_BEFORE == 'false'
+        run: yarn workspace recipes build
+
+      - name: Check if Todo Project has been built before
+        id: check_todo
+        run: |
+          chmod +x check_build_status.sh
+          ./check_build_status.sh todo
+
+      - name: Build Todo Project
+        if: contains(env.CHANGED_FILES, 'packages/todo/') || github.event.inputs.build_todo == 'true' || env.BUILT_BEFORE == 'false'
+        run: yarn workspace todo build
+
+      - name: Deploy to DigitalOcean Droplet
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          script: |
+            cd /var/www/ivoryimage.dev
+            git pull origin main
+            yarn install
+
+      - name: Sync Chat Build Output
+        if: contains(env.CHANGED_FILES, 'packages/chat/') || github.event.inputs.build_chat == 'true' || env.BUILT_BEFORE == 'false'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          source: "packages/chat/.output/public"
+          target: "/var/www/ivoryimage.dev/chat"
+
+      - name: Sync Recipes Build Output
+        if: contains(env.CHANGED_FILES, 'packages/recipes/') || github.event.inputs.build_recipes == 'true' || env.BUILT_BEFORE == 'false'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          source: "packages/recipes/.output/public"
+          target: "/var/www/ivoryimage.dev/recipes"
+
+      - name: Sync Todo Build Output
+        if: contains(env.CHANGED_FILES, 'packages/todo/') || github.event.inputs.build_todo == 'true' || env.BUILT_BEFORE == 'false'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          source: "packages/todo/.output/public"
+          target: "/var/www/ivoryimage.dev/todo"
+
+      - name: Sync Translate Build Output
+        if: contains(env.CHANGED_FILES, 'packages/translate/') || github.event.inputs.build_translate == 'true' || env.BUILT_BEFORE == 'false'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          source: "packages/translate/.output/public"
+          target: "/var/www/ivoryimage.dev/translate"
+
+      - name: Restart Applications with PM2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          script: |
+            cd /var/www/ivoryimage.dev
+            pm2 restart all
