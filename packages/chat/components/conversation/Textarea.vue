@@ -61,8 +61,6 @@ const handleSendMessage = async () => {
 
 	message.value = ''
 
-	conversationStore.loadingResponse = true
-
 	try {
 		conversationStore.loadingResponse = true
 
@@ -70,7 +68,7 @@ const handleSendMessage = async () => {
 		const { error, data } = await sendMessage(prompt, conversationStore.selectedConversation)
 
 		if (error) {
-			throw new Error(error)
+			throw new Error(error.message)
 		}
 
 		// Check if the selected conversation exists and if it needs a name

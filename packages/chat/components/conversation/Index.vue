@@ -17,16 +17,6 @@ const conversationStore = useConversationStore()
 				}
 			]"
 		>
-			<!-- <div
-				:class="[
-					'absolute rounded-full bg-[#16CEAA] p-4',
-					{
-						'-right-4 -top-4': message.type === 'bot' || message.type === 'system',
-						'-left-4 -top-4': message.type === 'user'
-					}
-				]"
-			/> -->
-
 			<ConversationMessage
 				:message="message"
 				:color="

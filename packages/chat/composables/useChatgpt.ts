@@ -7,21 +7,21 @@ interface ChatgptComposable {
 	sendMessage: (
 		userMessage: string,
 		conversation: Conversation
-	) => Promise<{ error: string | null; data: { reply: string } | null }>
-	generateName: (userMessage: string) => Promise<{ error: string | null; conversationName: string | null }>
+	) => Promise<{ error: Error | null; data: { reply: string } | null }>
+	generateName: (userMessage: string) => Promise<{ error: Error | null; conversationName: string | null }>
 }
 
 const handleResponse = async <T>(
 	url: string,
 	userMessage: string,
 	conversation?: Conversation
-): Promise<{ error: string | null; data: T | null }> => {
+): Promise<{ error: Error | null; data: T | null }> => {
 	try {
 		const response = await axios.post<T>(url, { message: userMessage, conversation })
 		if (response.data) {
 			return { error: null, data: response.data }
 		}
-		return { error: 'No data returned', data: null }
+		return { error: new Error('No data returned'), data: null }
 	} catch (error: any) {
 		console.error(error)
 		return { error, data: null }
@@ -34,7 +34,7 @@ export const useChatgpt = (): ChatgptComposable => {
 
 	const generateName = async (
 		userMessage: string
-	): Promise<{ error: string | null; conversationName: string | null }> => {
+	): Promise<{ error: Error | null; conversationName: string | null }> => {
 		const result = await handleResponse<{ conversationName: string }>(
 			'http://localhost:4000/generate-name',
 			userMessage

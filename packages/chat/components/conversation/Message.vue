@@ -93,7 +93,7 @@ const { parsedContent, codeBlocks } = parseMarkdown(props.message.value)
 			:key="content.index"
 		>
 			<template v-if="content.type === 'html'">
-				<div v-html="content.content"></div>
+				<div v-html="content.content" />
 			</template>
 			<template v-else-if="content.type === 'code-block'">
 				<CodeBlock
