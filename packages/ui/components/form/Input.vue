@@ -55,8 +55,8 @@ defineExpose({
 <template>
 	<div class="flex w-full flex-col">
 		<Label
+			v-show="$slots.label"
 			:for="id"
-			:class="{ hidden: !$slots.label }"
 		>
 			<slot name="label" />
 		</Label>
