@@ -135,14 +135,6 @@ const handleFileInput = (event: Event) => {
 		})
 	}
 }
-
-watch(
-	() => conversationStore.selectedConversation?.id,
-	() => {
-		focusTextarea()
-	},
-	{ deep: true }
-)
 </script>
 
 <template>
@@ -246,11 +238,6 @@ watch(
 </template>
 
 <style scoped lang="scss">
-.textarea {
-	// min-height: 48px;
-	// max-height: 128px;
-}
-
 .attached-files-button {
 	.files-length {
 		display: block;
