@@ -97,6 +97,10 @@ const handleSendMessage = async () => {
 		}
 	} finally {
 		conversationStore.loadingResponse = false
+
+		nextTick(() => {
+			focusTextarea()
+		})
 	}
 }
 
@@ -133,9 +137,9 @@ const handleFileInput = (event: Event) => {
 }
 
 watch(
-	() => conversationStore.selectedConversation?.messages,
+	() => conversationStore.selectedConversation?.id,
 	() => {
-		resetTextareaHeight()
+		focusTextarea()
 	},
 	{ deep: true }
 )
@@ -231,7 +235,7 @@ watch(
 					v-else
 					v-tippy="{ content: 'Send message' }"
 					icon
-					:disabled="props.disabled || !message"
+					:disabled="props.disabled || !message?.trim()"
 					@click="handleSendMessage"
 				>
 					<UIIcon :icon="PaperAirplaneIcon" />
