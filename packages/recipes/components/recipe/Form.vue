@@ -77,24 +77,6 @@ const addInstruction = () => {
 		description: ''
 	})
 }
-
-const uploadFile = () => {
-	const fileInput = fileInputRef.value
-
-	if (fileInput) {
-		fileInput.click()
-	}
-}
-
-const handleFileUpload = (event: Event) => {
-	const target = event.target as HTMLInputElement
-
-	const file = target.files?.[0]
-
-	if (file) {
-		console.log(file)
-	}
-}
 </script>
 
 <template>
@@ -123,23 +105,6 @@ const handleFileUpload = (event: Event) => {
 					v-model="state.thumbnail"
 					placeholder="https://example.com/image.jpg"
 				/>
-				<template #append>
-					<Button
-						v-tippy="{ content: 'Upload File' }"
-						color="info"
-						variant="text"
-						icon
-						@click="uploadFile"
-					>
-						<UIIcon :icon="CloudArrowUpIcon" />
-					</Button>
-					<input
-						v-show="false"
-						ref="fileInputRef"
-						type="file"
-						@change="handleFileUpload"
-					/>
-				</template>
 			</UIFormItem>
 		</UIFormGroup>
 
