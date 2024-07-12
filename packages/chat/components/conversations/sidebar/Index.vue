@@ -32,21 +32,26 @@ const cancelEmptySearch = () => {
 	<UISidebar>
 		<template #prepend>
 			<UIHeader class="h-[4.5rem] min-h-[4.5rem] text-white">
-				<template #title>
-					<template v-if="searching">
-						<UIFormInput
-							ref="searchInput"
-							v-model="searchTerm"
-							:class="[
-								'bg-transparent px-0 text-lg placeholder:text-gray-300 focus:outline-none focus:ring-0',
-								{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }
-							]"
-							placeholder="Search..."
-							@blur="cancelEmptySearch"
-							@keydown.esc="cancelSearch"
-						/>
-					</template>
-					<template v-else>Conversations</template>
+				<template
+					v-if="searching"
+					#prepend
+				>
+					<UIFormInput
+						ref="searchInput"
+						v-model="searchTerm"
+						:class="[
+							'bg-transparent px-0 text-lg placeholder:text-gray-300 focus:outline-none focus:ring-0',
+							{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }
+						]"
+						placeholder="Search..."
+						@keydown.esc="cancelSearch"
+					/>
+				</template>
+				<template
+					v-else
+					#title
+				>
+					Conversations
 				</template>
 				<template #append>
 					<UIButton
