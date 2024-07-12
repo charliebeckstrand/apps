@@ -61,6 +61,7 @@ defineExpose({
 			<slot name="label" />
 		</Label>
 		<input
+			:id="id"
 			ref="inputRef"
 			v-model="inputValue"
 			v-bind="$attrs"

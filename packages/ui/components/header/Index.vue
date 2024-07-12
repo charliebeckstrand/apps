@@ -32,7 +32,7 @@ const { subtitleSize, subtitleWeight, titleSize, titleWeight } = toRefs(props)
 			<slot name="prepend" />
 		</div>
 
-		<div>
+		<div class="flex flex-1 flex-col">
 			<div class="line-clamp-1">
 				<Heading
 					:size="titleSize"
@@ -58,7 +58,7 @@ const { subtitleSize, subtitleWeight, titleSize, titleWeight } = toRefs(props)
 
 		<div
 			v-if="$slots.append"
-			class="ml-auto empty:ml-0"
+			class="ml-4 empty:ml-0"
 		>
 			<slot name="append" />
 		</div>
