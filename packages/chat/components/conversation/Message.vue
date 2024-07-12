@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { ref, watch, computed, nextTick } from 'vue'
 import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 
 import type { Message } from '@/types/message'
@@ -40,6 +40,8 @@ const messageColor = computed(() => {
 	if (props.message.type === 'user') {
 		return 'light'
 	}
+
+	return 'gray'
 })
 
 const setRef = (component: any) => {
@@ -79,7 +81,18 @@ const parseMarkdown = (markdown: string) => {
 	return { parsedContent, codeBlocks }
 }
 
-const { parsedContent, codeBlocks } = parseMarkdown(props.message.value)
+const parsedContent = ref<any[]>([])
+const codeBlocks = ref<any[]>([])
+
+watch(
+	() => props.message,
+	(newMessage) => {
+		const { parsedContent: newParsedContent, codeBlocks: newCodeBlocks } = parseMarkdown(newMessage.value)
+		parsedContent.value = newParsedContent
+		codeBlocks.value = newCodeBlocks
+	},
+	{ immediate: true }
+)
 </script>
 
 <template>
@@ -89,8 +102,8 @@ const { parsedContent, codeBlocks } = parseMarkdown(props.message.value)
 		:variant="messageVariant"
 	>
 		<div
-			v-for="content in parsedContent"
-			:key="content.index"
+			v-for="(content, index) in parsedContent"
+			:key="index"
 		>
 			<template v-if="content.type === 'html'">
 				<div v-html="content.content" />
