@@ -81,8 +81,6 @@ const addInstruction = () => {
 const uploadFile = () => {
 	const fileInput = fileInputRef.value
 
-	console.log(fileInput)
-
 	if (fileInput) {
 		fileInput.click()
 	}
@@ -130,20 +128,19 @@ const handleFileUpload = (event: Event) => {
 						v-tippy="{ content: 'Upload File' }"
 						color="info"
 						variant="text"
-						class="-mr-1"
 						icon
-						@click.prevent="uploadFile"
+						@click="uploadFile"
 					>
 						<UIIcon :icon="CloudArrowUpIcon" />
 					</Button>
+					<input
+						v-show="false"
+						ref="fileInputRef"
+						type="file"
+						@change="handleFileUpload"
+					/>
 				</template>
 			</UIFormItem>
-			<input
-				ref="fileInputRef"
-				type="file"
-				class="invisible absolute left-0 top-0"
-				@change="handleFileUpload"
-			/>
 		</UIFormGroup>
 
 		<UIHeader>
