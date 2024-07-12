@@ -99,15 +99,14 @@ const getLatestResponse = (conversation: Conversation) => {
 
 <style scoped lang="scss">
 .conversation-card {
-	.remove {
-		// visibility: hidden;
-		display: none;
-	}
-
-	&:hover {
+	@media (min-width: 768px) {
 		.remove {
-			// visibility: visible;
-			display: block;
+			display: none;
+		}
+		&:hover {
+			.remove {
+				display: block;
+			}
 		}
 	}
 }

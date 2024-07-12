@@ -11,7 +11,7 @@ const conversationStore = useConversationStore()
 const textarea = ref<ComponentPublicInstance | null>(null)
 const textareaEl = computed(() => textarea.value?.$el as HTMLTextAreaElement)
 
-const fileInput = ref<HTMLInputElement | null>(null)
+const fileInputRef = ref<HTMLInputElement | null>(null)
 const files = ref<ExtendedFile[]>([])
 
 const message = ref('')
@@ -112,8 +112,8 @@ const handleInput = () => {
 }
 
 const addFile = () => {
-	if (fileInput.value) {
-		fileInput.value.click()
+	if (fileInputRef.value) {
+		fileInputRef.value.click()
 	}
 }
 
@@ -193,11 +193,10 @@ watch(
 					>
 						<UIIcon :icon="PaperClipIcon" />
 					</UIButton>
-
 					<input
-						ref="fileInput"
+						v-show="false"
+						ref="fileInputRef"
 						type="file"
-						class="hidden"
 						:multiple="true"
 						@change="handleFileInput"
 					/>

@@ -10,6 +10,7 @@ if (Tippy.setDefaultProps) {
 		arrow: true,
 		theme: 'light',
 		placement: 'bottom',
+		trigger: 'mouseenter',
 		animation: 'perspective',
 		allowHTML: true,
 		touch: false
