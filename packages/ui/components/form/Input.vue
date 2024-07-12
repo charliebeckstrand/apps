@@ -53,7 +53,7 @@ defineExpose({
 </script>
 
 <template>
-	<div class="flex w-full flex-col">
+	<!-- <div class="flex w-full flex-col">
 		<Label
 			v-show="$slots.label"
 			:for="id"
@@ -71,5 +71,16 @@ defineExpose({
 			]"
 			:autocomplete="autocomplete"
 		/>
-	</div>
+	</div> -->
+	<input
+		:id="id"
+		ref="inputRef"
+		v-model="inputValue"
+		v-bind="$attrs"
+		:class="[
+			'flex w-full',
+			useTailwindClasses([useBorderRadius(rounded), usePadding(size), useTextSize(size), useVariant(variant)])
+		]"
+		:autocomplete="autocomplete"
+	/>
 </template>

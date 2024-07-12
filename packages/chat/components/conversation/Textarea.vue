@@ -8,8 +8,8 @@ type ExtendedFile = File & { loading?: boolean }
 
 const conversationStore = useConversationStore()
 
-const textarea = ref<ComponentPublicInstance | null>(null)
-const textareaEl = computed(() => textarea.value?.$el as HTMLTextAreaElement)
+const textareaRef = ref<ComponentPublicInstance | null>(null)
+const textareaEl = computed(() => textareaRef.value?.$refs?.textareaRef as HTMLTextAreaElement)
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const files = ref<ExtendedFile[]>([])
@@ -41,34 +41,37 @@ const focusTextarea = () => {
 }
 
 const handleSendMessage = async () => {
-	let prompt = message.value.trim()
+	const prompt = message.value?.trim()
 
-	if (!conversationStore.selectedConversation) {
+	if (props.disabled || !conversationStore.selectedConversation) {
 		return
 	}
 
-	if (props.disabled || !prompt) {
+	if (!prompt) {
 		focusTextarea()
 		return
 	}
 
-	resetTextareaHeight()
-
+	// Add the user message to the conversation
 	conversationStore.addMessage({
 		type: 'user',
 		value: prompt
 	})
 
+	// Clear the message
 	message.value = ''
+
+	// Reset the textarea height
+	resetTextareaHeight()
 
 	try {
 		conversationStore.loadingResponse = true
 
 		// Send the message and get the response
-		const { error, data } = await sendMessage(prompt, conversationStore.selectedConversation)
+		const { error, data } = await sendMessage(prompt)
 
 		if (error) {
-			throw new Error(error.message)
+			throw new Error(`${error.message ?? 'Error'}: Please try again.`)
 		}
 
 		// Check if the selected conversation exists and if it needs a name
@@ -171,12 +174,11 @@ watch(
 		</div>
 		<div class="flex items-center rounded-lg border bg-gray-50 pr-2">
 			<UIFormTextarea
-				ref="textarea"
-				id="message-textarea"
+				ref="textareaRef"
 				v-model="message"
 				placeholder="Send Message"
 				:disabled="props.disabled"
-				:class="['textarea focus:ring-none max-h-40 bg-transparent focus:placeholder-black focus:outline-none']"
+				class="textarea focus:ring-none overflow-x-hidde max-h-36 grow overflow-y-auto bg-transparent focus:placeholder-black focus:outline-none"
 				rows="1"
 				@keydown="handleKeydown"
 				@input="handleInput"

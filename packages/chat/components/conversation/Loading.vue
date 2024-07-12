@@ -21,6 +21,5 @@ const setRef = (component: any) => {
 	<UISkeletonText
 		:ref="setRef"
 		:lines="props.lines"
-		class="ml-auto"
 	/>
 </template>
