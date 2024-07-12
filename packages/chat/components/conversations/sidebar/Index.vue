@@ -37,8 +37,10 @@ const cancelEmptySearch = () => {
 						<UIFormInput
 							ref="searchInput"
 							v-model="searchTerm"
-							class="bg-transparent px-0 text-lg placeholder:text-gray-300 focus:outline-none focus:ring-0"
-							:class="{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }"
+							:class="[
+								'bg-transparent px-0 text-lg placeholder:text-gray-300 focus:outline-none focus:ring-0',
+								{ 'font-bold': searchTerm.length, 'font-normal': !searchTerm.length }
+							]"
 							placeholder="Search..."
 							@blur="cancelEmptySearch"
 							@keydown.esc="cancelSearch"

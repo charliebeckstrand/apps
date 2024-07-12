@@ -32,7 +32,7 @@ const { subtitleSize, subtitleWeight, titleSize, titleWeight } = toRefs(props)
 			<slot name="prepend" />
 		</div>
 
-		<div class="flex flex-1 flex-col">
+		<div class="flex flex-1 flex-col flex-nowrap">
 			<div class="line-clamp-1">
 				<Heading
 					:size="titleSize"
