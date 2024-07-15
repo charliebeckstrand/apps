@@ -16,11 +16,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const authStore = useAuthStore()
 
-const recipe = ref(props.recipe) as Ref<Recipe>
+const { recipe } = toRefs(props)
 </script>
 
 <template>
 	<UICard
+		v-if="recipe?.id"
 		:to="`/recipes/${recipe.id}`"
 		interactive
 	>
@@ -69,7 +70,7 @@ const recipe = ref(props.recipe) as Ref<Recipe>
 					variant="text"
 					icon
 					v-tippy="{ content: 'Delete' }"
-					@click.prevent
+					@click.prevent="$emit('delete')"
 				>
 					<UIIcon :icon="TrashIcon" />
 				</Button>

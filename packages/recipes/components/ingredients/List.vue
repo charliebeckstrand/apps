@@ -79,6 +79,20 @@ watch(
 				<div class="grid flex-grow gap-2 md:grid-cols-2">
 					<UIFormGroup>
 						<UIFormLabel
+							:for="`ingredient-quantity-${index}`"
+							size="sm"
+							class="sr-only"
+						>
+							Quantity
+						</UIFormLabel>
+						<UIFormInput
+							:id="`ingredient-quantity-${index}`"
+							placeholder="Quantity"
+							v-model="ingredient.quantity"
+						/>
+					</UIFormGroup>
+					<UIFormGroup>
+						<UIFormLabel
 							:for="`ingredient-name-${index}`"
 							size="sm"
 							class="sr-only"
@@ -90,20 +104,6 @@ watch(
 							ref="ingredientNameInputRef"
 							v-model="ingredient.name"
 							placeholder="Item"
-						/>
-					</UIFormGroup>
-					<UIFormGroup>
-						<UIFormLabel
-							:for="`ingredient-quantity-${index}`"
-							size="sm"
-							class="sr-only"
-						>
-							Quantity
-						</UIFormLabel>
-						<UIFormInput
-							:id="`ingredient-quantity-${index}`"
-							placeholder="Quantity"
-							v-model="ingredient.quantity"
 						/>
 					</UIFormGroup>
 				</div>

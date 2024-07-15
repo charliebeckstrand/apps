@@ -11,30 +11,23 @@ import { useRecipesStore } from '@/stores/recipes'
 const authStore = useAuthStore()
 const recipesStore = useRecipesStore()
 
-const recipes = ref<Recipe[]>([])
-
 const filter = ref<string>('')
 
-const filteredRecipes = computed(() => {
-	return recipes.value.filter((recipe: Recipe) => {
-		// return recipe if name includes filter value or if no filter value
-		return recipe.name ? recipe.name.toLowerCase().includes(filter.value.toLowerCase()) : false || !filter.value
-	})
-})
+const filteredRecipes = computed(() =>
+	recipesStore.recipes.filter(
+		(recipe: Recipe) => !filter.value || recipe.name?.toLowerCase().includes(filter.value.toLowerCase())
+	)
+)
 
 const recipesWithNames = computed(() => {
-	return recipes.value.filter((recipe: Recipe) => recipe.name)
+	return recipesStore.recipes.filter((recipe: Recipe) => recipe.name)
 })
 
-const loading = ref<boolean>(false)
-
-loading.value = true
-
-onMounted(() => {
-	recipes.value = recipesStore.recipes
-
-	loading.value = false
-})
+const deleteRecipe = async (recipe: Recipe) => {
+	try {
+		await recipesStore.deleteRecipe(recipe)
+	} catch (_) {}
+}
 </script>
 <template>
 	<PageLayout>
@@ -58,41 +51,39 @@ onMounted(() => {
 		</template>
 
 		<template #default>
-			<template v-if="loading"></template>
-			<template v-else>
-				<template v-if="recipes.length">
-					<UIFormInput
-						v-if="recipesWithNames.length"
-						v-model="filter"
-						placeholder="Search"
-					/>
+			<template v-if="recipesStore.recipes.length">
+				<UIFormInput
+					v-if="recipesWithNames.length"
+					v-model="filter"
+					placeholder="Search"
+				/>
 
-					<template v-if="filteredRecipes.length">
-						<div class="space-y-2">
-							<RecipeCard
-								v-for="(recipe, index) in filteredRecipes"
-								:key="index"
-								:recipe="recipe"
-							/>
-						</div>
-					</template>
-
-					<UIAlert
-						v-else
-						color="warning"
-						variant="tonal"
-					>
-						No recipes found
-					</UIAlert>
+				<template v-if="filteredRecipes.length">
+					<div class="space-y-2">
+						<RecipeCard
+							v-for="(recipe, index) in filteredRecipes"
+							:key="index"
+							:recipe="recipe"
+							@delete="deleteRecipe"
+						/>
+					</div>
 				</template>
+
 				<UIAlert
 					v-else
-					color="danger"
+					color="warning"
 					variant="tonal"
 				>
-					No recipes added
+					No recipes found
 				</UIAlert>
 			</template>
+			<UIAlert
+				v-else
+				color="danger"
+				variant="tonal"
+			>
+				No recipes added
+			</UIAlert>
 		</template>
 	</PageLayout>
 </template>

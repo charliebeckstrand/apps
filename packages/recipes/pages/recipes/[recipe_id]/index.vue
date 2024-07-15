@@ -76,6 +76,13 @@ const instructions = computed(() => {
 	})
 })
 
+const deleteRecipe = async (recipe: Recipe) => {
+	try {
+		await recipesStore.deleteRecipe(recipe)
+		navigateTo('/recipes')
+	} catch (_) {}
+}
+
 onMounted(() => {
 	window.addEventListener('resize', updateIsTruncated)
 	updateIsTruncated()
@@ -180,6 +187,7 @@ useHead({
 								v-if="authStore.user?.id"
 								color="danger"
 								variant="tonal"
+								@click="deleteRecipe(recipe)"
 							>
 								<template #prepend>
 									<UIIcon :icon="TrashIcon" />
