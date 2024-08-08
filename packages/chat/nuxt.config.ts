@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
 export default defineNuxtConfig({
 	app: {
 		head: {
@@ -11,5 +10,6 @@ export default defineNuxtConfig({
 	components: [{ path: '~/components', pathPrefix: true }],
 	css: ['~/assets/css/main.scss'],
 	devtools: { enabled: true },
-	extends: ['../base', '../ui']
+	extends: ['../base', '../ui'],
+	compatibilityDate: '2024-07-29'
 })

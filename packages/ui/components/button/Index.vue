@@ -44,7 +44,7 @@ const elementType = computed(() => (to.value ? resolveComponent('NuxtLink') : 'b
 	<component
 		:is="elementType"
 		:class="[
-			'flex cursor-pointer select-none items-center justify-center space-x-1 focus:outline-offset-2',
+			'flex cursor-pointer select-none items-center justify-center space-x-1 focus:outline-none focus-visible:ring',
 			[
 				block && 'w-full',
 				dark && 'text-white hover:bg-opacity-10',

@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
+import { ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon } from '@heroicons/vue/24/solid'
 
 import { useConversationStore } from '@/stores/conversation'
 import { useLayoutStore } from '@/stores/layout'
+import { useModelStore } from '@/stores/model'
 
 const conversationStore = useConversationStore()
 const layoutStore = useLayoutStore()
+const modelStore = useModelStore()
 
 const loading = ref(true)
 
 const sidebarVisible = ref(true)
 
-const toggleSidebar = () => {
+const toggleConversationsSidebar = () => {
 	sidebarVisible.value = !sidebarVisible.value
+}
+
+const newConversation = () => {
+	// modelStore.
+	layoutStore.modelsSidebarOpen = true
 }
 
 onMounted(() => {
@@ -36,12 +43,12 @@ onMounted(() => {
 		<template v-else>
 			<TransitionRoot
 				as="template"
-				:show="layoutStore.sidebarOpen"
+				:show="layoutStore.conversationsSidebarOpen"
 			>
 				<Dialog
 					as="div"
 					class="relative lg:hidden"
-					@close="layoutStore.sidebarOpen = false"
+					@close="layoutStore.conversationsSidebarOpen = false"
 				>
 					<UIOverlay />
 
@@ -84,22 +91,27 @@ onMounted(() => {
 										icon
 										color="default"
 										variant="text"
-										@click="toggleSidebar"
+										@click="toggleConversationsSidebar"
 									>
 										<UIIcon :icon="sidebarVisible ? ChevronLeftIcon : ChevronRightIcon" />
 									</UIButton>
 								</div>
 							</template>
-
 							<template #title>
-								<div class="leading-tight">
-									{{ conversationStore.selectedConversation?.name ?? 'New Conversation' }}
-								</div>
+								<ConversationTitle :conversation="conversationStore.selectedConversation" />
 							</template>
 							<template #subtitle>
-								<div class="font-bold">
-									{{ conversationStore.selectedConversation?.model }}
-								</div>
+								<ConversationModel :conversation="conversationStore.selectedConversation" />
+							</template>
+							<template #append>
+								<UIButton
+									v-tippy="{ content: 'New conversation' }"
+									variant="text"
+									icon
+									@click="newConversation"
+								>
+									<SquaresPlusIcon class="h-6 w-6" />
+								</UIButton>
 							</template>
 						</UIHeader>
 
@@ -130,6 +142,35 @@ onMounted(() => {
 					</template>
 				</div>
 			</main>
+
+			<TransitionRoot
+				as="template"
+				:show="layoutStore.modelsSidebarOpen"
+			>
+				<Dialog
+					as="div"
+					class="relative"
+					@close="layoutStore.modelsSidebarOpen = false"
+				>
+					<UIOverlay />
+
+					<div class="fixed inset-0 z-40 flex">
+						<TransitionChild
+							as="template"
+							enter="transition ease-in-out duration-300 transform"
+							enter-from="translate-x-full"
+							enter-to="translate-x-0"
+							leave="transition ease-in-out duration-300 transform"
+							leave-from="translate-x-0"
+							leave-to="translate-x-full"
+						>
+							<DialogPanel class="relative ml-auto">
+								<ModelsSidebar />
+							</DialogPanel>
+						</TransitionChild>
+					</div>
+				</Dialog>
+			</TransitionRoot>
 		</template>
 	</div>
 </template>

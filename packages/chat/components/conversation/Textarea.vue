@@ -16,6 +16,8 @@ const files = ref<ExtendedFile[]>([])
 
 const message = ref('')
 
+const URL = window.URL
+
 const { sendMessage, generateName } = useChatgpt()
 
 const props = defineProps<{
@@ -67,19 +69,21 @@ const handleSendMessage = async () => {
 	try {
 		conversationStore.loadingResponse = true
 
-		// Send the message and get the response
-		const { error, data } = await sendMessage(prompt)
+		const sendMessagePromise = sendMessage(prompt)
+		const generateNamePromise = generateName(prompt)
+
+		const [{ error, data }, { conversationName }] = await Promise.all([sendMessagePromise, generateNamePromise])
 
 		if (error) {
 			throw new Error(`${error.message ?? 'Error'}: Please try again.`)
 		}
 
-		// Check if the selected conversation exists and if it needs a name
-		if (conversationStore.selectedConversation && !conversationStore.selectedConversation.name) {
-			const response = await generateName(prompt)
-			if (response?.conversationName) {
-				conversationStore.selectedConversation.name = response?.conversationName
-			}
+		if (
+			conversationName &&
+			conversationStore.selectedConversation &&
+			!conversationStore.selectedConversation.name
+		) {
+			conversationStore.selectedConversation.name = conversationName
 		}
 
 		if (data?.reply) {
@@ -151,6 +155,25 @@ const handleFileInput = (event: Event) => {
 				variant="tonal"
 				class="whitespace-nowrap"
 			>
+				<template #prepend>
+					<div
+						v-if="file.type.startsWith('image/')"
+						class="pl-2"
+					>
+						<div class="size-6">
+							<a
+								:href="URL.createObjectURL(file)"
+								target="_blank"
+							>
+								<img
+									:src="URL.createObjectURL(file)"
+									alt="Preview"
+									class="h-full w-full rounded-lg object-cover hover:scale-110"
+								/>
+							</a>
+						</div>
+					</div>
+				</template>
 				<div class="pl-2">{{ file.name }}</div>
 				<template #append>
 					<UIButton

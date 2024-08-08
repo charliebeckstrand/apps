@@ -18,24 +18,13 @@ const props = defineProps<{
 
 const { conversation } = toRefs(props)
 
-const isActive = computed<boolean>(() => conversationStore.selectedConversation?.id === props.conversation.id)
-
-const selectConversation = () => {
-	conversationStore.selectConversation(props.conversation)
-
-	layoutStore.sidebarOpen = false
+const setSelectedConversation = () => {
+	conversationStore.selectedConversation = props.conversation
+	layoutStore.conversationsSidebarOpen = false
 }
 
 const removeConversation = (conversation: Conversation) => {
 	conversationStore.removeConversation(conversation)
-}
-
-const conversationName = (name: string | null) => {
-	if (name?.includes('```')) {
-		return name.replace(/```[\s\S]*?```/g, '')
-	} else {
-		return name
-	}
 }
 
 const getLatestResponse = (conversation: Conversation) => {
@@ -55,23 +44,26 @@ const getLatestResponse = (conversation: Conversation) => {
 	<UICard
 		color="accent"
 		variant="plain"
-		:active="isActive"
+		:active="conversationStore.selectedConversation?.id === props.conversation.id"
 		interactive
-		class="conversation-card"
-		@click="selectConversation"
+		class="conversation-card relative"
+		@click="setSelectedConversation"
 	>
 		<div class="flex items-center justify-between">
 			<div class="flex-grow">
 				<UIHeader>
 					<template #title>
-						<span class="line-clamp-1 leading-tight text-white">
-							{{ conversationName(conversation.name) ?? 'New Conversation' }}
-						</span>
+						<ConversationTitle
+							class="text-white"
+							:conversation="conversation"
+						/>
 					</template>
 					<template #subtitle>
-						<div class="mb-1 flex flex-col">
-							<div class="text-accent font-extrabold">{{ conversation.model }}</div>
-						</div>
+						<ConversationModel
+							:conversation="conversation"
+							:allow-update="false"
+							class="text-accent my-1 text-base"
+						/>
 					</template>
 				</UIHeader>
 

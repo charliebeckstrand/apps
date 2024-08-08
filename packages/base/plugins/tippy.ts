@@ -1,7 +1,6 @@
 import Tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light.css'
-import 'tippy.js/animations/scale.css'
 import 'tippy.js/animations/perspective.css'
 
 if (Tippy.setDefaultProps) {

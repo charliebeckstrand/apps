@@ -51,9 +51,11 @@
 		"@vuepic/vue-datepicker": "^7.4.1",
 		"@vueuse/core": "^10.7.2",
 		"axios": "^1.6.7",
+		"firebase": "^10.12.4",
+		"firebase-admin": "^12.2.0",
 		"prismjs": "^1.29.0"
 	},
-	"packageManager": "yarn@4.1.1",
+	"packageManager": "yarn@4.4.0",
 	"engines": {
 		"node": "^20.0.0"
 	}

@@ -12,8 +12,8 @@ const conversationStore = useConversationStore()
 			:class="[
 				'relative',
 				{
-					'ml-auto pl-[15%]': message.type === 'user',
-					'mr-auto pr-[15%]': message.type === 'bot' || message.type === 'system'
+					'ml-auto': message.type === 'user',
+					'mr-auto': message.type === 'bot' || message.type === 'system'
 				}
 			]"
 		>

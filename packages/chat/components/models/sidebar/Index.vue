@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { PlusIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { MagnifyingGlassIcon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+import { useLayoutStore } from '@/stores/layout'
+import { useModelStore } from '@/stores/model'
 
-import { useConversationStore } from '@/stores/conversation'
-
-const conversationStore = useConversationStore()
+const layoutStore = useLayoutStore()
+const modelStore = useModelStore()
 
 const searchInput = ref<HTMLInputElement | null>(null)
 const searching = ref(false)
 const searchTerm = ref('')
 
-const searchConversations = () => {
+const modelSelected = ref(false)
+
+const searchModels = () => {
 	searching.value = true
 	nextTick(() => {
 		searchInput.value?.focus()
@@ -21,12 +24,9 @@ const cancelSearch = () => {
 	searchTerm.value = ''
 }
 
-watch(conversationStore.conversations, (conversations) => {
-	// If searching and the last conversation is removed, set searching to false
-	if (!conversations.length) {
-		searching.value = false
-	}
-})
+const createConversation = () => {
+	layoutStore.modelsSidebarOpen = true
+}
 </script>
 
 <template>
@@ -52,7 +52,7 @@ watch(conversationStore.conversations, (conversations) => {
 					v-else
 					#title
 				>
-					Conversations
+					Models
 				</template>
 				<template #append>
 					<UIButton
@@ -70,21 +70,21 @@ watch(conversationStore.conversations, (conversations) => {
 						class="flex items-center"
 					>
 						<UIButton
-							v-if="conversationStore.conversations.length"
-							v-tippy="{ content: 'Search conversations' }"
+							v-if="modelStore.models?.length"
+							v-tippy="{ content: 'Search models' }"
 							icon
 							variant="text"
 							dark
-							@click="searchConversations"
+							@click="searchModels"
 						>
 							<UIIcon :icon="MagnifyingGlassIcon" />
 						</UIButton>
 						<UIButton
-							v-tippy="{ content: 'New conversation' }"
+							v-tippy="{ content: 'Create conversation' }"
 							icon
 							variant="text"
-							dark
-							@click="conversationStore.newConversation"
+							:disabled="!modelSelected"
+							@click="createConversation"
 						>
 							<UIIcon :icon="PlusIcon" />
 						</UIButton>
@@ -94,7 +94,7 @@ watch(conversationStore.conversations, (conversations) => {
 		</template>
 
 		<template #default>
-			<ConversationsList :search-term="searchTerm" />
+			<ModelsList :search-term="searchTerm" />
 		</template>
 	</UISidebar>
 </template>

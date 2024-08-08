@@ -13,6 +13,7 @@ import type { BorderRadius, Color, Size, Variant } from '@/types/alert'
 
 interface Props {
 	color?: Color
+	dismissible?: boolean
 	padding?: Size
 	rounded?: BorderRadius
 	textColor?: Color
@@ -21,6 +22,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	color: 'default',
+	dismissible: false,
 	padding: 'md',
 	rounded: 'md',
 	textColor: 'default',

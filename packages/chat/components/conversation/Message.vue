@@ -109,7 +109,7 @@ watch(
 				<div v-html="content.content" />
 			</template>
 			<template v-else-if="content.type === 'code-block'">
-				<CodeBlock
+				<ConversationCodeBlock
 					:code="codeBlocks[content.index].code"
 					:lang="codeBlocks[content.index].lang"
 				/>

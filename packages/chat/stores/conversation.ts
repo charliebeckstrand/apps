@@ -5,7 +5,7 @@ import { useRandom } from '@/composables/useRandom'
 import type { Conversation } from '@/types/conversation'
 import type { Message } from '@/types/message'
 
-const { randomIdGenerator, randomNameGenerator } = useRandom()
+const { randomIdGenerator } = useRandom()
 
 export const useConversationStore = defineStore('conversation', {
 	state: (): {
@@ -18,13 +18,13 @@ export const useConversationStore = defineStore('conversation', {
 		loadingResponse: false
 	}),
 	actions: {
-		newConversation(conversation?: Conversation) {
+		newConversation(conversation?: Conversation, model?: string) {
 			if (conversation?.id) {
 				this.conversations.push(conversation)
 			} else {
 				const conversation = {
 					id: randomIdGenerator(),
-					model: 'gpt-3.5-turbo',
+					model: model || 'gpt-3.5-turbo',
 					name: null,
 					messages: [
 						{
@@ -42,22 +42,18 @@ export const useConversationStore = defineStore('conversation', {
 		addConversation(conversation: Conversation) {
 			this.conversations.push(conversation)
 		},
-		selectConversation(conversation: Conversation) {
-			this.selectedConversation = conversation
-		},
 		removeConversation(conversation: Conversation) {
 			const index = this.conversations.findIndex((c) => c.id === conversation.id)
 
-			if (index > -1) {
-				this.conversations.splice(index, 1)
-			}
+			// If the conversation doesn't exist, return
+			if (index === -1) return
 
-			const selectedConversationIndex = this.conversations.findIndex(
-				(c) => c.id === this.selectedConversation?.id
-			)
+			this.conversations.splice(index, 1)
 
-			if (selectedConversationIndex === -1) {
-				this.selectedConversation = this.conversations[index] || null
+			// If the removed conversation was the selected one, update the selection
+			if (this.selectedConversation?.id === conversation.id) {
+				this.selectedConversation =
+					this.conversations[index] || this.conversations[this.conversations.length - 1] || null
 			}
 		},
 		addMessage(message: Message) {

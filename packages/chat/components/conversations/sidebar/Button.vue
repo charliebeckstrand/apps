@@ -11,7 +11,7 @@ const layoutStore = useLayoutStore()
 		v-tippy="{ content: 'Show Sidebar' }"
 		variant="text"
 		icon
-		@click="layoutStore.sidebarOpen = true"
+		@click="layoutStore.conversationsSidebarOpen = true"
 	>
 		<span class="sr-only">Open sidebar</span>
 		<UIIcon :icon="Bars2Icon" />
