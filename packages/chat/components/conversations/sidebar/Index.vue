@@ -21,6 +21,12 @@ const cancelSearch = () => {
 	searchTerm.value = ''
 }
 
+const cancelEmptySearch = () => {
+	if (!searchTerm.value) {
+		searching.value = false
+	}
+}
+
 watch(conversationStore.conversations, (conversations) => {
 	// If searching and the last conversation is removed, set searching to false
 	if (!conversations.length) {
@@ -46,6 +52,7 @@ watch(conversationStore.conversations, (conversations) => {
 						]"
 						placeholder="Search..."
 						@keydown.esc="cancelSearch"
+						@blur="cancelEmptySearch"
 					/>
 				</template>
 				<template

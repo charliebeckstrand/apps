@@ -20,7 +20,7 @@ const { conversation } = toRefs(props)
 
 const setSelectedConversation = () => {
 	conversationStore.selectedConversation = props.conversation
-	layoutStore.conversationsSidebarOpen = false
+	layoutStore.conversationsSidebar.open = false
 }
 
 const removeConversation = (conversation: Conversation) => {
@@ -46,7 +46,9 @@ const getLatestResponse = (conversation: Conversation) => {
 		variant="plain"
 		:active="conversationStore.selectedConversation?.id === props.conversation.id"
 		interactive
-		class="conversation-card relative"
+		class="conversation-card relative border border-transparent focus:outline-none focus-visible:border-blue-500"
+		tabindex="0"
+		@keydown.enter="setSelectedConversation"
 		@click="setSelectedConversation"
 	>
 		<div class="flex items-center justify-between">

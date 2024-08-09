@@ -22,14 +22,15 @@ const props = withDefaults(
 const toggleModelSidebar = () => {
 	if (props.allowUpdate === false) return
 
-	modelStore.selectedModel = props.conversation.model
-	layoutStore.modelsSidebarOpen = true
+	layoutStore.modelsSidebar.open = true
 }
 </script>
 
 <template>
 	<div
-		class="conversation-model line-clamp-1 inline-flex cursor-pointer items-center space-x-1 text-base font-extrabold leading-tight"
+		class="conversation-model ml-[1px] line-clamp-1 inline-flex cursor-pointer items-center space-x-1 text-base font-extrabold leading-tight focus:outline-none focus-visible:text-blue-500"
+		:tabindex="props.allowUpdate ? 0 : -1"
+		@keydown.enter.prevent="toggleModelSidebar"
 		@click="toggleModelSidebar"
 	>
 		<div>

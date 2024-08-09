@@ -1,9 +1,18 @@
 import { defineStore } from 'pinia'
 
+type ModelsSidebar = {
+	open: boolean
+	newConversation: boolean
+}
 export const useLayoutStore = defineStore('layout', {
 	state: () => ({
-		conversationsSidebarOpen: false,
-		modelsSidebarOpen: false
+		conversationsSidebar: {
+			open: false
+		},
+		modelsSidebar: {
+			open: false,
+			newConversation: false
+		}
 	}),
 	actions: {}
 })

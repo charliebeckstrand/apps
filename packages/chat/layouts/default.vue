@@ -5,11 +5,9 @@ import { ChevronLeftIcon, ChevronRightIcon, SquaresPlusIcon } from '@heroicons/v
 
 import { useConversationStore } from '@/stores/conversation'
 import { useLayoutStore } from '@/stores/layout'
-import { useModelStore } from '@/stores/model'
 
 const conversationStore = useConversationStore()
 const layoutStore = useLayoutStore()
-const modelStore = useModelStore()
 
 const loading = ref(true)
 
@@ -20,8 +18,10 @@ const toggleConversationsSidebar = () => {
 }
 
 const newConversation = () => {
-	// modelStore.
-	layoutStore.modelsSidebarOpen = true
+	layoutStore.modelsSidebar.newConversation = true
+	nextTick(() => {
+		layoutStore.modelsSidebar.open = true
+	})
 }
 
 onMounted(() => {
@@ -43,12 +43,12 @@ onMounted(() => {
 		<template v-else>
 			<TransitionRoot
 				as="template"
-				:show="layoutStore.conversationsSidebarOpen"
+				:show="layoutStore.conversationsSidebar.open"
 			>
 				<Dialog
 					as="div"
 					class="relative lg:hidden"
-					@close="layoutStore.conversationsSidebarOpen = false"
+					@close="layoutStore.conversationsSidebar.open = false"
 				>
 					<UIOverlay />
 
@@ -145,12 +145,12 @@ onMounted(() => {
 
 			<TransitionRoot
 				as="template"
-				:show="layoutStore.modelsSidebarOpen"
+				:show="layoutStore.modelsSidebar.open"
 			>
 				<Dialog
 					as="div"
 					class="relative"
-					@close="layoutStore.modelsSidebarOpen = false"
+					@close="layoutStore.modelsSidebar.open = false"
 				>
 					<UIOverlay />
 

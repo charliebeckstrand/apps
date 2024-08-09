@@ -17,8 +17,13 @@ export const useConversationStore = defineStore('conversation', {
 		selectedConversation: null,
 		loadingResponse: false
 	}),
+	getters: {
+		conversationStarted: (state) => {
+			return state.selectedConversation?.messages && state.selectedConversation.messages.length > 1
+		}
+	},
 	actions: {
-		newConversation(conversation?: Conversation, model?: string) {
+		newConversation(conversation?: Conversation | null, model?: string) {
 			if (conversation?.id) {
 				this.conversations.push(conversation)
 			} else {

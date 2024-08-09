@@ -1,22 +1,12 @@
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
-import { useModelStore } from '@/stores/model'
-
 import type { Model } from '@/types/model'
-
-const modelStore = useModelStore()
 
 const props = defineProps<{
 	model: Model
+	active: boolean
 }>()
 
 const { model } = toRefs(props)
-
-const isActive = computed(() => modelStore.selectedModel === model.value)
-
-const selectModel = (model: Model) => {
-	modelStore.selectedModel = model
-}
 
 const modelName = (name: string | null) => {
 	if (name?.includes('```')) {
@@ -31,10 +21,9 @@ const modelName = (name: string | null) => {
 	<UICard
 		color="accent"
 		variant="plain"
-		:active="isActive"
+		:active="active"
 		interactive
-		:class="['model-card relative', { 'pointer-events-none': isActive }]"
-		@click="selectModel"
+		:class="['model-card relative select-none', { 'pointer-events-none': active }]"
 	>
 		<UIHeader>
 			<template #title>
