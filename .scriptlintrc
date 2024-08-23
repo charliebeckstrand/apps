@@ -1,7 +1,0 @@
-{
-  "strict": true,
-  "rules": {
-    "mandatory-dev": false,
-    "mandatory-test": false,
-  }
-}
