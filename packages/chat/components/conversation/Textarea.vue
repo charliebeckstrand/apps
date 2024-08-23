@@ -3,18 +3,28 @@ import { PaperClipIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/vue/24/o
 
 import { useChatgpt } from '@/composables/useChatgpt'
 import { useConversationStore } from '@/stores/conversation'
+import { useSessionStore } from '@/stores/session'
 
 type ExtendedFile = File & { loading?: boolean }
 
+const sessionStore = useSessionStore()
 const conversationStore = useConversationStore()
 
 const textareaRef = ref<ComponentPublicInstance | null>(null)
 const textareaEl = computed(() => textareaRef.value?.$refs?.textareaRef as HTMLTextAreaElement)
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
-const files = ref<ExtendedFile[]>([])
 
-const message = ref('')
+const conversationId = computed(() => conversationStore.selectedConversation?.id ?? '')
+
+const message = computed({
+	get: () => sessionStore.conversations[conversationId.value]?.message,
+	set: (value) => {
+		sessionStore.setMessage(conversationId.value, value)
+	}
+})
+
+const files = computed(() => sessionStore.conversations[conversationId.value]?.files ?? [])
 
 const URL = window.URL
 
@@ -128,6 +138,10 @@ const addFile = () => {
 	}
 }
 
+const removeFile = (file: any) => {
+	sessionStore.removeFile(conversationId.value, file.name)
+}
+
 const handleFileInput = (event: Event) => {
 	const target = event.target as HTMLInputElement
 
@@ -184,7 +198,7 @@ const handleFileInput = (event: Event) => {
 						variant="text"
 						size="sm"
 						:disabled="props.disabled"
-						@click="() => (files = files.filter((f) => f.name !== file.name))"
+						@click="removeFile(file)"
 					>
 						<UIIcon :icon="XMarkIcon" />
 					</UIButton>
