@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { colors } from 'tailwindcss/colors'
 
-module.exports = {
+export default {
 	content: [
 		'./components/**/*.{js,vue,ts}',
 		'./constants/**/*.{js,ts}',
