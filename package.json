@@ -13,6 +13,11 @@
 		"todo": "yarn workspace todo run dev",
 		"translate": "yarn workspace translate run dev"
 	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
 	"workspaces": [
 		"packages/*"
 	],
