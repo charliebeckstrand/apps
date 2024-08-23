@@ -5,7 +5,6 @@ import { useLayoutStore } from '@/stores/layout'
 import { useModelStore } from '@/stores/model'
 
 import type { Model } from '@/types/model'
-import { on } from 'events'
 
 const conversationStore = useConversationStore()
 const layoutStore = useLayoutStore()
@@ -20,7 +19,10 @@ const searching = ref(false)
 const searchTerm = ref('')
 
 const selectedModel = ref<Model | undefined>(undefined)
-const sortedModels = computed(() => modelStore.models.sort((a: any, b: any) => b.createdAt - a.createdAt))
+const sortedModels = computed(() => {
+	const models = [...modelStore.models]
+	return models.sort((a: any, b: any) => b.createdAt - a.createdAt)
+})
 const filteredModels = computed(() => {
 	const { value: models } = sortedModels
 

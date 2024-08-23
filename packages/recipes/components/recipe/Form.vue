@@ -2,7 +2,7 @@
 import type { Ingredient } from '@/types/ingredient'
 import type { Instruction } from '@/types/instruction'
 
-import { CloudArrowUpIcon, PlusIcon } from '@heroicons/vue/24/solid'
+import { PlusIcon } from '@heroicons/vue/24/solid'
 
 import type { Recipe } from '@/types/recipe'
 
@@ -44,7 +44,7 @@ const state = reactive<State>({
 	notes: ''
 })
 
-const fileInputRef = ref<HTMLInputElement | null>(null)
+// const fileInputRef = ref<HTMLInputElement | null>(null)
 
 watch(
 	() => props.modelValue,

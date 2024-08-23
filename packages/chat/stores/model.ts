@@ -7,6 +7,5 @@ export const useModelStore = defineStore('models', {
 		models: Model[]
 	} => ({
 		models: []
-	}),
-	actions: {}
+	})
 })

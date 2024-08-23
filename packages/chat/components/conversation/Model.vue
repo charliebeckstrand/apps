@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ChevronDownIcon } from '@heroicons/vue/24/outline'
 import { useLayoutStore } from '@/stores/layout'
-import { useModelStore } from '@/stores/model'
 
 import type { Conversation } from '@/types/conversation'
 
 const layoutStore = useLayoutStore()
-const modelStore = useModelStore()
 
 const props = withDefaults(
 	defineProps<{

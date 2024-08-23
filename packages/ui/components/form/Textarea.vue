@@ -57,8 +57,8 @@ const id = props.id ? props.id : `textarea-${useId()}`
 			<slot name="label" />
 		</Label>
 		<textarea
-			ref="textareaRef"
 			:id="id"
+			ref="textareaRef"
 			v-model="inputValue"
 			v-bind="$attrs"
 			:class="[

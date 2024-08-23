@@ -24,9 +24,7 @@ const recipesWithNames = computed(() => {
 })
 
 const deleteRecipe = async (recipe: Recipe) => {
-	try {
-		await recipesStore.deleteRecipe(recipe)
-	} catch (_) {}
+	await recipesStore.deleteRecipe(recipe)
 }
 </script>
 <template>

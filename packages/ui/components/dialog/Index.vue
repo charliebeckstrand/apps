@@ -81,8 +81,8 @@ onUnmounted(() => {
 			as="template"
 		>
 			<Dialog
-				as="div"
 				ref="dialogRef"
+				as="div"
 				class="relative"
 				:initial-focus="dialogRef"
 				@close="closeDialog"

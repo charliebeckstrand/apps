@@ -33,7 +33,8 @@ const setRef = (component: any) => {
 }
 
 const sortedConversations = computed(() => {
-	return conversationStore.conversations.sort((a: any, b: any) => {
+	const conversationsCopy = [...conversationStore.conversations]
+	return conversationsCopy.sort((a: any, b: any) => {
 		return b.createdAt - a.createdAt
 	})
 })
@@ -68,8 +69,8 @@ watch(
 	<div class="space-y-2">
 		<template v-if="sortedConversations.length > 0">
 			<ConversationsListCard
-				:ref="setRef"
 				v-for="(conversation, index) in filteredConversations"
+				:ref="setRef"
 				:key="index"
 				:conversation="conversation"
 			/>

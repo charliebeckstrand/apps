@@ -8,8 +8,7 @@ interface Props {
 }
 
 type Emit = {
-	(key: 'edit', task: Task): void
-	(key: 'delete', task: Task): void
+	(key: 'edit' | 'delete', task: Task): void
 }
 
 const Emit = defineEmits<Emit>()

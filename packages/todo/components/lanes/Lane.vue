@@ -9,14 +9,23 @@ interface Props {
 	lane: Lane
 }
 
-const { lane } = defineProps<Props>()
-
-if (!lane.tasks) {
-	lane.tasks = []
+interface Props {
+	lane: Lane
 }
 
+const emit = defineEmits(['update:modelValue'])
+
+const { lane } = defineProps<Props>()
+
+const tasks = computed({
+	get: () => lane.tasks || [],
+	set: (value: Task[]) => {
+		emit('update:modelValue', value)
+	}
+})
+
 if (lane.id === 'todo') {
-	lane.tasks = [
+	tasks.value = [
 		{
 			id: '1',
 			title: 'Take out the trash',
@@ -43,12 +52,8 @@ const newTask = reactive({
 })
 
 const addTask = () => {
-	if (!lane.tasks) {
-		lane.tasks = []
-	}
-
-	lane.tasks.push({
-		id: String(lane.tasks.length + 1),
+	tasks.value.push({
+		id: String(tasks.value.length + 1),
 		title: newTask.title,
 		description: newTask.description
 	})
@@ -63,7 +68,7 @@ const deleteTask = (task: Task) => {
 	const index = lane.tasks?.findIndex((t) => t.id === task.id)
 
 	if (lane.tasks) {
-		lane.tasks.splice(index!, 1)
+		tasks.value.splice(index!, 1)
 	}
 }
 
@@ -99,16 +104,16 @@ watchEffect(() => {
 				</div>
 			</div>
 			<SlickList
-				v-model:list="lane.tasks"
+				v-model:list="tasks"
 				group="tasks"
-				lockAxis="yx"
-				lockToContainerEdges
-				:lockOffset="[0, 0]"
+				lock-axis="yx"
+				lock-to-container-edges
+				:lock-offset="[0, 0]"
 				:distance="4"
 				class="bg-accent/5 border-accent/10 flex-grow rounded-lg border p-4"
 			>
 				<SlickItem
-					v-for="(task, index) in lane.tasks"
+					v-for="(task, index) in tasks"
 					:key="index"
 					:index="index"
 					class="mb-2 cursor-pointer"

@@ -46,8 +46,8 @@ const id = props.id ? props.id : `checkbox-${useId()}`
 	<div class="flex items-center space-x-2">
 		<input
 			:id="id"
-			type="checkbox"
 			v-model="inputValue"
+			type="checkbox"
 			:class="[
 				'cursor-pointer rounded focus:outline-offset-0',
 				useTailwindClasses([useColor(color), useSize(size), useTextSize(size)])

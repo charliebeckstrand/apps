@@ -31,13 +31,7 @@ export const useConversationStore = defineStore('conversation', {
 					id: randomIdGenerator(),
 					model: model || 'gpt-3.5-turbo',
 					name: null,
-					messages: [
-						{
-							value: 'Hello, how can I help you?',
-							type: 'bot',
-							createdAt: new Date()
-						} as Message
-					],
+					messages: [],
 					createdAt: new Date()
 				}
 				this.conversations.push(conversation)
@@ -50,13 +44,16 @@ export const useConversationStore = defineStore('conversation', {
 		removeConversation(conversation: Conversation) {
 			const index = this.conversations.findIndex((c) => c.id === conversation.id)
 
-			// If the conversation doesn't exist, return
+			// If the conversation doesn't exist, do nothing
 			if (index === -1) return
 
+			// Remove the conversation from the array
 			this.conversations.splice(index, 1)
 
 			// If the removed conversation was the selected one, update the selection
 			if (this.selectedConversation?.id === conversation.id) {
+				// Select the conversation that comes immediately before the removed one
+				// or the last conversation in the list, or set to null if the list is empty
 				this.selectedConversation =
 					this.conversations[index] || this.conversations[this.conversations.length - 1] || null
 			}

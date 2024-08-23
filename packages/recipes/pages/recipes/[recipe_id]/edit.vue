@@ -32,10 +32,6 @@ editableRecipe.value = originalRecipe.value ? originalRecipe.value : ({} as Exte
 const recipeExists = recipesStore.recipes.find((recipe) => recipe.id === editableRecipe.value.id)
 const navigationDestination = recipeExists ? `/recipes/${editableRecipe.value.id}` : '/recipes'
 
-const isEmptyArray = (value: any) => {
-	return Array.isArray(value) && value.length === 0
-}
-
 const isEmptyString = (value: any) => {
 	return typeof value === 'string' && value.trim() === ''
 }

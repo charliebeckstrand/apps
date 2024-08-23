@@ -49,8 +49,8 @@ const { items } = toRefs(props)
 				<div class="px-1 py-2">
 					<template v-if="items">
 						<MenuItem
-							v-slot="{ active }"
 							v-for="(item, index) in items"
+							v-slot="{ active }"
 							:key="index"
 							@click.stop="item.onClick && item.onClick()"
 						>

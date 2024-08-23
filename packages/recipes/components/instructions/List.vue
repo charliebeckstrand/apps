@@ -56,14 +56,14 @@ watch(
 		v-model:list="instructions"
 		axis="y"
 		class="select-none"
-		useDragHandle
+		use-drag-handle
 	>
 		<div ref="instructionsContainerRef">
 			<SlickItem
-				as="div"
 				v-for="(instruction, index) in instructions"
 				:key="index"
 				:index="index"
+				as="div"
 				class="my-5 flex items-center space-x-2"
 			>
 				<DragHandle
@@ -94,10 +94,10 @@ watch(
 				</UIFormGroup>
 
 				<Button
+					v-tippy="{ content: 'Remove' }"
 					color="danger"
 					variant="text"
 					icon
-					v-tippy="{ content: 'Remove' }"
 					@click="() => instructions.splice(index, 1)"
 				>
 					<UIIcon :icon="TrashIcon" />

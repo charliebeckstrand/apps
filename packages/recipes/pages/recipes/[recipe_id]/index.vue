@@ -31,8 +31,9 @@ const timeToRelative = (time: number) => {
 
 const descriptionRef = ref() as Ref<HTMLDivElement>
 
-const isHeaderSticky = ref(false)
 const isTruncated = ref(false)
+
+const showDescription = ref(false)
 
 const updateIsTruncated = () => {
 	if (!descriptionRef.value) {
@@ -44,15 +45,13 @@ const updateIsTruncated = () => {
 	isTruncated.value = descriptionRef.value.scrollHeight > descriptionRef.value.clientHeight
 }
 
-const showDescription = ref(false)
-
 const scrolledToTop = ref()
 
 const handleScroll = () => {
 	scrolledToTop.value = window.scrollY > 80 + 52
 }
 
-if (process.client) {
+if (import.meta.client) {
 	document.addEventListener('scroll', handleScroll)
 }
 
@@ -77,10 +76,8 @@ const instructions = computed(() => {
 })
 
 const deleteRecipe = async (recipe: Recipe) => {
-	try {
-		await recipesStore.deleteRecipe(recipe)
-		navigateTo('/recipes')
-	} catch (_) {}
+	await recipesStore.deleteRecipe(recipe)
+	navigateTo('/recipes')
 }
 
 onMounted(() => {

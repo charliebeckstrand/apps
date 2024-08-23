@@ -41,7 +41,7 @@ const computedColumns = computed(() =>
 )
 
 const sortedData = computed(() => {
-	if (!sortable || !columns.value || !data.value || sorting.value.order === 'none') return data.value
+	if (!sortable.value || !columns.value || !data.value || sorting.value.order === 'none') return data.value
 
 	const column = columns.value.find((column) => column.field === sorting.value.key)
 
@@ -114,8 +114,8 @@ const handleSort = (column: any) => {
 										sorting.order === 'asc'
 											? ChevronUpIcon
 											: sorting.order === 'desc'
-											? ChevronDownIcon
-											: null
+												? ChevronDownIcon
+												: null
 									"
 								/>
 							</div>

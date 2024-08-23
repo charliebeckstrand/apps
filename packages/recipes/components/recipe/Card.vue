@@ -6,9 +6,15 @@ import { useAuthStore } from '@/stores/auth'
 
 import type { Recipe } from '@/types/recipe'
 
+interface Emits {
+	(key: 'delete'): void
+}
+
 interface Props {
 	recipe?: Recipe
 }
+
+const emit = defineEmits<Emits>()
 
 const props = withDefaults(defineProps<Props>(), {
 	recipe: undefined
@@ -44,10 +50,10 @@ const { recipe } = toRefs(props)
 
 			<div class="ml-auto flex items-center space-x-1">
 				<Button
+					v-tippy="{ content: recipe.favorite ? 'Unfavorite' : 'Favorite' }"
 					color="pink"
 					variant="text"
 					icon
-					v-tippy="{ content: recipe.favorite ? 'Unfavorite' : 'Favorite' }"
 					@click.prevent="recipe.favorite = !recipe.favorite"
 				>
 					<UIIcon :icon="recipe.favorite ? SolidHeartIcon : OutlineHeartIcon" />
@@ -66,11 +72,11 @@ const { recipe } = toRefs(props)
 				</div>
 				<Button
 					v-if="authStore.user?.id"
+					v-tippy="{ content: 'Delete' }"
 					color="danger"
 					variant="text"
 					icon
-					v-tippy="{ content: 'Delete' }"
-					@click.prevent="$emit('delete')"
+					@click.prevent="emit('delete')"
 				>
 					<UIIcon :icon="TrashIcon" />
 				</Button>

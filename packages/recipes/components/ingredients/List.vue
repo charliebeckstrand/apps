@@ -56,14 +56,14 @@ watch(
 		v-model:list="ingredients"
 		axis="y"
 		class="select-none"
-		useDragHandle
+		use-drag-handle
 	>
 		<div ref="ingredientsContainerRef">
 			<SlickItem
-				as="div"
 				v-for="(ingredient, index) in ingredients"
 				:key="index"
 				:index="index"
+				as="div"
 				class="my-5 flex items-center space-x-2"
 			>
 				<DragHandle
@@ -87,8 +87,8 @@ watch(
 						</UIFormLabel>
 						<UIFormInput
 							:id="`ingredient-quantity-${index}`"
-							placeholder="Quantity"
 							v-model="ingredient.quantity"
+							placeholder="Quantity"
 						/>
 					</UIFormGroup>
 					<UIFormGroup>
@@ -108,10 +108,10 @@ watch(
 					</UIFormGroup>
 				</div>
 				<Button
+					v-tippy="{ content: 'Remove' }"
 					color="danger"
 					variant="text"
 					icon
-					v-tippy="{ content: 'Remove' }"
 					@click="() => ingredients.splice(index, 1)"
 				>
 					<UIIcon :icon="TrashIcon" />

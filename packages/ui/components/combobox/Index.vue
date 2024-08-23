@@ -97,7 +97,7 @@ const clear = () => {
 							'flex w-full rounded-md',
 							useTailwindClasses([usePadding(size), useTextSize(size), useVariant(variant)])
 						]"
-						:displayValue="(item: any) => item.label"
+						:display-value="(item: any) => item.label"
 						autocomplete="one-time-code"
 						:placeholder="placeholder"
 						@change="query = $event.target.value"
@@ -135,11 +135,11 @@ const clear = () => {
 
 					<div v-else>
 						<ComboboxOption
-							as="template"
 							v-for="(item, index) in filteredItems"
 							:key="index"
-							:value="item"
 							v-slot="{ selected, active }"
+							as="template"
+							:value="item"
 						>
 							<ComboboxItem
 								:active="active"

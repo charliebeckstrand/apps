@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 
 import { useTailwindClasses } from '@/composables/useTailwindClasses'
 import { useTextSize } from '@/composables/useTextSize'
-
-import { computed } from 'vue'
 
 import type { Size } from '@/types/base/size'
 

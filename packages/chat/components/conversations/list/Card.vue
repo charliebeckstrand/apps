@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
+import { toRefs } from 'vue'
 
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 

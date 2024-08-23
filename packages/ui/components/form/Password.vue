@@ -69,8 +69,8 @@ const id = props.id ? props.id : `password-${useId()}`
 		</Label>
 		<FormInput
 			:id="id"
-			:type="inputType"
 			v-model="inputValue"
+			:type="inputType"
 			:placeholder="placeholder"
 			:autocomplete="autocomplete"
 			:variant="variant"

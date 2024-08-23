@@ -26,8 +26,8 @@ const items = [
 				<UIButton
 					v-for="(item, index) in items"
 					:key="index"
-					:to="item.to"
 					v-tippy="{ content: item.label, placement: 'right', delay: [0, 0], arrow: false }"
+					:to="item.to"
 					color="white"
 					variant="text"
 					class="hover:scale-110"

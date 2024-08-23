@@ -23,6 +23,12 @@ const to: { language: Language; text: string; words: string[] } = reactive({
 
 const { speakWord, speakSentence } = useSpeechSynthesis()
 
+const currentWordIndex = ref(-1)
+const dictationMode = ref(false)
+const dictating = ref(false)
+
+const synth = window?.speechSynthesis
+
 const translateText = async (text: string, from: string, to: string) => {
 	if (!text) return
 
@@ -48,6 +54,14 @@ const setValues = (response: any) => {
 	}
 }
 
+const stopDictation = () => {
+	synth.cancel() // Stop speaking
+
+	dictating.value = false
+
+	currentWordIndex.value = -1 // Reset the word index
+}
+
 const updateText = debounce(async () => {
 	stopDictation() // Stop dictation when the text changes
 
@@ -60,12 +74,6 @@ const updateText = debounce(async () => {
 	}
 }, 250)
 
-const currentWordIndex = ref(-1)
-const dictationMode = ref(false)
-const dictating = ref(false)
-
-const synth = window?.speechSynthesis
-
 const startDictation = () => {
 	dictating.value = true
 
@@ -74,14 +82,6 @@ const startDictation = () => {
 
 const startWordDictation = (word: string, index: number) => {
 	speakWord(word, to.language.iso, index, dictating, currentWordIndex)
-}
-
-const stopDictation = () => {
-	synth.cancel() // Stop speaking
-
-	dictating.value = false
-
-	currentWordIndex.value = -1 // Reset the word index
 }
 
 const toggleDictationMode = () => {
@@ -117,7 +117,11 @@ const handleLanguageChange = async (newVal: string, oldVal: string, fromSide: st
 		const response = await translateText(target.text, oldVal, newVal)
 
 		if (response) {
-			fromSide === 'to' ? setValues(response) : (target.text = response)
+			if (fromSide === 'to') {
+				setValues(response)
+			} else {
+				target.text = response
+			}
 		}
 	} catch (error) {
 		console.error(`Error in ${fromSide}.language.iso watcher:`, error)
@@ -211,9 +215,9 @@ onMounted(async () => {
 				</div>
 				<template v-if="dictationMode && dictating">
 					<UIButton
+						v-tippy="{ content: 'Stop Dictation' }"
 						color="danger"
 						variant="tonal"
-						v-tippy="{ content: 'Stop Dictation' }"
 						icon
 						@click="stopDictation"
 					>
@@ -222,9 +226,9 @@ onMounted(async () => {
 				</template>
 				<template v-else-if="dictationMode && !dictating">
 					<UIButton
+						v-tippy="{ content: 'Start Dictation' }"
 						color="primary"
 						variant="tonal"
-						v-tippy="{ content: 'Start Dictation' }"
 						icon
 						@click="startDictation"
 					>

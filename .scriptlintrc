@@ -1,0 +1,8 @@
+{
+  "strict": true,
+  "rules": {
+    "uses-allowed-namespace": false,
+    "mandatory-dev": false,
+    "mandatory-test": false,
+  }
+}
