@@ -138,7 +138,7 @@ const addFile = () => {
 	}
 }
 
-const removeFile = (file: any) => {
+const removeFile = (file: File) => {
 	sessionStore.removeFile(conversationId.value, file.name)
 }
 
