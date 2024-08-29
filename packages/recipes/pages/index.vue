@@ -1,5 +1,5 @@
 <script setup lang="ts">
-navigateTo('/recipes')
+navigateTo('/recipes', { replace: true })
 </script>
 
 <template>

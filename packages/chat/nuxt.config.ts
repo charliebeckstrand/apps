@@ -3,7 +3,13 @@ export default defineNuxtConfig({
 	app: {
 		head: {
 			title: 'Chat',
-			meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+			meta: [
+				{ charset: 'utf-8' },
+				{
+					name: 'viewport',
+					content: 'width=device-width, initial-scale=1'
+				}
+			],
 			link: [{ rel: 'icon', type: 'image/png', href: '/round.png' }]
 		}
 	},
@@ -11,5 +17,5 @@ export default defineNuxtConfig({
 	css: ['~/assets/css/main.scss'],
 	devtools: { enabled: true },
 	extends: ['../base', '../ui'],
-	compatibilityDate: '2024-07-29'
+	compatibilityDate: '2024-08-29'
 })

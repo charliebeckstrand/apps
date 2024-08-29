@@ -1,9 +1,8 @@
 const config = {
-	printWidth: 120,
-	trailingComma: 'none',
 	tabWidth: 4,
 	useTabs: true,
 	semi: false,
+	trailingComma: 'none',
 	singleQuote: true,
 	bracketSpacing: true,
 	bracketSameLine: false,
