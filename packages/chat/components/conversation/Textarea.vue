@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { PaperClipIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import {
+	PaperClipIcon,
+	XMarkIcon,
+	PaperAirplaneIcon
+} from '@heroicons/vue/24/outline'
 
 import { useChatgpt } from '@/composables/useChatgpt'
 import { useConversationStore } from '@/stores/conversation'
@@ -11,11 +15,15 @@ const sessionStore = useSessionStore()
 const conversationStore = useConversationStore()
 
 const textareaRef = ref<ComponentPublicInstance | null>(null)
-const textareaEl = computed(() => textareaRef.value?.$refs?.textareaRef as HTMLTextAreaElement)
+const textareaEl = computed(
+	() => textareaRef.value?.$refs?.textareaRef as HTMLTextAreaElement
+)
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
 
-const conversationId = computed(() => conversationStore.selectedConversation?.id ?? '')
+const conversationId = computed(
+	() => conversationStore.selectedConversation?.id ?? ''
+)
 
 const message = computed({
 	get: () => sessionStore.conversations[conversationId.value]?.message,
@@ -24,7 +32,9 @@ const message = computed({
 	}
 })
 
-const files = computed(() => sessionStore.conversations[conversationId.value]?.files ?? [])
+const files = computed(
+	() => sessionStore.conversations[conversationId.value]?.files ?? []
+)
 
 const URL = window.URL
 
@@ -82,7 +92,10 @@ const handleSendMessage = async () => {
 		const sendMessagePromise = sendMessage(prompt)
 		const generateNamePromise = generateName(prompt)
 
-		const [{ error, data }, { conversationName }] = await Promise.all([sendMessagePromise, generateNamePromise])
+		const [{ error, data }, { conversationName }] = await Promise.all([
+			sendMessagePromise,
+			generateNamePromise
+		])
 
 		if (error) {
 			throw new Error(`${error.message ?? 'Error'}: Please try again.`)
@@ -212,6 +225,7 @@ const handleFileInput = (event: Event) => {
 				placeholder="Send Message"
 				:disabled="props.disabled"
 				class="textarea focus:ring-none overflow-x-hidde max-h-36 grow overflow-y-auto bg-transparent focus:placeholder-black focus:outline-none"
+				padding="lg"
 				rows="1"
 				@keydown="handleKeydown"
 				@input="handleInput"

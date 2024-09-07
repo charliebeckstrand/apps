@@ -19,6 +19,7 @@ type Emit = {
 interface Props {
 	id?: string
 	modelValue: string
+	padding: Size
 	resize?: Resize
 	rounded?: BorderRadius
 	rows?: number | string
@@ -31,6 +32,7 @@ const emit = defineEmits<Emit>()
 const props = withDefaults(defineProps<Props>(), {
 	id: undefined,
 	modelValue: '',
+	padding: 'md',
 	resize: 'none',
 	rounded: 'md',
 	rows: 4,
@@ -38,7 +40,8 @@ const props = withDefaults(defineProps<Props>(), {
 	variant: 'default'
 })
 
-const { modelValue, resize, rounded, rows, size, variant } = toRefs(props)
+const { modelValue, padding, resize, rounded, rows, size, variant } =
+	toRefs(props)
 
 const inputValue = computed<string>({
 	get: () => modelValue.value,
@@ -66,7 +69,7 @@ const id = props.id ? props.id : `textarea-${useId()}`
 				useTailwindClasses([
 					useBorderRadius(rounded),
 					useResize(resize),
-					usePadding(size),
+					usePadding(padding ? padding : size),
 					useTextSize(size),
 					useVariant(variant)
 				])
