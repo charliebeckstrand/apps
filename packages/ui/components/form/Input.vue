@@ -67,7 +67,12 @@ defineExpose({
 			v-bind="$attrs"
 			:class="[
 				'flex w-full',
-				useTailwindClasses([useBorderRadius(rounded), usePadding(size), useTextSize(size), useVariant(variant)])
+				useTailwindClasses([
+					useBorderRadius(rounded),
+					usePadding(size),
+					useTextSize(size),
+					useVariant(variant)
+				])
 			]"
 			:autocomplete="autocomplete"
 		/>

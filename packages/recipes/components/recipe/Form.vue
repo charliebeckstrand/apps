@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import type { Ingredient } from '@/types/ingredient'
-import type { Instruction } from '@/types/instruction'
-
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 import { PlusIcon } from '@heroicons/vue/24/solid'
 
+import type { Ingredient } from '@/types/ingredient'
+import type { Instruction } from '@/types/instruction'
 import type { Recipe } from '@/types/recipe'
+
+type Emit = {
+	(event: 'update:modelValue', value: State): void
+}
 
 type State = {
 	name: string
@@ -18,13 +23,16 @@ type State = {
 	notes: string
 }
 
-type Emit = {
-	(event: 'update:modelValue', value: State): void
-}
-
 interface Props {
 	modelValue?: Recipe
 }
+
+const name = ref<HTMLInputElement | null>(null)
+const description = ref<HTMLTextAreaElement | null>(null)
+const prepTime = ref<HTMLInputElement | null>(null)
+const cookTime = ref<HTMLInputElement | null>(null)
+const servings = ref<HTMLInputElement | null>(null)
+const notes = ref<HTMLTextAreaElement | null>(null)
 
 const emit = defineEmits<Emit>()
 
@@ -44,7 +52,11 @@ const state = reactive<State>({
 	notes: ''
 })
 
-// const fileInputRef = ref<HTMLInputElement | null>(null)
+const rules = {
+	name: { required }
+}
+
+const v$ = useVuelidate(rules, state)
 
 watch(
 	() => props.modelValue,
@@ -81,10 +93,11 @@ const addInstruction = () => {
 
 <template>
 	<div class="space-y-4">
-		<UIFormGroup>
+		<UIFormGroup :validation="v$.name">
 			<UIFormLabel for="recipe-name">Name</UIFormLabel>
 			<UIFormInput
 				id="recipe-name"
+				ref="name"
 				v-model="state.name"
 			/>
 		</UIFormGroup>
@@ -93,19 +106,9 @@ const addInstruction = () => {
 			<UIFormLabel for="recipe-description">Description</UIFormLabel>
 			<UIFormTextarea
 				id="recipe-description"
+				ref="description"
 				v-model="state.description"
 			/>
-		</UIFormGroup>
-
-		<UIFormGroup>
-			<UIFormLabel for="recipe-thumbnail">Thumbnail</UIFormLabel>
-			<UIFormItem>
-				<UIFormInput
-					id="recipe-thumbnail"
-					v-model="state.thumbnail"
-					placeholder="https://example.com/image.jpg"
-				/>
-			</UIFormItem>
 		</UIFormGroup>
 
 		<UIHeader>
@@ -181,6 +184,7 @@ const addInstruction = () => {
 					<div class="flex items-center space-x-2">
 						<UIFormInput
 							id="recipe-prep-time"
+							ref="prepTime"
 							v-model="state.prepTime"
 							type="number"
 						/>
@@ -194,6 +198,7 @@ const addInstruction = () => {
 					<div class="flex items-center space-x-2">
 						<UIFormInput
 							id="recipe-cook-time"
+							ref="cookTime"
 							v-model="state.cookTime"
 							type="number"
 						/>
@@ -205,6 +210,7 @@ const addInstruction = () => {
 				<UIFormLabel for="recipe-servings">Servings</UIFormLabel>
 				<UIFormInput
 					id="recipe-servings"
+					ref="servings"
 					v-model="state.servings"
 					type="number"
 				/>
@@ -215,10 +221,9 @@ const addInstruction = () => {
 			<UIFormLabel for="recipe-notes">Notes</UIFormLabel>
 			<UIFormTextarea
 				id="recipe-notes"
+				ref="notes"
 				v-model="state.notes"
 			/>
 		</UIFormGroup>
 	</div>
 </template>
-
-<style scoped lang="scss"></style>

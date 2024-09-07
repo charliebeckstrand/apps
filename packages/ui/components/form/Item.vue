@@ -28,6 +28,7 @@ const { variant } = toRefs(props)
 		]"
 	>
 		<div
+			v-if="$slots.prepend"
 			class="absolute left-4 z-20 pr-2"
 			:class="useTailwindClasses([useVariant(variant)])"
 		>
@@ -39,6 +40,7 @@ const { variant } = toRefs(props)
 		</div>
 
 		<div
+			v-if="$slots.append"
 			class="absolute right-4 z-10 pl-2"
 			:class="useTailwindClasses([useVariant(variant)])"
 		>

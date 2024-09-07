@@ -21,8 +21,20 @@ const { orientation, validation } = toRefs(props)
 </script>
 
 <template>
-	<div>
-		<div :class="['ui-form-group', useTailwindClasses([useOrientation(orientation), useValidation(validation)])]">
+	<div class="space-y-1">
+		<div
+			:class="[
+				'ui-form-group',
+				{
+					invalid: validation?.$dirty && validation?.$invalid,
+					valid: validation?.$dirty && validation?.$model
+				},
+				useTailwindClasses([
+					useOrientation(orientation),
+					useValidation(validation)
+				])
+			]"
+		>
 			<slot />
 		</div>
 		<div
@@ -37,11 +49,22 @@ const { orientation, validation } = toRefs(props)
 
 <style scoped lang="scss">
 .ui-form-group {
+	:deep(input, textarea, select) {
+		@apply border border-transparent;
+	}
+
 	&.invalid {
 		:deep(input, textarea, select) {
-			@apply border-danger focus:border-danger text-danger;
+			@apply border-danger focus:border-danger focus-visible:outline-danger text-danger;
 		}
 	}
+
+	&.valid {
+		:deep(input, textarea, select) {
+			@apply border-success focus:border-success focus-visible:outline-success text-success;
+		}
+	}
+
 	&.horizontal {
 		:deep(> *:not(.hidden)) {
 			& + * {
