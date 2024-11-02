@@ -8,6 +8,7 @@
 		"draw": "yarn workspace draw run dev",
 		"format": "prettier --write .",
 		"lint": "eslint",
+		"match": "yarn workspace match run dev",
 		"prepare": "husky",
 		"recipes": "yarn workspace recipes run dev",
 		"start": "yarn workspaces foreach --all run start",
